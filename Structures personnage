@@ -1,6 +1,14 @@
 #include <stdio.h> 
+#define SIZE 50
 
-//Defenseur portée moyenne, degats bas et recharge rapide, prix = 100
+//Defenseur portée moyenne, degats bas, recharge rapide, prix = 100
 typedef struct{
-  int
-}Pingu-Patrouileur;
+    char nom[SIZE];
+    char emoji[SIZE];
+    int portée;
+    int dégats;
+    int recharge;
+    int prix;
+}Defenseur;
+
+int constructeur 
