@@ -1,6 +1,8 @@
 #include <stdio.h> 
 #include <string.h>
 
+#define TAILLECHAINE 40
+
 #define EMOJI_PINGOUIN        "\xF0\x9F\x90\xA7"
 #define EMOJI_BONHOMMENEIGE   "\xE2\x9B\x84"
 #define EMOJI_OURS            "\xF0\x9F\x90\xBB\xE2\x80\x8D\xE2\x98\x84"
@@ -11,7 +13,7 @@
 
 //
 typedef struct{
-    int emoji; //code UTF8 emoji du defenseur
+    char emoji[TAILLECHAINE]; //code UTF8 emoji du defenseur
     int portée;
     int dégats;
     float vitessetir;
@@ -20,7 +22,7 @@ typedef struct{
 
 //
 typedef struct{
-    int emoji; //code UTF8 emoji de l'attaquant
+    char emoji[TAILLECHAINE]; //code UTF8 emoji de l'attaquant
     int vie;
     float vitesse;
     float esquive;
@@ -28,49 +30,55 @@ typedef struct{
 }Attaquant;
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
-    a.emoji=EMOJI_PINGOUIN;
+    strcpy(a.emoji, EMOJI_PINGOUIN);
     a.portée=3;
     a.dégats=30;
     a.vitessetir=0.5;
     a.prix=100;
+    return a;
 }
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
-    a.emoji=EMOJI_BONHOMMENEIGE;
+    strcpy(a.emoji, EMOJI_BONHOMMENEIGE);
     a.portée=6;
     a.dégats=200;
     a.vitessetir=2;
     a.prix=200;
+    return a;
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a){
-    a.emoji=EMOJI_OURS;
+    strcpy(a.emoji, EMOJI_OURS);
     a.portée=1;
     a.dégats=70;
-    a.recharge=1;
+    a.vitessetir=1;
     a.prix=150;
+    return a;
 }
 
 Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
-    a.emoji=EMOJI_SKIEUR;
+    strcpy(a.emoji, EMOJI_SKIEUR);
     a.vie=250;
     a.vitesse=2;
     a.esquive=0.20;
     a.gain=20;
+    return a;
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
-    a.emoji=EMOJI_SNOWBOARDER;
+    strcpy(a.emoji, EMOJI_SNOWBOARDER);
     a.vie=500;
     a.vitesse=1;
     a.esquive=0.40;
     a.gain=30;
+    return a;
 }
 
 Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
-    a.emoji=EMOJI_LUGISTE;
+    strcpy(a.emoji, EMOJI_LUGISTE);
     a.vie=2000;
     a.vitesse=1/2;
     a.esquive=0;
     a.gain=50;
+    return a;
 }
