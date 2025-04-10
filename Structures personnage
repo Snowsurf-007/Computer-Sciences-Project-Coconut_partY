@@ -1,15 +1,34 @@
 #include <stdio.h> 
 #include <string.h>
-#define SIZE 50
+#define SIZESTRUCT 50
 
-//Defenseur portée moyenne, degats bas, recharge rapide, prix = 100
+//Structure des defenseurs
 typedef struct{
-    char nom[SIZE];
-    char emoji[SIZE];
+    char nom[SIZESTRUCT];
+    char emoji[SIZESTRUCT];
     int portée;
     int dégats;
     int recharge;
     int prix;
 }Defenseur;
 
-int constructeur 
+//Structure des attaquants
+typedef struct{
+    char nom[SIZESTRUCT];
+    char emoji[SIZESTRUCT];
+    int vie;
+    int vitesse;
+    int esquive;
+    int gain;
+}Attaquants;
+
+Defenseur constructeur_PinguPatrouilleur(Defenseur a){
+    a.nom[]=
+    a.emoji[]=
+    a.portée=3;
+    a.dégats=
+}
+
+int choix_defenseur(){
+    
+}
