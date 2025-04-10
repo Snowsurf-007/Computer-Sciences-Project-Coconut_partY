@@ -26,7 +26,7 @@
 			scanf("%d",&choix_menu);
 		}
 		
-		
+		//application du choix fait par l'utilisateur 
 		if(choix_menu==1) {
 		
 			nouvellePartie;
