@@ -1,1 +1,6 @@
-#include <stdio.h>
+#include <stdio.h> 
+
+//Defenseur portée moyenne, degats bas et recharge rapide, prix = 100
+typedef struct{
+  int
+}Pingu-Patrouileur;
