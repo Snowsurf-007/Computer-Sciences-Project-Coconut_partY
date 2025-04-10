@@ -1,34 +1,76 @@
 #include <stdio.h> 
 #include <string.h>
-#define SIZESTRUCT 50
 
-//Structure des defenseurs
+#define EMOJI_PINGOUIN        "\xF0\x9F\x90\xA7"
+#define EMOJI_BONHOMMENEIGE   "\xE2\x9B\x84"
+#define EMOJI_OURS            "\xF0\x9F\x90\xBB\xE2\x80\x8D\xE2\x98\x84"
+#define EMOJI_SKIEUR          "\xF0\x9F\x8F\x82"
+#define EMOJI_SNOWBOARDER     "\xF0\x9F\x8F\x8F"
+#define EMOJI_LUGISTE         "\xF0\x9F\x9B\xB7"
+
+
+//
 typedef struct{
-    char nom[SIZESTRUCT];
-    char emoji[SIZESTRUCT];
+    int emoji; //code UTF8 emoji du defenseur
     int portée;
     int dégats;
-    int recharge;
+    float vitessetir;
     int prix;
 }Defenseur;
 
-//Structure des attaquants
+//
 typedef struct{
-    char nom[SIZESTRUCT];
-    char emoji[SIZESTRUCT];
+    int emoji; //code UTF8 emoji de l'attaquant
     int vie;
-    int vitesse;
-    int esquive;
+    float vitesse;
+    float esquive;
     int gain;
-}Attaquants;
+}Attaquant;
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
-    a.nom[]=
-    a.emoji[]=
+    a.emoji=EMOJI_PINGOUIN;
     a.portée=3;
-    a.dégats=
+    a.dégats=30;
+    a.vitessetir=0.5;
+    a.prix=100;
 }
 
-int choix_defenseur(){
-    
+Defenseur constructeur_FloconPerceCiel(Defenseur a){
+    a.emoji=EMOJI_BONHOMMENEIGE;
+    a.portée=6;
+    a.dégats=200;
+    a.vitessetir=2;
+    a.prix=200;
+}
+
+Defenseur constructeur_GardePolaire(Defenseur a){
+    a.emoji=EMOJI_OURS;
+    a.portée=1;
+    a.dégats=70;
+    a.recharge=1;
+    a.prix=150;
+}
+
+Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
+    a.emoji=EMOJI_SKIEUR;
+    a.vie=250;
+    a.vitesse=2;
+    a.esquive=0.20;
+    a.gain=20;
+}
+
+Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
+    a.emoji=EMOJI_SNOWBOARDER;
+    a.vie=500;
+    a.vitesse=1;
+    a.esquive=0.40;
+    a.gain=30;
+}
+
+Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
+    a.emoji=EMOJI_LUGISTE;
+    a.vie=2000;
+    a.vitesse=1/2;
+    a.esquive=0;
+    a.gain=50;
 }
