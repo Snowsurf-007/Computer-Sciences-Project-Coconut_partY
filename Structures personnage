@@ -58,7 +58,7 @@ Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faib
     strcpy(a.emoji, EMOJI_SKIEUR);
     a.vie=250;
     a.vitesse=2;
-    a.esquive=0.20;
+    a.esquive=0.15;
     a.gain=20;
     return a;
 }
@@ -67,7 +67,7 @@ Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moy
     strcpy(a.emoji, EMOJI_SNOWBOARDER);
     a.vie=500;
     a.vitesse=1;
-    a.esquive=0.40;
+    a.esquive=0.30;
     a.gain=30;
     return a;
 }
