@@ -4,33 +4,13 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-
 // On définit les emojis utilisés pour la carte
-#define EMOJI_NEIGE "\xE2\x97\xBB"
-#define EMOJI_PIERRE "\xE2\x96\xA0"
-#define EMOJI_DRAPEAU "\xF0\x9F\x9A\xA9"
-#define EMOJI_SAPIN "\xF0\x9F\x8C\xB8"
+#define EMOJI_NEIGE    "\xE2\x97\xBB"
+#define EMOJI_PIERRE   "\xE2\x96\xA0"
+#define EMOJI_DRAPEAU  "\xF0\x9F\x9A\xA9"
+#define EMOJI_SAPIN    "\xF0\x9F\x8C\xB8"
 
-int main (){
-    srand(time(NULL));
-    int taillecarte; // Variable pour la taille de la carte
-
-    // On génère une taille de carte aléatoire entre 15 et 25
-    taillecarte=rand()%11+15;
-
-    int **carte; //Déclaration de la carte
-
-    // Allocation dynamique de la mémoire pour la carte
-    carte=malloc(taillecarte*sizeof(int*));
-    for (int i=0; i<taillecarte; i++){
-        carte[i]=malloc(taillecarte*sizeof(int));
-        for (int j=0; j<taillecarte; j++){
-            carte[i][j]=rand()%11; // Remplir la carte avec des valeurs aléatoires
-        }
-    }
-    
-    
-
+void afficher_carte(int **carte, int taillecarte) {
     printf("Pour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
     sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
     printf("La carte est en cours de création...\n");
@@ -67,10 +47,58 @@ int main (){
                 printf("%s  ", EMOJI_DRAPEAU);
             }
         }
-        printf("\n");
+        printf("|\n");
     }
+    printf("    ");
+    for (int i=0; i<taillecarte; i++){
+        printf("‾  ");
+    }
+}
 
-    // On libère la mémoire allouée pour la carte
+void creer_carte(int **carte, int taillecarte) {
+    for (int i=0; i<taillecarte; i++){
+        carte[i]=malloc(taillecarte*sizeof(int));
+        for (int j=0; j<taillecarte; j++){
+            carte[i][j]=rand()%11; //Remplir la carte avec des valeurs aléatoires
+        }
+    }
+}
+
+void creer_chemin(int **carte, int taillecarte) {
+    int j=rand()%(taillecarte-6)+3; //colonne de départ
+
+    for (int i=0; i<taillecarte; i++) {
+        carte[i][j]=11; //11=drapeau (chemin)
+
+        //déplacement latéral aléatoire
+        int direction=rand()%3-1; //-1(gauche), 0(tout droit), 1(droite)
+        j+=direction;
+
+        //on s'assure que la colonne reste dans les bornes
+        if (j<0){
+            j=0;
+        }
+        if (j>=taillecarte){
+             j=taillecarte-1;
+        }
+    }
+}
+
+int main (){
+    srand(time(NULL));
+    int taillecarte; //Variable pour la taille de la carte
+
+    // On génère une taille de carte aléatoire entre 15 et 25
+    taillecarte=rand()%11+15;
+
+    int **carte; //Déclaration de la carte
+    carte=malloc(taillecarte*sizeof(int*)); //Allocation dynamique de la mémoire pour la carte
+    
+    creer_carte(carte, taillecarte);
+    creer_chemin(carte, taillecarte);
+    afficher_carte(carte, taillecarte);
+
+    //On libère la mémoire allouée pour la carte
     for (int i=0; i<taillecarte; i++) {
     free(carte[i]);
     }
