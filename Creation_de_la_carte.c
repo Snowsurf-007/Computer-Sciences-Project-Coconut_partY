@@ -28,33 +28,47 @@ int main (){
             carte[i][j]=rand()%11; // Remplir la carte avec des valeurs aléatoires
         }
     }
+    
+    
 
     printf("Pour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
-    sleep(3); // On fait une pause de trois secondes pour laisser le temps de lire
+    sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
     printf("La carte est en cours de création...\n");
     sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
     printf("Voici la carte :\n\n");
     sleep(1); // On fait une pause d'une seconde pour laisser le temps de lire
     
     // On affiche la carte
+    int car='A';
+    printf("    ");
     for (int i=0; i<taillecarte; i++){
-        for (int j=0; j<taillecarte; j++){
-            if(carte[i][j]==0 || carte[i][j]==1 || carte[i][j]==2 || carte[i][j]==3 || carte[i][j]==4 || carte[i][j]==5 || carte[i][j]==6){
-                printf("%s", EMOJI_NEIGE);
-            }
-            else if(carte[i][j]==7 || carte[i][j]==8){
-                printf("%s", EMOJI_PIERRE);
-            }
-            else if(carte[i][j]==9 || carte[i][j]==10){
-                printf("%s", EMOJI_SAPIN);
-            }
-            else if(carte[i][j]==11){
-                printf("%s", EMOJI_DRAPEAU);
-            }
-        }
-        printf("\n"); // On passe à la ligne suivante
+        printf("%c  ", car+i);
     }
     printf("\n");
+    printf("    ");
+    for (int i=0; i<taillecarte; i++){
+        printf("_  ");
+    }
+    printf("\n");
+    
+    for (int i=0; i<taillecarte; i++){
+        printf("%02d |", i+1);
+        for (int j=0; j<taillecarte; j++){
+            if(carte[i][j]==0 || carte[i][j]==1 || carte[i][j]==2 || carte[i][j]==3 || carte[i][j]==4 || carte[i][j]==5 || carte[i][j]==6){
+                printf("%s  ", EMOJI_NEIGE);
+            }
+            else if(carte[i][j]==7 || carte[i][j]==8){
+                printf("%s  ", EMOJI_PIERRE);
+            }
+            else if(carte[i][j]==9 || carte[i][j]==10){
+                printf("%s  ", EMOJI_SAPIN);
+            }
+            else if(carte[i][j]==11){
+                printf("%s  ", EMOJI_DRAPEAU);
+            }
+        }
+        printf("\n");
+    }
 
     // On libère la mémoire allouée pour la carte
     for (int i=0; i<taillecarte; i++) {
