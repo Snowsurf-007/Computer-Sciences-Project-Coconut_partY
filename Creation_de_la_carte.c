@@ -5,10 +5,15 @@
 #include <time.h>
 #include <unistd.h>
 // On définit les emojis utilisés pour la carte
-#define EMOJI_NEIGE    "\xE2\x97\xBB"
-#define EMOJI_PIERRE   "\xE2\x96\xA0"
-#define EMOJI_DRAPEAU  "\xF0\x9F\x9A\xA9"
-#define EMOJI_SAPIN    "\xF0\x9F\x8C\xB8"
+#define EMOJI_NEIGE    " "
+#define EMOJI_PIERRE   "O"
+#define EMOJI_DRAPEAU  "F"
+#define EMOJI_SAPIN    "A"
+
+//""\xE2\x97\xBB"
+//"\xF0\x9F\xAA\xA8"
+//"\xF0\x9F\x9A\xA9"
+//"\xF0\x9F\x8C\xB8"
 
 void afficher_carte(int **carte, int taillecarte) {
     printf("Pour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
@@ -58,29 +63,45 @@ void afficher_carte(int **carte, int taillecarte) {
 void creer_carte(int **carte, int taillecarte) {
     for (int i=0; i<taillecarte; i++){
         carte[i]=malloc(taillecarte*sizeof(int));
+        if (carte[i]==NULL) {
+            printf("Erreur d'allocation mémoire\n");
+            exit(1); //Terminer le programme si l'allocation échoue
+        }
         for (int j=0; j<taillecarte; j++){
             carte[i][j]=rand()%11; //Remplir la carte avec des valeurs aléatoires
         }
     }
 }
 
-void creer_chemin(int **carte, int taillecarte) {
-    int j=rand()%(taillecarte-6)+3; //colonne de départ
+void creer_chemin(int **carte, int taillecarte){
+    int j=rand()%(taillecarte-6)+3; //Colonne de départ
+    int direction;
 
     for (int i=0; i<taillecarte; i++) {
-        carte[i][j]=11; //11=drapeau (chemin)
+        //Déplacement latéral aléatoire : -1 (gauche), 0 (tout droit), 1 (droite)
+        direction=rand()%3-1;
 
-        //déplacement latéral aléatoire
-        int direction=rand()%3-1; //-1(gauche), 0(tout droit), 1(droite)
-        j+=direction;
+        //Calcul de la nouvelle position (temporaire pour vérification)
+        int nouvelle_colonne=j+direction;
 
-        //on s'assure que la colonne reste dans les bornes
-        if (j<0){
-            j=0;
+        //Vérification des bornes
+        if (nouvelle_colonne<0){
+            nouvelle_colonne=0;
         }
-        if (j>=taillecarte){
-             j=taillecarte-1;
+        if (nouvelle_colonne>=taillecarte){
+            nouvelle_colonne=taillecarte-1;
         }
+
+        //Si on change de colonne, on met un drapeau au-dessus de la nouvelle case
+        if (direction!=0 && i>0) {
+            carte[i-1][nouvelle_colonne]=11;
+        }
+
+        //Mise à jour de la position j
+        j=nouvelle_colonne;
+
+        //On place le drapeau sur la case actuelle
+        carte[i][j]=11;
     }
 }
 
