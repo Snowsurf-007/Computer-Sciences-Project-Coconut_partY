@@ -8,17 +8,18 @@ int** chargement(const char* nom_fichier, int* ligne, int* colonne) {
         exit(1);
     }
 
-    else() {
-        fscanf("%d %d", ligne, colonne); // Lecture des dimensions du tableau
-        char** tab = malloc(*ligne * sizeof(char*)); // Allocation de mémoire pour le tableau
+    else {
+        fscanf(fichier,"%d %d", ligne, colonne); // Lecture des dimensions du tableau
+        int** carte = malloc(*ligne * sizeof(int*)); // Allocation de mémoire pour le tableau
         for(int i = 0; i < *ligne; i++) {
-            tab[i] = malloc(*colonne * sizeof(char)); // Allocation de mémoire pour chaque ligne
+            carte[i] = malloc(*colonne * sizeof(int)); // Allocation de mémoire pour chaque ligne
             for(int j = 0; j < *colonne; j++) {
-                fscanf("%s", tab[i][j]); // Lecture de chaque élément du tableau
+                fscanf(fichier,"%d", &carte[i][j]); // Lecture de chaque élément du tableau
             }
         }
+        return carte; // Retourne le tableau chargé
     }
 
     fclose(fichier); // Fermeture du fichier
-    return tab; // Retourne le tableau chargé
+    
 }
