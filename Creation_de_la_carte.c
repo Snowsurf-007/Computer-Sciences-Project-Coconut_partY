@@ -16,7 +16,7 @@
 //"\xF0\x9F\x8C\xB8"
 
 void afficher_carte(int **carte, int taillecarte) {
-    printf("Pour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
+    printf("\n Pour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
     sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
     printf("La carte est en cours de création...\n");
     sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
