@@ -5,18 +5,13 @@
 #include <time.h>
 #include <unistd.h>
 // On définit les emojis utilisés pour la carte
-#define EMOJI_NEIGE    " "
-#define EMOJI_PIERRE   "O"
-#define EMOJI_DRAPEAU  "F"
-#define EMOJI_SAPIN    "A"
-
-//""\xE2\x97\xBB"
-//"\xF0\x9F\xAA\xA8"
-//"\xF0\x9F\x9A\xA9"
-//"\xF0\x9F\x8C\xB8"
+#define EMOJI_NEIGE    "\xE2\x97\xBB\xEF\xB8\x8F"
+#define EMOJI_PIERRE   "\xF0\x9F\xAA\xA8"
+#define EMOJI_DRAPEAU  "\xF0\x9F\x9A\xA9"
+#define EMOJI_SAPIN    "\xF0\x9F\x8C\xB2"
 
 void afficher_carte(int **carte, int taillecarte) {
-    printf("\n Pour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
+    printf("\nPour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
     sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
     printf("La carte est en cours de création...\n");
     sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
@@ -27,12 +22,12 @@ void afficher_carte(int **carte, int taillecarte) {
     int car='A';
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf("%c  ", car+i);
+        printf(" %c  ", car+i);
     }
     printf("\n");
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf("_  ");
+        printf(" __ ");
     }
     printf("\n");
     
@@ -40,29 +35,30 @@ void afficher_carte(int **carte, int taillecarte) {
         printf("%02d |", i+1);
         for (int j=0; j<taillecarte; j++){
             if(carte[i][j]==0 || carte[i][j]==1 || carte[i][j]==2 || carte[i][j]==3 || carte[i][j]==4 || carte[i][j]==5 || carte[i][j]==6){
-                printf("%s  ", EMOJI_NEIGE);
+                printf(" %s  ", EMOJI_NEIGE);
             }
             else if(carte[i][j]==7 || carte[i][j]==8){
-                printf("%s  ", EMOJI_PIERRE);
+                printf(" %s ", EMOJI_PIERRE);
             }
             else if(carte[i][j]==9 || carte[i][j]==10){
-                printf("%s  ", EMOJI_SAPIN);
+                printf(" %s ", EMOJI_SAPIN);
             }
             else if(carte[i][j]==11){
-                printf("%s  ", EMOJI_DRAPEAU);
+                printf(" %s ", EMOJI_DRAPEAU);
             }
         }
         printf("|\n");
     }
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf("‾  ");
+        printf(" ‾‾ ");
     }
+    printf("\n");
 }
 
 void creer_carte(int **carte, int taillecarte) {
     for (int i=0; i<taillecarte; i++){
-        carte[i]=malloc(taillecarte*sizeof(int));
+        carte[i]=(int*)malloc(taillecarte*sizeof(int));
         if (carte[i]==NULL) {
             printf("Erreur d'allocation mémoire\n");
             exit(1); //Terminer le programme si l'allocation échoue
@@ -112,8 +108,7 @@ int main (){
     // On génère une taille de carte aléatoire entre 15 et 25
     taillecarte=rand()%11+15;
 
-    int **carte; //Déclaration de la carte
-    carte=malloc(taillecarte*sizeof(int*)); //Allocation dynamique de la mémoire pour la carte
+    int **carte=(int**)malloc(taillecarte*sizeof(int*)); //Allocation dynamique de la mémoire pour la carte
     
     creer_carte(carte, taillecarte);
     creer_chemin(carte, taillecarte);
