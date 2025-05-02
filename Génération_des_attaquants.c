@@ -1,4 +1,4 @@
-int generer_ennemi(Case carte[], Attaquant liste_attaquant[], int nb_attaquant){
+int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int nb_attaquant){
   
   //une chance sur 2 de générer un nouvel ennemi, renvoie le nombre d'attaquant actuel
   
