@@ -25,7 +25,7 @@
 		//application du choix fait par l'utilisateur 
 		if(choix_menu==1) {
 		
-			Partie();
+			Lancer_partie();
 		}
 		
 		else if(choix_menu==2) {
