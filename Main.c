@@ -1,6 +1,7 @@
 #include "Biblio.h"
 
 int main (){
+    MenuDemarrage();
     srand(time(NULL));
     int taillecarte; //Variable pour la taille de la carte
 
