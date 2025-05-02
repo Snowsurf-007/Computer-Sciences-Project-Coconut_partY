@@ -1,15 +1,3 @@
-//inclusion des bibliothèques nécessaires
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-// On définit les emojis utilisés pour la carte
-#define EMOJI_NEIGE    "\xE2\x97\xBB\xEF\xB8\x8F"
-#define EMOJI_PIERRE   "\xF0\x9F\xAA\xA8"
-#define EMOJI_DRAPEAU  "\xF0\x9F\x9A\xA9"
-#define EMOJI_SAPIN    "\xF0\x9F\x8C\xB2"
-
 void afficher_carte(int **carte, int taillecarte) {
     printf("\nPour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
     sleep(2); // On fait une pause de deux secondes pour laisser le temps de lire
