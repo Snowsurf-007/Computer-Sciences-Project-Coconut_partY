@@ -1,4 +1,4 @@
-int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int **vagues, int numero_vague){
+int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int vagues[][], int numero_vague){
   
   //avancee_vague représente ou on en est dans une vague tandis que numero vague est pour savoir a quelle vague on en est cela donnera donc vague[numero_vague][avancee_vague] pour generer un ennemi
   
