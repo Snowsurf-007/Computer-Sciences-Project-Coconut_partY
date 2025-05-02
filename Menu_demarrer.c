@@ -1,4 +1,4 @@
-	void menuDemarrage() {
+	void MenuDemarrage() {
 	
 		int choix_menu=0;  //choix + vérification de la valeur entrée au clavier 
 		
