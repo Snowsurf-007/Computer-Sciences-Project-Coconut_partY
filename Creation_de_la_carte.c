@@ -32,7 +32,12 @@ void afficher_carte(int **carte, int taillecarte) {
                 printf(" %s ", EMOJI_SAPIN);
             }
             else if(carte[i][j]==11){
-                printf(" %s ", EMOJI_DRAPEAU);
+                if (i==taillecarte-1){
+                	printf(" %s ", EMOJI_COURONNE);
+                }
+                else{
+                	printf(" %s ", EMOJI_DRAPEAU);
+                }
             }
         }
         printf("|\n");
