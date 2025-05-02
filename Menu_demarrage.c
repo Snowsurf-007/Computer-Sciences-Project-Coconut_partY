@@ -25,17 +25,17 @@
 		//application du choix fait par l'utilisateur 
 		if(choix_menu==1) {
 		
-			nouvellePartie;
+			Partie();
 		}
 		
 		else if(choix_menu==2) {
 		
-			reprendrePartie;
+			ReprendrePartie();
 		}
 		
 		else if(choix_menu==3) {
 		
-			quitter;
+			exit(0);
 		}
 		
 		else {
