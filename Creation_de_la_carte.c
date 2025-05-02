@@ -58,7 +58,6 @@ void afficher_carte(int **carte, int taillecarte) {
             			exit(5);
     		}
         }
-    }
         printf("|\n");
     }
     printf("    ");
