@@ -19,26 +19,51 @@ void afficher_carte(int **carte, int taillecarte) {
     }
     printf("\n");
     
-    for (int i=0; i<taillecarte; i++){
-        printf("%02d |", i+1);
-        for (int j=0; j<taillecarte; j++){
-            if(carte[i][j]==0 || carte[i][j]==1 || carte[i][j]==2 || carte[i][j]==3 || carte[i][j]==4 || carte[i][j]==5 || carte[i][j]==6){
-                printf(" %s  ", EMOJI_NEIGE);
-            }
-            else if(carte[i][j]==7 || carte[i][j]==8){
-                printf(" %s ", EMOJI_PIERRE);
-            }
-            else if(carte[i][j]==9 || carte[i][j]==10){
-                printf(" %s ", EMOJI_SAPIN);
-            }
-            else if(carte[i][j]==11){//11 est generé uniquement par la fonction creer_chemin
-                if (i==taillecarte-1){
-                	printf(" %s ", EMOJI_COURONNE);
-                }
-                else{
-                	printf(" %s ", EMOJI_DRAPEAU);
-                }
-            }
+    for (int j=0; j<taillecarte; j++) {
+    		switch (carte[i][j]){
+        		case 0:
+        		case 1:
+        		case 2:
+        		case 3:
+        		case 4:
+        		case 5:
+        		case 6:
+           			printf("%s  ", EMOJI_NEIGE);
+            			break;
+
+        		case 7:
+        		case 8:
+            			printf("%s ", EMOJI_PIERRE);
+            			break;
+
+        		case 9:
+        		case 10:
+            			printf("%s ", EMOJI_SAPIN);
+           			break;
+
+        		case 11:
+         			printf("%s ", EMOJI_DRAPEAU);
+            			break;
+
+        		case 12:
+            			printf("%s ", EMOJI_COURONNE);
+            			break;
+            			
+            		case 13:
+            			printf("%s ", EMOJI_SKIEUR);
+            			break;
+            			
+            		case 14:
+            			printf("%s ", EMOJI_SNOWBOARDER);
+            			break;
+            			
+            		case 15:
+            			printf("%s ", EMOJI_LUGISTE);
+            			break;
+
+        		default:
+            			exit(5);
+    		}
         }
         printf("|\n");
     }
@@ -91,6 +116,10 @@ void creer_chemin(int **carte, int taillecarte){
 
         //On place le drapeau sur la case actuelle
         carte[i][j]=11;
+        //On place la couronne sur la derniere case
+        if (i==taillecarte-1){
+		carte[i][j]=12;
+        }
     }
 }
 
