@@ -31,7 +31,7 @@ void afficher_carte(int **carte, int taillecarte) {
             else if(carte[i][j]==9 || carte[i][j]==10){
                 printf(" %s ", EMOJI_SAPIN);
             }
-            else if(carte[i][j]==11){
+            else if(carte[i][j]==11){//11 est generé uniquement par la fonction creer_chemin
                 if (i==taillecarte-1){
                 	printf(" %s ", EMOJI_COURONNE);
                 }
