@@ -124,6 +124,10 @@ int main (){
     taillecarte=rand()%11+15;
 
     int **carte=(int**)malloc(taillecarte*sizeof(int*)); //Allocation dynamique de la mémoire pour la carte
+	if (carte[i]==NULL) {
+            printf("Erreur d'allocation mémoire\n");
+            exit(1); //Terminer le programme si l'allocation échoue
+    }
     
     creer_carte(carte, taillecarte);
     creer_chemin(carte, taillecarte);
