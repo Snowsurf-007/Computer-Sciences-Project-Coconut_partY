@@ -1,20 +1,17 @@
-int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int nb_attaquant){
+int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int **vagues, int numero_vague){
   
-  //une chance sur 2 de générer un nouvel ennemi, renvoie le nombre d'attaquant actuel
+  //avancee_vague représente ou on en est dans une vague tandis que numero vague est pour savoir a quelle vague on en est cela donnera donc vague[numero_vague][avancee_vague] pour generer un ennemi
   
-  if(rand()%4){
+  if(vague[numero_vague][avancee_vague] != 0){
     nb_attaquant += 1;
     Attaquant nouv_ennemi;
-    int numero = -1; //permet de choisir quel attaquant faire apparaitre
-    numero = rand() % 3;
-    
-    if(numero == 0){
+    if(vague[numero_vague][avancee_vague] == 1){
       constructeur_SkieurFrenetique(nouv_ennemi);
     }
-    else if(numero == 1){
+    else if(vague[numero_vague][avancee_vague] == 2){
       constructeur_SnowboarderAcrobate(nouv_ennemi);
     }
-    else if(numero == 2){
+    else if(vague[numero_vague][avancee_vague] == 3){
       constructeur_LugisteBarjo(nouv_ennemi);
     }
     liste_attaquant[nb_attaquant] = nouv_ennemi;
