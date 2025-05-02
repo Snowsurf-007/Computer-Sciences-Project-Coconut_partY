@@ -18,3 +18,4 @@
 #define EMOJI_SKIEUR          "\xF0\x9F\x8F\x82"
 #define EMOJI_SNOWBOARDER     "\xF0\x9F\x8F\x8F"
 #define EMOJI_LUGISTE         "\xF0\x9F\x9B\xB7"
+#define EMOJI_COURONNE        "\xF0\x9F\x91\x91"
