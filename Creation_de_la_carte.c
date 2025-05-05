@@ -105,12 +105,13 @@ void creer_chemin(int **carte, int taillecarte){
     
     // Premier mouvement, on va tout droit (vers le bas)
     direction=0;
-    carte[0][j]=11; // Placement du drapeau sur la première case
+    carte[0][j]=11; // Placement du drapeau sur la premiere case
+    carte[1][j]=11; // Placement du drapeau sur la deuxieme case
     
     directionprecedente=direction;
 
     // Créer le chemin en suivant la logique aléatoire mais en garantissant le premier et le dernier mouvement vers le bas
-    for (int i=1; i<taillecarte-1; i++) {
+    for (int i=2; i<taillecarte-1; i++) {
         //Déplacement latéral aléatoire (mais pas l'opposé de la direction precedente) : -1 (gauche), 0 (tout droit), 1 (droite)
         do{
         	direction=rand()%3-1;
@@ -161,6 +162,9 @@ int main (){
     for (int i=0; i<taillecarte; i++) {
     free(carte[i]);
     }
+    free(carte);
+    return 0;
+}
     free(carte);
     return 0;
 }
