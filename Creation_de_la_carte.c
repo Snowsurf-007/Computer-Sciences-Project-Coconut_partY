@@ -101,38 +101,47 @@ void creer_carte(int **carte, int taillecarte) {
 
 void creer_chemin(int **carte, int taillecarte){
     int j=rand()%(taillecarte-6)+3; //Colonne de départ
-    int direction;
+    int direction, directionprecedente;
+    
+    // Premier mouvement, on va tout droit (vers le bas)
+    direction=0;
+    carte[0][j]=11; // Placement du drapeau sur la première case
+    
+    directionprecedente=direction;
 
-    for (int i=0; i<taillecarte; i++) {
-        //Déplacement latéral aléatoire : -1 (gauche), 0 (tout droit), 1 (droite)
-        direction=rand()%3-1;
+    // Créer le chemin en suivant la logique aléatoire mais en garantissant le premier et le dernier mouvement vers le bas
+    for (int i=1; i<taillecarte-1; i++) {
+        //Déplacement latéral aléatoire (mais pas l'opposé de la direction precedente) : -1 (gauche), 0 (tout droit), 1 (droite)
+        do{
+        	direction=rand()%3-1;
+        }while (directionprecedente==-direction);
+        
+        directionprecedente=direction;
 
         //Calcul de la nouvelle position (temporaire pour vérification)
-        int nouvelle_colonne=j+direction;
+        int nouvellecolonne=j+direction;
 
         //Vérification des bornes
-        if (nouvelle_colonne<0){
-            nouvelle_colonne=0;
+        if (nouvellecolonne<0){
+            nouvellecolonne=0;
         }
-        if (nouvelle_colonne>=taillecarte){
-            nouvelle_colonne=taillecarte-1;
+        if (nouvellecolonne>=taillecarte){
+            nouvellecolonne=taillecarte-1;
         }
 
-        //Si on change de colonne, on met un drapeau au-dessus de la nouvelle case
+        //Si on change de colonne, on met un drapeau au dessus de la nouvelle case
         if (direction!=0 && i>0) {
-            carte[i-1][nouvelle_colonne]=11;
+            carte[i-1][nouvellecolonne]=11;
         }
 
         //Mise à jour de la position j
-        j=nouvelle_colonne;
+        j=nouvellecolonne;
 
         //On place le drapeau sur la case actuelle
         carte[i][j]=11;
-        //On place la couronne sur la derniere case
-        if (i==taillecarte-1){
-		carte[i][j]=12;
-        }
     }
+    //On place la couronne sur la derniere case en allant tout droit (vers le bas)
+	carte[taillecarte-1][j]=12;
 }
 
 int main (){
