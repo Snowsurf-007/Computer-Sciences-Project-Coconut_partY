@@ -1,18 +1,19 @@
-void Lancer_partie (){
+void lancer_partie (){
     srand(time(NULL));
     int taillecarte; //Variable pour la taille de la carte
-
+	int colonneCouronne;	
+	
     // On génère une taille de carte aléatoire entre 35 et 50
     taillecarte=rand()%16+35;
 
     int **carte=(int**)malloc(taillecarte*sizeof(int*)); //Allocation dynamique de la mémoire pour la carte
     
     creer_carte(carte, taillecarte);
-    creer_chemin(carte, taillecarte);
+    colonneCouronne=creer_chemin(carte, taillecarte);
     afficher_carte(carte, taillecarte);
     placement_de_defenseur(Case carte[]);
 
-    while(couronne){
+    while(carte[taillecarte-1][colonneCouronne]==12){
         sleep(1);
         deplacement_attaquant();
         generer_attaquant();
