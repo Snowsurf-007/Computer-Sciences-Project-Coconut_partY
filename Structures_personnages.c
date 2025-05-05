@@ -15,7 +15,7 @@ typedef struct{
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
     strcpy(a.emoji, EMOJI_PINGOUIN);
-    a.portée=3;
+    a.portée=5;
     a.dégats=30;
     a.vitessetir=0.5;
     a.prix=100;
@@ -24,7 +24,7 @@ Defenseur constructeur_PinguPatrouilleur(Defenseur a){
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
     strcpy(a.emoji, EMOJI_BONHOMMENEIGE);
-    a.portée=6;
+    a.portée=10;
     a.dégats=300;
     a.vitessetir=2;
     a.prix=200;
@@ -33,7 +33,7 @@ Defenseur constructeur_FloconPerceCiel(Defenseur a){
 
 Defenseur constructeur_GardePolaire(Defenseur a){
     strcpy(a.emoji, EMOJI_OURS);
-    a.portée=1;
+    a.portée=2;
     a.dégats=70;
     a.vitessetir=1;
     a.prix=150;
