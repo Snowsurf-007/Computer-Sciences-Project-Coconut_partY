@@ -10,16 +10,16 @@ void afficher_carte(int **carte, int taillecarte) {
     printf("    ");
     for (int i=0; i<taillecarte; i++){
     	if(i<26){
-        	printf(" %c ", 'a'+i);// minuscules jusqu'à 26
+        	printf("%c ", 'a'+i);// minuscules jusqu'à 26
     	}
     	else{
-    		printf(" %c ", 'A'+(i-26));// majuscules après
+    		printf("%c ", 'A'+(i-26));// majuscules après
     	}
     }
     printf("\n");
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf(" _ ");
+        printf("__");
     }
     printf("\n");
     
@@ -34,37 +34,37 @@ void afficher_carte(int **carte, int taillecarte) {
         		case 4:
         		case 5:
         		case 6:
-           			printf("%s  ", EMOJI_NEIGE);
+           			printf("%s ", EMOJI_NEIGE);
             			break;
 
         		case 7:
         		case 8:
-            			printf("%s ", EMOJI_PIERRE);
+            			printf("%s", EMOJI_PIERRE);
             			break;
 
         		case 9:
         		case 10:
-            			printf("%s ", EMOJI_SAPIN);
+            			printf("%s", EMOJI_SAPIN);
            			break;
 
         		case 11:
-         			printf("%s ", EMOJI_DRAPEAU);
+         			printf("%s", EMOJI_DRAPEAU);
             			break;
 
         		case 12:
-            			printf("%s ", EMOJI_COURONNE);
+            			printf("%s", EMOJI_COURONNE);
             			break;
             			
             		case 13:
-            			printf("%s ", EMOJI_SKIEUR);
+            			printf("%s", EMOJI_SKIEUR);
             			break;
             			
             		case 14:
-            			printf("%s ", EMOJI_SNOWBOARDER);
+            			printf("%s", EMOJI_SNOWBOARDER);
             			break;
             			
             		case 15:
-            			printf("%s ", EMOJI_LUGISTE);
+            			printf("%s", EMOJI_LUGISTE);
             			break;
 
         		default:
@@ -75,7 +75,7 @@ void afficher_carte(int **carte, int taillecarte) {
     }
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf(" ‾ ");
+        printf("‾‾");
     }
     printf("\n");
     printf("\nLégende :\n");
@@ -162,9 +162,6 @@ int main (){
     for (int i=0; i<taillecarte; i++) {
     free(carte[i]);
     }
-    free(carte);
-    return 0;
-}
     free(carte);
     return 0;
 }
