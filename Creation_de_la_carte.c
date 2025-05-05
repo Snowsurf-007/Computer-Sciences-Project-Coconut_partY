@@ -149,8 +149,8 @@ int main (){
     srand(time(NULL));
     int taillecarte; //Variable pour la taille de la carte
 
-    // On génère une taille de carte aléatoire entre 30 et 40
-    taillecarte=rand()%11+40;
+    // On génère une taille de carte aléatoire entre 35 et 50
+    taillecarte=rand()%16+35;
 
     int **carte=(int**)malloc(taillecarte*sizeof(int*)); //Allocation dynamique de la mémoire pour la carte
     
