@@ -7,20 +7,25 @@ void afficher_carte(int **carte, int taillecarte) {
     sleep(1); // On fait une pause d'une seconde pour laisser le temps de lire
     
     // On affiche la carte
-    int car='A';
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf(" %c  ", car+i);
+    	if(i<26){
+        	printf(" %c ", 'a'+i);// minuscules jusqu'à 26
+    	}
+    	else{
+    		printf(" %c ", 'A'+(i-26));// majuscules après
+    	}
     }
     printf("\n");
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf(" __ ");
+        printf(" _ ");
     }
     printf("\n");
     
     for (int i=0; i<taillecarte; i++) {
-	    for (int j=0; j<taillecarte; j++) {
+    	printf("%02d |", i+1);  // Numéro de ligne
+    	for (int j=0; j<taillecarte; j++) {
     		switch (carte[i][j]){
         		case 0:
         		case 1:
@@ -31,40 +36,54 @@ void afficher_carte(int **carte, int taillecarte) {
         		case 6:
            			printf("%s  ", EMOJI_NEIGE);
             			break;
+
         		case 7:
         		case 8:
             			printf("%s ", EMOJI_PIERRE);
             			break;
+
         		case 9:
         		case 10:
             			printf("%s ", EMOJI_SAPIN);
            			break;
+
         		case 11:
          			printf("%s ", EMOJI_DRAPEAU);
             			break;
+
         		case 12:
             			printf("%s ", EMOJI_COURONNE);
             			break;
+            			
             		case 13:
             			printf("%s ", EMOJI_SKIEUR);
             			break;
+            			
             		case 14:
             			printf("%s ", EMOJI_SNOWBOARDER);
             			break;
+            			
             		case 15:
             			printf("%s ", EMOJI_LUGISTE);
             			break;
+
         		default:
             			exit(5);
     		}
-        }
-        printf("|\n");
+    	}
+    printf("|\n");
     }
     printf("    ");
     for (int i=0; i<taillecarte; i++){
-        printf(" ‾‾ ");
+        printf(" ‾ ");
     }
     printf("\n");
+    printf("\nLégende :\n");
+	printf("%s : Neige   ", EMOJI_NEIGE);
+	printf("%s : Pierre   ", EMOJI_PIERRE);
+	printf("%s : Sapin   ", EMOJI_SAPIN);
+	printf("%s : Drapeau (chemin)   ", EMOJI_DRAPEAU);
+	printf("%s : Couronne (arrivée)\n", EMOJI_COURONNE);
 }
 
 void creer_carte(int **carte, int taillecarte) {
@@ -120,14 +139,10 @@ int main (){
     srand(time(NULL));
     int taillecarte; //Variable pour la taille de la carte
 
-    // On génère une taille de carte aléatoire entre 15 et 25
-    taillecarte=rand()%11+15;
+    // On génère une taille de carte aléatoire entre 30 et 40
+    taillecarte=rand()%11+40;
 
     int **carte=(int**)malloc(taillecarte*sizeof(int*)); //Allocation dynamique de la mémoire pour la carte
-	if (carte[i]==NULL) {
-            printf("Erreur d'allocation mémoire\n");
-            exit(1); //Terminer le programme si l'allocation échoue
-    }
     
     creer_carte(carte, taillecarte);
     creer_chemin(carte, taillecarte);
