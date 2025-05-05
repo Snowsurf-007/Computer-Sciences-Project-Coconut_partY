@@ -1,7 +1,7 @@
 #include "Biblio.h"
 
 int main (){
-    MenuDemarrage();
+    menuDemarrage();
 
     return 0;
 }
