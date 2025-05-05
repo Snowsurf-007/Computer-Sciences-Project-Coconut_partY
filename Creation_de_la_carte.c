@@ -78,12 +78,6 @@ void afficher_carte(int **carte, int taillecarte) {
         printf("‾‾");
     }
     printf("\n");
-    printf("\nLégende :\n");
-	printf("%s : Neige   ", EMOJI_NEIGE);
-	printf("%s : Pierre   ", EMOJI_PIERRE);
-	printf("%s : Sapin   ", EMOJI_SAPIN);
-	printf("%s : Drapeau (chemin)   ", EMOJI_DRAPEAU);
-	printf("%s : Couronne (arrivée)\n", EMOJI_COURONNE);
 }
 
 void creer_carte(int **carte, int taillecarte) {
