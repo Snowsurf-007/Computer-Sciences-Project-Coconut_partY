@@ -1,11 +1,8 @@
 void placement_de_defenseur(Case carte[]){
-        
         int placer = -1; //quand le joueur decidera s'il veut placer un défenseur
         int choix_defenseur = 0;
         int coord_x = 0; //choix de la position du defenseur à placer
         int coord_y = 0;
-        
-
 
 //Choix du placement d'un défenseur
         printf("souhaitez-vous placer un défenseur ?\n1 pour oui ou 0 pour non\n");
@@ -33,12 +30,12 @@ void placement_de_defenseur(Case carte[]){
                                 printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
                                 scanf("%d", &placer);
                         }
-                  if(placer == 0){
-                    break;
-                  }
-                  printf("choisissez le défenseur à placer :\n 1 pour le Pingu-Patrouilleur\n");
-            printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
-            scanf("%d", &choix_defenseur);
+                if(placer == 0){
+                        break;
+                }
+                printf("choisissez le défenseur à placer :\n 1 pour le Pingu-Patrouilleur\n");
+                printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
+                scanf("%d", &choix_defenseur);
                 }
                 printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
                 scanf("%d", &coord_x);
