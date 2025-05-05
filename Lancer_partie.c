@@ -20,7 +20,7 @@ void lancer_partie (){
         afficher_carte(carte, taillecarte);
         attaque_defenseurs();
         placement_de_defenseur(Case carte[]);
-        Amelioration();
+        amelioration();
     }
     
     //On libère la mémoire allouée pour la carte
