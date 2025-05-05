@@ -34,7 +34,7 @@
 		}
 		
 		else if(choix_menu==3) {
-		
+			printf("A plus 👋😊");
 			exit(0);
 		}
 		
