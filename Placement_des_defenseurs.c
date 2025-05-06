@@ -1,4 +1,4 @@
-void placement_de_defenseur(Case carte[]){
+void placement_de_defenseur(int carte[][], int taillecarte){
         int placer = -1; //quand le joueur decidera s'il veut placer un défenseur
         int choix_defenseur = 0;
         int coord_x = 0; //choix de la position du defenseur à placer
@@ -39,37 +39,36 @@ void placement_de_defenseur(Case carte[]){
                 }
                 printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
                 scanf("%d", &coord_x);
-                while(coord_x > TAILLECARTE || coord_x < 0){
+                while(coord_x > taillecarte || coord_x < 0){
                         printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                         printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
                         scanf("%d", &coord_x);
                 }
                 printf("Veuillez maintenant choisir la coordonnées y.\n");
                 scanf("%d", &coord_y)
-                while(coord_y > TAILLECARTE || coord_y < 0){
+                while(coord_y > taillearte || coord_y < 0){
                         printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                         printf("Veuillez maintenant choisir la coordonnées y.\n");
                         scanf("%d", &coord_y);
                 }
-                while(carte[x][y].element != glace || carte[x][y].vide == 1){ //si la case contient deja un defenseur ou si ce n'est pas une case ou on peut en poser un
+                while(carte[coord_x][coord_y] != 0 || carte[coord_x][coord_y] != 1 || carte[coord_x][coord_y] != 2 || carte[coord_x][coord_y] != 3){ //la case doit etre une case avec de la neige
                         printf("Impossible de mettre un defenseur sur cette case veuillez en choisir une autre.\n");
                         printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
                         scanf("%d", &coord_x);
-                        while(coord_x > TAILLECARTE || coord_x < 0){
+                        while(coord_x > taillecarte || coord_x < 0){
                                 printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                 printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
                                 scanf("%d", &coord_x);
                         }
                         printf("Veuillez maintenant choisir la coordonnées y.\n");
                         scanf("%d", &coord_y);
-                        while(coord_y > TAILLECARTE || coord_y < 0){
+                        while(coord_y > taillecarte || coord_y < 0){
                                 printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                 printf("Veuillez maintenant choisir la coordonnées y.\n");
                                 scanf("%d", &coord_y);
                         }
                 }
                 monnaie -= carte[coord_x][coord_y].defenseur.prix;
-                carte[coord_x][coord_y].vide = 1;
-                carte[coord_x][coord_y].defenseur = choix_defenseur;
+                carte[coord_x][coord_y] == choix_defenseur + 10;
         }
 }
