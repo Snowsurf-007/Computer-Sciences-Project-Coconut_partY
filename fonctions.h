@@ -103,13 +103,13 @@ Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
 }
 
 // On définit les fonctions
+void deplacement_attaquant(Case** carte, EnnemiActif*ennemis, int nbEnnemis, int taillecarte);
 int** chargement(const char* nom_fichier, int* ligne, int* colonne);
 void amelioration(Case carte[]);
 void afficher_carte(int **carte, int taillecarte);
 void creer_carte(int **carte, int taillecarte);
 void creer_chemin(int **carte, int taillecarte);
 void defaite();
-void deplacement_attaquant(int** carte, int i, int j);
 int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int vagues[][], int numero_vague);
 oid lancerpartie ();
 void menuDemarrage();
