@@ -4,6 +4,8 @@ typedef struct{
     int dégats;
     float vitessetir;
     int prix;
+    int coordx;
+    int coordy;
 }Defenseur;
 
 typedef struct{
