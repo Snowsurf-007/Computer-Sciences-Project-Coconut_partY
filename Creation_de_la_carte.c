@@ -122,7 +122,7 @@ void creer_chemin(int **carte, int taillecarte){
 
         //Si on change de colonne, on met un drapeau au dessus de la nouvelle case
         if (direction!=0 && i>0) {
-            carte[i-1][nouvellecolonne]=11;
+            carte[i-1][nouvellecolonne]=6;
         }
 
         //Mise à jour de la position j
