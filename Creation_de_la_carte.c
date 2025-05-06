@@ -31,41 +31,36 @@ void afficher_carte(int **carte, int taillecarte) {
         		case 1:
         		case 2:
         		case 3:
-        		case 4:
-        		case 5:
-        		case 6:
            			printf("%s ", EMOJI_NEIGE);
             			break;
-        		case 7:
-        		case 8:
+        		case 4:
             			printf("%s", EMOJI_PIERRE);
             			break;
-        		case 9:
-        		case 10:
+        		case 5:
             			printf("%s", EMOJI_SAPIN);
            			break;
-        		case 11:
+        		case 6:
          			printf("%s", EMOJI_DRAPEAU);
             			break;
-        		case 12:
+        		case 7:
             			printf("%s", EMOJI_COURONNE);
             			break;
-            		case 13:
+            		case 8:
             			printf("%s", EMOJI_SKIEUR);
             			break;
-            		case 14:
+            		case 9:
             			printf("%s", EMOJI_SNOWBOARDER);
             			break;
-            		case 15:
+            		case 10:
             			printf("%s", EMOJI_LUGISTE);
             			break;
-			case 16:
+			case 11:
             			printf("%s", EMOJI_PINGOUIN);
             			break;
-			case 17:
+			case 12:
             			printf("%s", EMOJI_BONHOMMENEIGE);
             			break;
-			case 18:
+			case 13:
             			printf("%s", EMOJI_OURS);
             			break;
         		default:
@@ -89,7 +84,7 @@ void creer_carte(int **carte, int taillecarte) {
             exit(1); //Terminer le programme si l'allocation échoue
         }
         for (int j=0; j<taillecarte; j++){
-            carte[i][j]=rand()%11; //Remplir la carte avec des valeurs aléatoires
+            carte[i][j]=rand()%6; //Remplir la carte avec des valeurs aléatoires
         }
     }
 }
@@ -100,8 +95,8 @@ void creer_chemin(int **carte, int taillecarte){
     
     // Premier mouvement, on va tout droit (vers le bas)
     direction=0;
-    carte[0][j]=11; // Placement du drapeau sur la premiere case
-    carte[1][j]=11; // Placement du drapeau sur la deuxieme case
+    carte[0][j]=6; // Placement du drapeau sur la premiere case
+    carte[1][j]=6; // Placement du drapeau sur la deuxieme case
     
     directionprecedente=direction;
 
@@ -134,10 +129,10 @@ void creer_chemin(int **carte, int taillecarte){
         j=nouvellecolonne;
 
         //On place le drapeau sur la case actuelle
-        carte[i][j]=11;
+        carte[i][j]=6;
     }
     //On place la couronne sur la derniere case en allant tout droit (vers le bas)
-	carte[taillecarte-1][j]=12;
+	carte[taillecarte-1][j]=7;
 }
 
 int main (){
