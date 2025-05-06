@@ -36,37 +36,38 @@ void afficher_carte(int **carte, int taillecarte) {
         		case 6:
            			printf("%s ", EMOJI_NEIGE);
             			break;
-
         		case 7:
         		case 8:
             			printf("%s", EMOJI_PIERRE);
             			break;
-
         		case 9:
         		case 10:
             			printf("%s", EMOJI_SAPIN);
            			break;
-
         		case 11:
          			printf("%s", EMOJI_DRAPEAU);
             			break;
-
         		case 12:
             			printf("%s", EMOJI_COURONNE);
             			break;
-            			
             		case 13:
             			printf("%s", EMOJI_SKIEUR);
             			break;
-            			
             		case 14:
             			printf("%s", EMOJI_SNOWBOARDER);
             			break;
-            			
             		case 15:
             			printf("%s", EMOJI_LUGISTE);
             			break;
-
+			case 16:
+            			printf("%s", EMOJI_PINGOUIN);
+            			break;
+			case 17:
+            			printf("%s", EMOJI_BONHOMMENEIGE);
+            			break;
+			case 18:
+            			printf("%s", EMOJI_OURS);
+            			break;
         		default:
             			exit(5);
     		}
