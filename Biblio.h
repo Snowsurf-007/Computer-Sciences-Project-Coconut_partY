@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+
 // On définit les emojis
 #define EMOJI_NEIGE           "\xE2\x97\xBB\xEF\xB8\x8F"
 #define EMOJI_PIERRE          "\xF0\x9F\xAA\xA8"
@@ -16,9 +17,11 @@
 #define EMOJI_SNOWBOARDER     "\xF0\x9F\x8F\x82"
 #define EMOJI_LUGISTE         "\xF0\x9F\x9B\xB7"
 #define EMOJI_COURONNE        "\xF0\x9F\x91\x91"
+
 // On définit les constantes
 #define TAILLECHAINE 16
 
+// On définit les structures
 typedef struct{
     char emoji[TAILLECHAINE]; //code UTF8 emoji du defenseur
     int portée;
@@ -36,6 +39,7 @@ typedef struct{
     int gain;
 }Attaquant;
 
+// On définit les constructeurs de structures
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
     strcpy(a.emoji, EMOJI_PINGOUIN);
     a.portée=5;
@@ -87,6 +91,7 @@ Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
     return a;
 }
 
+// On définit les fonctions
 int** chargement(const char* nom_fichier, int* ligne, int* colonne);
 void amelioration(Case carte[]);
 void afficher_carte(int **carte, int taillecarte);
