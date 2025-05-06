@@ -14,7 +14,7 @@ void lancerpartie (){
     	afficher_carte(carte, taillecarte);
     	placement_de_defenseur(Case carte[]);
 
-    	while(carte[taillecarte-1][colonneCouronne]==12){
+    	while(carte[taillecarte-1][colonneCouronne]==7){
     		sleep(1);
         	deplacement_attaquant();
         	generer_attaquant();
