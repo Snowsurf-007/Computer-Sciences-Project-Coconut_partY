@@ -1,4 +1,4 @@
-void lancer_partie (){
+void lancerpartie (){
     srand(time(NULL));
     int taillecarte; //Variable pour la taille de la carte
 	int colonneCouronne;	
