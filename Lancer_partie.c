@@ -30,5 +30,4 @@ void lancerpartie (){
     free(carte[i]);
     }
     free(carte);
-    return 0;
 }
