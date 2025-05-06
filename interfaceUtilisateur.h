@@ -1,4 +1,5 @@
-#ifndef_
+#ifndef _INTERFACEUTILISATEUR_H
+#define _INTERFACEUTILISATEUR_H 2
 
 menuDemarrage();
 afficher_carte(int **carte, int taillecarte);
