@@ -1,4 +1,4 @@
-void placement_de_defenseur(int carte[][], int taillecarte){
+void placement_de_defenseur(int** carte, int taillecarte){
         int placer = -1; //quand le joueur decidera s'il veut placer un défenseur
         int choix_defenseur = 0;
         int coord_x = 0; //choix de la position du defenseur à placer
