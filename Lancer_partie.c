@@ -21,7 +21,7 @@ void lancerpartie (){
         generer_attaquant();
         afficher_carte(carte, taillecarte);
         attaque_defenseurs();
-        placement_de_defenseur(Case carte[]);
+        placement_de_defenseur(Case carte[], flocons);
         amelioration();
     }
     
