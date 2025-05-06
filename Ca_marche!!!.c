@@ -102,64 +102,6 @@ Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
         return a;
 }
 
-void deplacement_attaquant(Case** carte, EnnemiActif* ennemis, int nbEnnemis, int taillecarte){
-    for (int i=0; i<nbEnnemis; i++){
-        int x=ennemis[i].x;
-        int y=ennemis[i].y;
-
-        // Sauvegarde le type pour pouvoir déplacer
-        int type_attaquant=carte[x][y].type;
-
-        // Déplacement bas > droite > gauche
-        if (x+1<taillecarte && (carte[x+1][y].type==6 || carte[x+1][y].type==7)){
-            carte[x+1][y].type=type_attaquant;
-            carte[x][y].type=6;
-            ennemis[i].x++;
-        }
-        else if (y+1<taillecarte && (carte[x][y+1].type==6 || carte[x][y+1].type==7)){
-            carte[x][y+1].type=type_attaquant;
-            carte[x][y].type=6;
-            ennemis[i].y++;
-        }
-        else if (y-1>=0 && (carte[x][y-1].type==6 || carte[x][y-1].type==7)){
-            carte[x][y-1].type=type_attaquant;
-            carte[x][y].type=6;
-            ennemis[i].y--;
-        }
-        // Sinon : ne bouge pas
-    }
-}
-
-void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis){
-	int attaquant=rand()%3;
-	Attaquant nouv_ennemi;
-
-	if(attaquant==0){
-		nouv_ennemi=constructeur_SkieurFrenetique(nouv_ennemi);
-		carte[0][debut].type=8;
-	}
-	else if(attaquant==1){
-		nouv_ennemi=constructeur_SnowboarderAcrobate(nouv_ennemi);
-		carte[0][debut].type=9;
-	}
-	else if(attaquant==2){
-		nouv_ennemi=constructeur_LugisteBarjo(nouv_ennemi);
-		carte[0][debut].type=10;
-	}
-	// Ajouter l'ennemi au tableau dynamique
-    	EnnemiActif* temp=(EnnemiActif*)realloc(*ennemis,(*nbEnnemis+1)*sizeof(EnnemiActif));
-   	if (temp==NULL){
-        	printf("Erreur d'allocation mémoire.\n");
-        	free(*ennemis);
-        	exit(1);
-    	}
-    	*ennemis=temp;
-    	(*ennemis)[*nbEnnemis].attaquant=nouv_ennemi;
-    	(*ennemis)[*nbEnnemis].x=0;
-    	(*ennemis)[*nbEnnemis].y=debut;
-    	(*nbEnnemis)++;
-}
-
 void afficher_carte(Case** carte, int taillecarte){
     
     // On affiche la carte
@@ -291,8 +233,87 @@ void creer_chemin(Case** carte, int taillecarte){
 	carte[taillecarte-1][j].type=7;
 }
 
-int main (){
-    	srand(time(NULL));
+void deplacement_attaquant(Case** carte, EnnemiActif* ennemis, int nbEnnemis, int taillecarte){
+    for (int i=0; i<nbEnnemis; i++){
+        int x=ennemis[i].x;
+        int y=ennemis[i].y;
+
+        // Sauvegarde le type pour pouvoir déplacer
+        int type_attaquant=carte[x][y].type;
+
+        // Déplacement bas > droite > gauche
+        if (x+1<taillecarte && (carte[x+1][y].type==6 || carte[x+1][y].type==7)){
+            carte[x+1][y].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].x++;
+        }
+        else if (y+1<taillecarte && (carte[x][y+1].type==6 || carte[x][y+1].type==7)){
+            carte[x][y+1].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].y++;
+        }
+        else if (y-1>=0 && (carte[x][y-1].type==6 || carte[x][y-1].type==7)){
+            carte[x][y-1].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].y--;
+        }
+        // Sinon : ne bouge pas
+    }
+}
+
+void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis){
+	int attaquant=rand()%3;
+	Attaquant nouv_ennemi;
+
+	if(attaquant==0){
+		nouv_ennemi=constructeur_SkieurFrenetique(nouv_ennemi);
+		carte[0][debut].type=8;
+	}
+	else if(attaquant==1){
+		nouv_ennemi=constructeur_SnowboarderAcrobate(nouv_ennemi);
+		carte[0][debut].type=9;
+	}
+	else if(attaquant==2){
+		nouv_ennemi=constructeur_LugisteBarjo(nouv_ennemi);
+		carte[0][debut].type=10;
+	}
+	// Ajouter l'ennemi au tableau dynamique
+    	EnnemiActif* temp=(EnnemiActif*)realloc(*ennemis,(*nbEnnemis+1)*sizeof(EnnemiActif));
+   	if (temp==NULL){
+        	printf("Erreur d'allocation mémoire.\n");
+        	free(*ennemis);
+        	exit(1);
+    	}
+    	*ennemis=temp;
+    	(*ennemis)[*nbEnnemis].attaquant=nouv_ennemi;
+    	(*ennemis)[*nbEnnemis].x=0;
+    	(*ennemis)[*nbEnnemis].y=debut;
+    	(*nbEnnemis)++;
+}
+
+void defaite(){
+	int choix=0;
+	do{ 
+		printf("\n \t== Vous avez perdu ! ==\n");
+		sleep(2);
+		printf("\n \t Taper 1 pour retourner au menu\n");
+		printf("\n \t Taper 2 pour quitter\n");
+		printf("\n \t Votre choix : ");
+		scanf("%d", &choix);
+	}while(choix!=1 && choix!=2);
+	
+	if(choix==1){
+		menuDemarrage();
+	}
+	else if(choix==2){
+		printf("A plus 👋😊\n");
+		exit(0);
+	}
+}
+
+
+void lancerpartie (){
+	srand(time(NULL));
     	int taillecarte; //Variable pour la taille de la carte
     	int colonneCouronne, colonneDebut;
 	int flocons=120;
@@ -334,11 +355,19 @@ int main (){
     	//placement_de_defenseur(Case carte[], flocons);
     	//amelioration(flocons);
     	
-	while (carte[taillecarte-1][colonneCouronne].type==7) {
+	while (carte[taillecarte-1][colonneCouronne].type==7){
 		usleep(500000);  // pause
 
     		deplacement_attaquant(carte, ennemis, nbEnnemis, taillecarte);
-
+		
+		// Vérifier si un ennemi atteint la couronne
+		for (int i=0; i<nbEnnemis; i++) {
+			if (ennemis[i].x==taillecarte-1 && ennemis[i].y==colonneCouronne){
+				defaite();  // L'ennemi a atteint la couronne, donc c'est une défaite
+				return;  // Quitter la boucle, la partie est terminée
+			}
+		}
+		
     		// Génère un nouvel attaquant seulement si la case est vide
     		if (carte[0][colonneDebut].type==6){
         		generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis);
@@ -357,5 +386,52 @@ int main (){
 		free(carte[i]);
     	}
     	free(carte);
-	return 0;
+}
+
+void menuDemarrage() {
+	int choix_menu=0;  //choix + vérification de la valeur entrée au clavier 
+
+	printf("\n \t=== MENU PRINCIPAL ===\n");
+	printf("\n \t Nouvelle Partie (1) \t \n");
+	printf("\n \t Reprendre (2) \t \n");
+	printf("\n \t Quitter (3) \t \n\n");
+	printf("Votre choix : ");
+	scanf("%d",&choix_menu);
+		
+	while(choix_menu<1 || choix_menu>3) {
+		
+		printf("\n Veuillez entrer une valeur correcte : \n");
+		printf("1 pour démarrer une nouvelle partie \n");
+		printf("2 pour reprendre la dernière partie \n");
+		printf("3 pour quitter le jeu \n");
+			
+		printf("\n \t Nouvelle Partie (1) \t \n");
+		printf("\n \t Reprendre (2) \t \n");
+		printf("\n \t Quitter (3) \t \n");
+			
+		scanf("%d",&choix_menu);
+	}
+		
+	//application du choix fait par l'utilisateur 
+	if(choix_menu==1) {
+		lancerpartie();
+	}
+	//else if(choix_menu==2) {
+	//	reprendrePartie();
+	//}
+	else if(choix_menu==3) {
+		printf("A plus 👋😊\n");
+		exit(0);
+	}
+	else {
+		printf("Erreur : Le choix n'a pas pu être pris en compte \n");
+		printf("Veuillez relancer \n");
+		exit(1);
+	}
+}
+
+int main (){
+        menuDemarrage();
+
+        return 0;
 }
