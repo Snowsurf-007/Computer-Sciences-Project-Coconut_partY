@@ -40,30 +40,36 @@ typedef struct{
 }Attaquant;
 
 // On définit les constructeurs de structures
-Defenseur constructeur_PinguPatrouilleur(Defenseur a){
+Defenseur constructeur_PinguPatrouilleur(Defenseur a, int x, int y){
     strcpy(a.emoji, EMOJI_PINGOUIN);
     a.portée=5;
     a.dégats=30;
     a.vitessetir=0.5;
     a.prix=100;
+    a.coordx = x;
+    a.coordy = y;
     return a;
 }
 
-Defenseur constructeur_FloconPerceCiel(Defenseur a){
+Defenseur constructeur_FloconPerceCiel(Defenseur a, int x, int y){
     strcpy(a.emoji, EMOJI_BONHOMMENEIGE);
     a.portée=10;
     a.dégats=300;
     a.vitessetir=2;
     a.prix=200;
+    a.coordx = x;
+    a.coordy = y;
     return a;
 }
 
-Defenseur constructeur_GardePolaire(Defenseur a){
+Defenseur constructeur_GardePolaire(Defenseur a, int x, int y){
     strcpy(a.emoji, EMOJI_OURS);
     a.portée=2;
     a.dégats=70;
     a.vitessetir=1;
     a.prix=150;
+    a.coordx = x;
+    a.coordy = y;
     return a;
 }
 
