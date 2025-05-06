@@ -1,6 +1,7 @@
 //inclusion des bibliothèques nécessaires
 #ifndef _FONCTION_H
 #define _FONCTION_H 1
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -105,4 +106,5 @@ oid lancerpartie ();
 void menuDemarrage();
 void placement_de_defenseur(int carte[][], int taillecarte);
 void sauvegarde(const char* nom_fichier, int** tab, int ligne, int colonne);
+
 #endif
