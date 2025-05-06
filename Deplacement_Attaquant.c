@@ -1,20 +1,20 @@
 void deplacement_attaquant(int** carte, int i, int j) {
 				
-		if(carte[i][j+1]==13 || carte[i][j+1]==14 || carte[i][j+1]==15) {
+		if(carte[i][j+1]==8 || carte[i][j+1]==9 || carte[i][j+1]==10) {
 			carte[i][j]=carte[i][j+1];
-			carte[i][j+1]=11;
+			carte[i][j+1]=6;
 			deplacement_attaquant(carte,i,j+1);
 		}	
-		else if(carte[i][j-1]==13 || carte[i][j-1]==14 || carte[i][j-1]==15) {
+		else if(carte[i][j-1]==8 || carte[i][j-1]==9 || carte[i][j-1]==10) {
 			carte[i][j]=carte[i][j-1];
-			carte[i][j-1]=11;
+			carte[i][j-1]=6;
 			deplacement_attaquant(carte,i,j-1);
 		}	
 		else if(i<1) {//deuxieme condition d'arrêt	
 		}
-		else if(carte[i-1][j]==13 || carte[i-1][j]==14 || carte[i-1][j]==15){
+		else if(carte[i-1][j]==8 || carte[i-1][j]==9 || carte[i-1][j]==10){
 			carte[i][j]=carte[i-1][j];
-			carte[i-1][j]=11;
+			carte[i-1][j]=6;
 			deplacement_attaquant(carte,i-1,j);
 		}
 		else{
