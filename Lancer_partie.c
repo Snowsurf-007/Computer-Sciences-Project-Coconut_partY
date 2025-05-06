@@ -22,7 +22,7 @@ void lancerpartie (){
         afficher_carte(carte, taillecarte);
         attaque_defenseurs();
         placement_de_defenseur(Case carte[], flocons);
-        amelioration();
+        amelioration(flocons);
     }
     
     //On libère la mémoire allouée pour la carte
