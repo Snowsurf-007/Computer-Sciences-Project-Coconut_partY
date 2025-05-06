@@ -1,14 +1,11 @@
 //inclusion des bibliothèques nécessaires
-#ifndef _FONCTION_H
-#define _FONCTION_H 1
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 
-// On définit les emojis
+// On définit les emojis utilisés pour la carte
 #define EMOJI_NEIGE           "\xE2\x97\xBB\xEF\xB8\x8F"
 #define EMOJI_PIERRE          "\xF0\x9F\xAA\xA8"
 #define EMOJI_DRAPEAU         "\xF0\x9F\x9A\xA9"
@@ -26,6 +23,12 @@
 
 // On définit les structures
 typedef struct{
+    int type; // 0=neige, 1=pierre, ..., 13=ours
+    int x;    // ligne
+    int y;    // colonne
+}Case;
+
+typedef struct{
         char emoji[TAILLECHAINE]; //code UTF8 emoji du defenseur
         int portee;
         int degats;
@@ -41,6 +44,12 @@ typedef struct{
         float esquive;
         int gain;
 }Attaquant;
+
+typedef struct {
+    Attaquant attaquant;
+    int x;
+    int y;
+}EnnemiActif;
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
         strcpy(a.emoji, EMOJI_PINGOUIN);
