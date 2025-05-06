@@ -13,7 +13,7 @@ void lancerpartie (){
     afficher_carte(carte, taillecarte);
     placement_de_defenseur(Case carte[]);
 
-	int flocons=120;
+int flocons=120;
 
     while(carte[taillecarte-1][colonneCouronne]==12){
         sleep(1);
