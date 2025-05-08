@@ -312,20 +312,18 @@ void defaite(){
 }
 
 
-void lancerpartie (){
+void lancerpartie() {
 	srand(time(NULL));
-    	int taillecarte; //Variable pour la taille de la carte
+    	int taillecarte;
     	int colonneCouronne, colonneDebut;
-	int flocons=120;
-	EnnemiActif* ennemis=NULL;
-	int nbEnnemis=0;
+	int flocons = 120;
+	EnnemiActif* ennemis = NULL;
+	int nbEnnemis = 0;
+    int score = 0; // Initialisation du score
 
-
-    	// On génère une taille de carte aléatoire entre 25 et 40
-    	taillecarte=rand()%16+25;
-
-    	Case** carte=(Case**)malloc(taillecarte*sizeof(Case*)); //Allocation dynamique de la mémoire pour la carte
-    
+    // Génération de la carte (entre 25 et 40) et du chemin
+    taillecarte = rand() % 16 + 25;
+    Case** carte = (Case**)malloc(taillecarte * sizeof(Case*));    
     	creer_carte(carte, taillecarte);
     	creer_chemin(carte, taillecarte);
     	printf("\nPour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte); // On affiche la taille de la carte
@@ -361,15 +359,15 @@ void lancerpartie (){
     		deplacement_attaquant(carte, ennemis, nbEnnemis, taillecarte);
 		
 		// Vérifier si un ennemi atteint la couronne
-		for (int i=0; i<nbEnnemis; i++) {
-			if (ennemis[i].x==taillecarte-1 && ennemis[i].y==colonneCouronne){
-				defaite();  // L'ennemi a atteint la couronne, donc c'est une défaite
-				return;  // Quitter la boucle, la partie est terminée
+		for (int i = 0; i < nbEnnemis; i++) {
+			if (ennemis[i].x == taillecarte - 1 && ennemis[i].y == colonneCouronne) {
+				defaite(); //L'ennemi a atteint la couronne
+				return; //Quitter la boucle, fin de la partie
 			}
 		}
 		
     		// Génère un nouvel attaquant seulement si la case est vide
-    		if (carte[0][colonneDebut].type==6){
+    		if (carte[0][colonneDebut].type == 6) {
         		generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis);
     		}
 
@@ -379,20 +377,21 @@ void lancerpartie (){
         	//amelioration(flocons);
 	}
     	
-	// Libération de la mémoire pour les ennemis
+	// Libération de la mémoire
 	free(ennemis);
-    	//On libère la mémoire allouée pour la carte
-    	for (int i=0; i<taillecarte; i++){
+    	
+	for (int i=0; i<taillecarte; i++){
 		free(carte[i]);
     	}
-    	free(carte);
-}
+    
+	free(carte);
 
-void menuDemarrage() {
-	int choix_menu=0;  //choix + vérification de la valeur entrée au clavier 
-
-	printf("\n \t=== MENU PRINCIPAL ===\n");
-	printf("\n \t Nouvelle Partie (1) \t \n");
+void menuDemarrage() {	
+	int choix_menu=0;  //choix + vérificfiication de la mémoire rentrée au clavier
+    
+	
+	printf("\n \t=== MENU PRINCIPAL === \n"); //On libère la mémoire allouée pour la carte
+    printf=("\n \t Nouvelle Partie (1) \t \n");
 	printf("\n \t Reprendre (2) \t \n");
 	printf("\n \t Quitter (3) \t \n\n");
 	printf("Votre choix : ");
@@ -433,5 +432,160 @@ void menuDemarrage() {
 int main (){
         menuDemarrage();
 
+	/*	proposition du menu principal pour éviter les appels récursifs de fonctions 
+	
+		int choix_menu = 0; // Variable pour stocker le choix de l'utilisateur
+		int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
+	
+		while (jeu_en_cours) {
+			printf("\n \t=== MENU PRINCIPAL ===\n");
+			printf("\n \t Nouvelle Partie (1) \t \n");
+			printf("\n \t Quitter (2) \t \n\n");
+			printf("Votre choix : ");
+			scanf("%d", &choix_menu);
+	
+			switch (choix_menu) {
+				case 1:
+					lancerpartie(); // Lance une nouvelle partie
+					break;
+				case 2:
+					printf("A plus 👋😊\n");
+					jeu_en_cours = 0; // Quitte la boucle principale
+					break;
+				default:
+					printf("Choix invalide. Veuillez réessayer.\n");
+			}
+		} */
+
+
+
+
+
+
         return 0;
 }
+
+/* fonctions modifiées en consequence : 
+
+	int menuDemarrage() {
+    int choix_menu = 0; // Variable pour stocker le choix de l'utilisateur
+
+    printf("\n \t=== MENU PRINCIPAL === \n");
+    printf("\n \t Nouvelle Partie (1) \t \n");
+    printf("\n \t Quitter (2) \t \n\n");
+    printf("Votre choix : ");
+    scanf("%d", &choix_menu);
+
+    while (choix_menu < 1 || choix_menu > 2) {
+        printf("\n Veuillez entrer une valeur correcte : \n");
+        printf("1 pour démarrer une nouvelle partie \n");
+        printf("2 pour quitter le jeu \n");
+        printf("Votre choix : ");
+        scanf("%d", &choix_menu);
+    }
+
+    return choix_menu; // Retourne le choix de l'utilisateur
+}
+
+
+void defaite() {
+    printf("\n \t== Vous avez perdu ! ==\n");
+    sleep(2);
+    printf("\nRetour au menu principal...\n");
+}
+
+
+
+void lancerpartie() {
+    srand(time(NULL));
+    int taillecarte;
+    int colonneCouronne, colonneDebut;
+    int flocons = 120;
+    EnnemiActif* ennemis = NULL;
+    int nbEnnemis = 0;
+    int score = 0; // Initialisation du score
+
+    // Génération de la carte (entre 25 et 40) et du chemin
+    taillecarte = rand() % 16 + 25;
+    Case** carte = (Case**)malloc(taillecarte * sizeof(Case*));
+    creer_carte(carte, taillecarte);
+    creer_chemin(carte, taillecarte);
+    printf("\nPour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte);
+    afficher_carte(carte, taillecarte);
+
+    for (int i = 0; i < taillecarte; i++) {
+        if (carte[0][i].type == 6) {
+            colonneDebut = i;
+            break;
+        }
+    }
+    for (int j = 0; j < taillecarte; j++) {
+        if (carte[taillecarte - 1][j].type == 7) {
+            colonneCouronne = j;
+            break;
+        }
+    }
+
+    generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis);
+    afficher_carte(carte, taillecarte);
+
+    while (carte[taillecarte - 1][colonneCouronne].type == 7) {
+        usleep(500000); // Pause
+
+        deplacement_attaquant(carte, ennemis, nbEnnemis, taillecarte);
+
+        // Vérifier si un ennemi atteint la couronne
+        for (int i = 0; i < nbEnnemis; i++) {
+            if (ennemis[i].x == taillecarte - 1 && ennemis[i].y == colonneCouronne) {
+                defaite(); // Affiche le message de défaite
+                goto fin_partie; // Quitte la boucle et termine la partie
+            }
+        }
+
+        // Génère un nouvel attaquant seulement si la case est vide
+        if (carte[0][colonneDebut].type == 6) {
+            generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis);
+        }
+
+        afficher_carte(carte, taillecarte);
+    }
+
+fin_partie:
+    // Libération de la mémoire
+    free(ennemis);
+    for (int i = 0; i < taillecarte; i++) {
+        free(carte[i]);
+    }
+    free(carte);
+}
+
+
+
+
+int main() {
+    int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
+
+    while (jeu_en_cours) {
+        int choix_menu = menuDemarrage(); // Affiche le menu principal et récupère le choix
+
+        switch (choix_menu) {
+            case 1:
+                lancerpartie(); // Lance une nouvelle partie
+                break;
+            case 2:
+                printf("A plus 👋😊\n");
+                jeu_en_cours = 0; // Quitte la boucle principale
+                break;
+            default:
+                printf("Choix invalide. Veuillez réessayer.\n");
+        }
+    }
+
+    return 0;
+}
+
+
+*/
+
+
+
