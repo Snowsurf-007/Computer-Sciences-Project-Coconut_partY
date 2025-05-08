@@ -1,3 +1,48 @@
+Defenseur constructeur_PinguPatrouilleur(Defenseur a){
+        a.portee=5;
+        a.degats=30;
+        a.vitessetir=0.5;
+        a.prix=100;
+        return a;
+}
+
+Defenseur constructeur_FloconPerceCiel(Defenseur a){
+        a.portee=10;
+        a.degats=300;
+        a.vitessetir=2;
+        a.prix=200;
+        return a;
+}
+
+Defenseur constructeur_GardePolaire(Defenseur a){
+        a.portee=2;
+        a.degats=70;
+        a.vitessetir=1;
+        a.prix=150;
+        return a;
+}
+
+Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
+        a.vie=250;
+        a.esquive=0.15;
+        a.gain=20;
+        return a;
+}
+
+Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
+        a.vie=500;
+        a.esquive=0.30;
+        a.gain=30;
+        return a;
+}
+
+Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
+        a.vie=2000;
+        a.esquive=0;
+        a.gain=50;
+        return a;
+}
+
 void placement_de_defenseur(int carte[][], int taillecarte, int monnaie, Defenseur liste_defenseur[], int nb_defenseur){
         int placer = -1; //quand le joueur decidera s'il veut placer un défenseur
         int choix_defenseur = 0;
