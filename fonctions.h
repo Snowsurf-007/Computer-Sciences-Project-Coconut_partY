@@ -26,6 +26,7 @@ typedef struct{
     int type; // 0=neige, 1=pierre, ..., 13=ours
     int x;    // ligne
     int y;    // colonne
+    Defenseur defenseur;
 }Case;
 
 typedef struct{
