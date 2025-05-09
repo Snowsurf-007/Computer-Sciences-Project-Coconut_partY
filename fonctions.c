@@ -59,7 +59,7 @@ void victoire(int* score) {
     sleep(2);
 }
 
-void placement_de_defenseur(int carte[][], int taillecarte, int monnaie, Defenseur liste_defenseur[], int nb_defenseur){
+void placement_de_defenseur(Case carte[][], int taillecarte, int monnaie){
         int placer = -1; //quand le joueur decidera s'il veut placer un défenseur
         int choix_defenseur = 0;
         int coord_x = 0; //choix de la position du defenseur à placer
@@ -74,15 +74,18 @@ void placement_de_defenseur(int carte[][], int taillecarte, int monnaie, Defense
                 scanf("%d", &placer);
         }
         while(placer == 1){
-                printf("choisissez le défenseur à placer :\n 1 pour le Pingu-Patrouilleur\n");
-                printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
-                scanf("%d", &choix_defenseur);
+
+		//choix du defenseur
+		printf("choisissez le défenseur à placer :\n 1 pour le Pingu-Patrouilleur\n");
+		printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
+		scanf("%d", &choix_defenseur);
+		
+		while(choix_defenseur != 1 || choix_defenseur != 2 || choix_defenseur != 3){
+			printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+			scanf("%d", &choix_defenseur);
+		}
                 
-                while(choix_defenseur != 1 || choix_defenseur != 2 || choix_defenseur != 3){
-                        printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-                        scanf("%d", &choix_defenseur);
                 Defenseur nouv_def;
-                }
                 if(choix_defenseur == 1){
                         nouv_def = constructeur_PinguPatrouilleur(nouv_def, coord_x, coord_y);
                 }
@@ -95,7 +98,7 @@ void placement_de_defenseur(int carte[][], int taillecarte, int monnaie, Defense
                 else{
                         exit(1)
                 }
-                while(monnaie < nouv_def.prix){
+                if(monnaie < nouv_def.prix){
                         printf("monnaie insuffisante, souhaitez vous toujours placer un defenseur ?\n");
                         printf("1 pour oui ou 0 pour non\n");
                         scanf("%d", &placer);
@@ -104,55 +107,62 @@ void placement_de_defenseur(int carte[][], int taillecarte, int monnaie, Defense
                                 printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
                                 scanf("%d", &placer);
                         }
-                if(placer == 0){
-                        break;
-                }
-                printf("choisissez le défenseur à placer :\n 1 pour le Pingu-Patrouilleur\n");
-                printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
-                scanf("%d", &choix_defenseur);
-                }
-                printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
-                scanf("%d", &coord_x);
-                while(coord_x > taillecarte || coord_x < 0){
-                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                        printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
-                        scanf("%d", &coord_x);
-                }
-                printf("Veuillez maintenant choisir la coordonnées y.\n");
-                scanf("%d", &coord_y)
-                while(coord_y > taillearte || coord_y < 0){
-                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                        printf("Veuillez maintenant choisir la coordonnées y.\n");
-                        scanf("%d", &coord_y);
-                }
-                while(carte[coord_x][coord_y] != 0 || carte[coord_x][coord_y] != 1 || carte[coord_x][coord_y] != 2 || carte[coord_x][coord_y] != 3){ //la case doit etre une case avec de la neige
-                        printf("Impossible de mettre un defenseur sur cette case veuillez en choisir une autre.\n");
-                        printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
-                        scanf("%d", &coord_x);
-                        while(coord_x > taillecarte || coord_x < 0){
-                                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
-                                scanf("%d", &coord_x);
-                        }
-                        printf("Veuillez maintenant choisir la coordonnées y.\n");
-                        scanf("%d", &coord_y);
-                        while(coord_y > taillecarte || coord_y < 0){
-                                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                printf("Veuillez maintenant choisir la coordonnées y.\n");
-                                scanf("%d", &coord_y);
-                        }
-                }
-                monnaie -= carte[coord_x][coord_y].defenseur.prix;
-                carte[coord_x][coord_y] == choix_defenseur + 10;
-                monnaie -= nouv_def.prix;
-                liste_defenseur[nb_defenseur] = nouv_def;
-                nb_defenseur += 1;
-        }
+		}
+                else{
+			printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnée x.\n");
+	                scanf("%d", &coord_x);
+	                if(coord_x > taillecarte || coord_x < 0){
+	                        printf("La valeur entrée est incorrecte.\n");
+				printf("souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+			        scanf("%d", &placer);
+			        
+			        while(placer != 0 || placer != 1){
+			                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+			                scanf("%d", &placer);
+			        }
+	                }
+			else{
+		                printf("Veuillez maintenant choisir la coordonnées y.\n");
+		                scanf("%d", &coord_y)
+		                if(coord_y > taillearte || coord_y < 0){
+		                        printf("La valeur entrée est incorrecte.\n");
+					printf("souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+				        scanf("%d", &placer);
+				        
+				        while(placer != 0 || placer != 1){
+				                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+				                scanf("%d", &placer);
+				        }
+		                }
+				else{
+			                if(carte[coord_x][coord_y].type != 0 || carte[coord_x][coord_y].type != 1 || carte[coord_x][coord_y].type != 2 || carte[coord_x][coord_y] != 3){ //la case doit etre une case avec de la neige
+			                        printf("Impossible de mettre un defenseur sur cette case.\n");
+			                        
+						printf("souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+						scanf("%d", &placer);
+						
+						while(placer != 0 || placer != 1){
+							printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+							scanf("%d", &placer);					                
+						}
+			                }
+					else{ //selection réussie
+				                carte[coord_x][coord_y].type == choix_defenseur + 10;
+				                monnaie -= nouv_def.prix;
+						carte[coord_x][coord_y].defenseur = nouv_def; //placement du defenseur
+					}
+				}
+			}
+		}
+	}
 }
 
 
 
-void amelioration(int carte[][], int taillecarte, int monnaie, Defenseur liste_defenseur[], int nb_defenseur[]){
+//choix de la case ou placer le defenseur
+		
+
+void amelioration(Case carte[][], int taillecarte, int monnaie){
   
 //choix de l'amélioration d'un défenseur
       
@@ -163,104 +173,66 @@ void amelioration(int carte[][], int taillecarte, int monnaie, Defenseur liste_d
         scanf("%d", &placer);
         
         while(placer != 0 || placer != 1){
-                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+        	printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
                 scanf("%d", &placer);
         }
         while(placer == 1){
                 printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                 scanf("%d", &coord_x);
           
-                while(coord_x > taillecarte || coord_x < 0){
-                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                        printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
-                        scanf("%d", &coord_x);
+                if(coord_x > taillecarte || coord_x < 0){
+	                        printf("La valeur entrée est incorrecte.\n");
+                          printf("souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+                          scanf("%d", &placer);
+                      
+                          while(placer != 0 || placer != 1){
+                                  printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+                                  scanf("%d", &placer);
+                          }
                 }
-                printf("Veuillez maintenant choisir la coordonnée y.\n");
-                scanf("%d", &coord_y);
-          
-                while(coord_y > taillecarte || coord_y < 0){
-                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
+                else{
                         printf("Veuillez maintenant choisir la coordonnées y.\n");
                         scanf("%d", &coord_y);
-                }
-                while(carte[coord_x][coord_y] != 11 || carte[coord_x][coord_y] != 12 || carte[coord_x][coord_y] != 13){ //tant que la case n'est pas occupée par un défenseur
-                        printf("Il n'y a pas de défenseur a améliorer sur cette case veuillez en choisir une autre.\n");
-                        printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
-                        scanf("%d", &coord_x);
-                  
-                        while(coord_x > taillecarte || coord_x < 0){
-                                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
-                                scanf("%d", &coord_x);
-                        }
-                        printf("Veuillez maintenant choisir la coordonnée y.\n");
-                        scanf("%d", &coord_y);
-                  
-                        while(coord_y > taillecarte || coord_y < 0){
-                                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                printf("Veuillez maintenant choisir la coordonnées y.\n");
-                                scanf("%d", &coord_y);
-                        }
-        
-                }
-                Defenseur defenseur_a_ameliorer;
-                for(int i = 0; i<nb_defenseur; i++){
-                        if(liste_defenseur[i].coordx == coord_x){
-                                if(liste_defenseur[i].coordy == coord_y){
-                                        defenseur_a_ameliorer = liste_defenseur[i];
-                                }
-                        }
-                        
-                }
-                while(defenseur_a_ameliorer.niveau*10 > monnaie){ //prix a modifier si besoin (le prix est le niveau du defenseur fois 10)
-                  
-                        if(placer == 0){
-                          break;
-                        }
-                        printf("Vous n'avez pas assez d'argent, souhaitez vous toujours améliorer ?\n1 pour oui, 0 pour non\n");
-                        scanf("%d", &placer);
-        
-                        while(placer != 0 || placer != 1){
-                                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+                        if(coord_y > taillecarte || coord_y < 0){
+                                printf("La valeur entrée est incorrecte.\n");
+                                printf("souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
                                 scanf("%d", &placer);
-                        }
-                        
-                        printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
-                        scanf("%d", &coord_x);
-                        while(coord_x > taillecarte || coord_x < 0){
-                                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
-                                scanf("%d", &coord_x);
-                        }
-                        printf("Veuillez maintenant choisir la coordonnée y.\n");
-                        scanf("%d", &coord_y);
-                        while(coord_y > taillecarte || coord_y < 0){
-                                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                printf("Veuillez maintenant choisir la coordonnées y.\n");
-                                scanf("%d", &coord_y);
-                        }
-                        while(arte[coord_x][coord_y] != 11 || carte[coord_x][coord_y] != 12 || carte[coord_x][coord_y] != 13){ //tant que la case n'est pas occupée par un défenseur
-                                printf("Il n'y a pas de défenseur a améliorer sur cette case veuillez en choisir une autre.\n");
-                                printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
-                                scanf("%d", &coord_x);
-                                while(coord_x > taillecarte || coord_x < 0){
-                                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                        printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
-                                        scanf("%d", &coord_x);
+                            
+                                while(placer != 0 || placer != 1){
+                                        printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+                                        scanf("%d", &placer);
                                 }
-                                printf("Veuillez maintenant choisir la coordonnée y.\n");
-                                scanf("%d", &coord_y);
-                                while(coord_y > taillecarte || coord_y < 0){
-                                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
-                                        printf("Veuillez maintenant choisir la coordonnées y.\n");
-                                        scanf("%d", &coord_y);
-                                }
-        
                         }
-                }
-                monnaie -= defenseur_a_ameliorer.niveau*10;
-                defenseur_a_ameliorer.niveau += 1; //le défenseur a été amélioré
-        }  
+                        else{
+                                if(carte[coord_x][coord_y].type != 11 || carte[coord_x][coord_y].type != 12 || carte[coord_x][coord_y].type != 13){ //tant que la case n'est pas occupée par un défenseur
+                                        printf("Il n'y a pas de défenseur a améliorer sur cette case.\n");
+                                        printf("souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+                                        scanf("%d", &placer);
+                                    
+                                        while(placer != 0 || placer != 1){
+                                                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+                                                scanf("%d", &placer);
+                                        }
+                                }
+                                else{
+                                        if(carte[coord_x][coord_y].defenseur.niveau*10 > monnaie){ //prix a modifier si besoin (le prix est le niveau du defenseur fois 10)
+                                          
+                                                printf("Vous n'avez pas assez d'argent, souhaitez vous toujours améliorer ?\n1 pour oui, 0 pour non\n");
+                                                scanf("%d", &placer);
+                                
+                                                while(placer != 0 || placer != 1){
+                                                        printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+                                                        scanf("%d", &placer);
+                                                }
+                                        }
+                                        else{
+                                                monnaie -= carte[coord_x][coord_y].defenseur.niveau*10;
+                                                carte[coord_x][coord_y].defenseur.niveau += 1; //le défenseur a été amélioré
+                                        }
+                                }  
+                        }
+        	}
+	}
 }
 
 
