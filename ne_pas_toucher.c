@@ -29,7 +29,6 @@ typedef struct{
 }Case;
 
 typedef struct{
-        char emoji[TAILLECHAINE]; //code UTF8 emoji du defenseur
         int portee;
         int degats;
         float vitessetir;
@@ -39,7 +38,6 @@ typedef struct{
 }Defenseur;
 
 typedef struct{
-        char emoji[TAILLECHAINE]; //code UTF8 emoji de l'attaquant
         int vie;
         float esquive;
         int gain;
@@ -52,7 +50,6 @@ typedef struct {
 }EnnemiActif;
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
-        strcpy(a.emoji, EMOJI_PINGOUIN);
         a.portee=5;
         a.degats=30;
         a.vitessetir=0.5;
@@ -61,7 +58,6 @@ Defenseur constructeur_PinguPatrouilleur(Defenseur a){
 }
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
-        strcpy(a.emoji, EMOJI_BONHOMMENEIGE);
         a.portee=10;
         a.degats=300;
         a.vitessetir=2;
@@ -70,7 +66,6 @@ Defenseur constructeur_FloconPerceCiel(Defenseur a){
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a){
-        strcpy(a.emoji, EMOJI_OURS);
         a.portee=2;
         a.degats=70;
         a.vitessetir=1;
@@ -79,7 +74,6 @@ Defenseur constructeur_GardePolaire(Defenseur a){
 }
 
 Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
-        strcpy(a.emoji, EMOJI_SKIEUR);
         a.vie=250;
         a.esquive=0.15;
         a.gain=20;
@@ -87,7 +81,6 @@ Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faib
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
-        strcpy(a.emoji, EMOJI_SNOWBOARDER);
         a.vie=500;
         a.esquive=0.30;
         a.gain=30;
@@ -95,7 +88,6 @@ Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moy
 }
 
 Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
-        strcpy(a.emoji, EMOJI_LUGISTE);
         a.vie=2000;
         a.esquive=0;
         a.gain=50;
@@ -382,6 +374,8 @@ void lancerpartie() {
 
 int menuDemarrage(){
     int choix_menu=0; //Variable pour stocker le choix de l'utilisateur
+    
+    printf("\n \t=== %s%s%s OPERATION FLOCON %s %s%s === \n", EMOJI_PINGOUIN, EMOJI_BONHOMMENEIGE, EMOJI_OURS, EMOJI_SKIEUR, EMOJI_SNOWBOARDER, EMOJI_LUGISTE);
 
     printf("\n \t=== MENU PRINCIPAL === \n");
     printf("\n \t Nouvelle Partie (1) \t \n");
