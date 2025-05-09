@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include <Windows.h> //a suppr pour linux
 
 // On définit les emojis utilisés pour la carte
 #define EMOJI_NEIGE           "\xE2\x97\xBB\xEF\xB8\x8F"
@@ -30,6 +29,7 @@ typedef struct{
 }Case;
 
 typedef struct{
+        char emoji[TAILLECHAINE]; //code UTF8 emoji du defenseur
         int portee;
         int degats;
         float vitessetir;
@@ -39,6 +39,7 @@ typedef struct{
 }Defenseur;
 
 typedef struct{
+        char emoji[TAILLECHAINE]; //code UTF8 emoji de l'attaquant
         int vie;
         float esquive;
         int gain;
@@ -51,6 +52,7 @@ typedef struct {
 }EnnemiActif;
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
+        strcpy(a.emoji, EMOJI_PINGOUIN);
         a.portee=5;
         a.degats=30;
         a.vitessetir=0.5;
@@ -59,6 +61,7 @@ Defenseur constructeur_PinguPatrouilleur(Defenseur a){
 }
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
+        strcpy(a.emoji, EMOJI_BONHOMMENEIGE);
         a.portee=10;
         a.degats=300;
         a.vitessetir=2;
@@ -67,6 +70,7 @@ Defenseur constructeur_FloconPerceCiel(Defenseur a){
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a){
+        strcpy(a.emoji, EMOJI_OURS);
         a.portee=2;
         a.degats=70;
         a.vitessetir=1;
@@ -75,6 +79,7 @@ Defenseur constructeur_GardePolaire(Defenseur a){
 }
 
 Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
+        strcpy(a.emoji, EMOJI_SKIEUR);
         a.vie=250;
         a.esquive=0.15;
         a.gain=20;
@@ -82,6 +87,7 @@ Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faib
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
+        strcpy(a.emoji, EMOJI_SNOWBOARDER);
         a.vie=500;
         a.esquive=0.30;
         a.gain=30;
@@ -89,10 +95,27 @@ Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moy
 }
 
 Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
+        strcpy(a.emoji, EMOJI_LUGISTE);
         a.vie=2000;
         a.esquive=0;
         a.gain=50;
         return a;
+}
+
+void defaite(int* score) {
+    printf("\n \t== Vous avez perdu ! ==\n");
+    printf("\n \tScore=%d\n", *score);
+    sleep(2);
+    printf("\nRetour au menu principal...\n");
+    sleep(2);
+}
+
+void victoire(int* score) {
+    printf("\n \t== Vous avez gagné ! ==\n");
+    printf("\n \tScore=%d\n", *score);
+    sleep(2);
+    printf("\nRetour au menu principal...\n");
+    sleep(2);
 }
 
 void afficher_carte(Case** carte, int taillecarte){
@@ -250,5 +273,154 @@ void deplacement_attaquant(Case** carte, EnnemiActif* ennemis, int nbEnnemis, in
             carte[x][y].type=6;
             ennemis[i].y--;
         }
+        // Sinon : ne bouge pas
     }
+}
+
+void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis, int* compteur){
+	int attaquant=rand()%3;
+	Attaquant nouv_ennemi;
+
+	if(attaquant==0){
+		nouv_ennemi=constructeur_SkieurFrenetique(nouv_ennemi);
+		carte[0][debut].type=8;
+	}
+	else if(attaquant==1){
+		nouv_ennemi=constructeur_SnowboarderAcrobate(nouv_ennemi);
+		carte[0][debut].type=9;
+	}
+	else if(attaquant==2){
+		nouv_ennemi=constructeur_LugisteBarjo(nouv_ennemi);
+		carte[0][debut].type=10;
+	}
+	// Ajouter l'ennemi au tableau dynamique
+    	EnnemiActif* temp=(EnnemiActif*)realloc(*ennemis,(*nbEnnemis+1)*sizeof(EnnemiActif));
+   	if (temp==NULL){
+        	printf("Erreur d'allocation mémoire.\n");
+        	free(*ennemis);
+        	exit(1);
+    	}
+    	*ennemis=temp;
+    	(*ennemis)[*nbEnnemis].attaquant=nouv_ennemi;
+    	(*ennemis)[*nbEnnemis].x=0;
+    	(*ennemis)[*nbEnnemis].y=debut;
+    	(*nbEnnemis)++;
+    	
+    	(*compteur)++;
+}
+
+void lancerpartie() {
+    srand(time(NULL));
+    int taillecarte;
+    int colonneCouronne, colonneDebut;
+    int flocons=120;
+    EnnemiActif* ennemis=NULL;
+    int nbEnnemis=0;
+    int compteur=0, vague=0;
+    int score=0; // Initialisation du score
+
+    // Génération de la carte (entre 25 et 40) et du chemin
+    taillecarte = rand() % 16 + 25;
+    Case** carte = (Case**)malloc(taillecarte * sizeof(Case*));
+    creer_carte(carte, taillecarte);
+    creer_chemin(carte, taillecarte);
+    printf("\nPour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte);
+    afficher_carte(carte, taillecarte);
+
+    for (int i = 0; i < taillecarte; i++) {
+        if (carte[0][i].type == 6) {
+            colonneDebut = i;
+            break;
+        }
+    }
+    for (int j = 0; j < taillecarte; j++) {
+        if (carte[taillecarte - 1][j].type == 7) {
+            colonneCouronne = j;
+            break;
+        }
+    }
+
+    generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis, &compteur);
+    afficher_carte(carte, taillecarte);
+	
+	for(vague; vague<16; vague++){
+		compteur=0;
+		while (carte[taillecarte-1][colonneCouronne].type==7){
+		    usleep(500000); // Pause
+
+		    deplacement_attaquant(carte, ennemis, nbEnnemis, taillecarte);
+
+		    // Vérifier si un ennemi atteint la couronne
+		    for (int i = 0; i < nbEnnemis; i++) {
+		        if (ennemis[i].x == taillecarte - 1 && ennemis[i].y == colonneCouronne) {
+		            defaite(&score);
+        			// Libérer mémoire proprement avant de quitter
+        			free(ennemis);
+        			for (int k = 0; k < taillecarte; k++) free(carte[k]);
+        			free(carte);
+        			return;
+		        }
+		    }
+
+		    // Génère un nouvel attaquant seulement si la case est vide
+		    if (carte[0][colonneDebut].type == 6 && compteur<=8){
+		        generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis, &compteur);
+		    }
+		    afficher_carte(carte, taillecarte);
+		}
+		printf("\n \tScore=%d\n", score);
+		sleep(2);
+	}
+	victoire(&score);
+    // Libération de la mémoire
+    free(ennemis);
+    for (int i = 0; i < taillecarte; i++) {
+        free(carte[i]);
+    }
+    free(carte);
+}
+
+int menuDemarrage(){
+    int choix_menu=0; //Variable pour stocker le choix de l'utilisateur
+
+    printf("\n \t=== MENU PRINCIPAL === \n");
+    printf("\n \t Nouvelle Partie (1) \t \n");
+    printf("\n \t Reprendre une partie (2) \t \n");
+    printf("\n \t Quitter (3) \t \n\n");
+    printf("Votre choix : ");
+    scanf("%d", &choix_menu);
+
+    while (choix_menu < 1 || choix_menu > 2) {
+        printf("\n Veuillez entrer une valeur correcte : \n");
+        printf("1 pour démarrer une nouvelle partie \n");
+        printf("2 pour reprendre une ancienne partie \n");
+        printf("3 pour quitter le jeu \n");
+        printf("Votre choix : ");
+        scanf("%d", &choix_menu);
+    }
+    return choix_menu; // Retourne le choix de l'utilisateur
+}
+
+int main() {
+    int jeu_en_cours=1; // Variable pour contrôler la boucle principale
+
+    while (jeu_en_cours){
+        int choix_menu=menuDemarrage(); // Affiche le menu principal et récupère le choix
+
+        switch (choix_menu){
+            case 1:
+                lancerpartie(); // Lance une nouvelle partie
+                break;
+            case 2:
+            	//reprendre la partie
+            case 3:
+                printf("A plus 👋😊\n");
+                jeu_en_cours = 0; // Quitte la boucle principale
+                break;
+            default:
+                printf("Choix invalide. Veuillez réessayer.\n");
+        }
+    }
+
+    return 0;
 }
