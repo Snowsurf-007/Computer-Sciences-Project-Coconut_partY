@@ -38,7 +38,7 @@ Opération Flocon est un jeu de tower defense se déroulant dans un univers hive
 - Placement des singes
 - Vagues d'attaque
    - Déplacement des attaquants
-   - Phase de tir des defenseurs
+   - Phase de tir des defenseurs (distance euclidienne et possibilité d'esquive des defenseurs)
    - Affichage du jeu (toutes les 0.5 secondes)
 - Fin de jeu : victoire/défaite selon la variante
 - Sauvegarde/reprise (optionnelle)
