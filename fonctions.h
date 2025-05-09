@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <math.h>
 
 // On définit les emojis utilisés pour la carte
 #define EMOJI_NEIGE           "\xE2\x97\xBB\xEF\xB8\x8F"
