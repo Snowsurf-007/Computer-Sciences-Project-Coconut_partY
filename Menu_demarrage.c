@@ -10,7 +10,7 @@ int menuDemarrage(){
     printf("Votre choix : ");
     scanf("%d", &choix_menu);
 
-    while (choix_menu < 1 || choix_menu > 2) {
+    while (choix_menu < 1 || choix_menu > 3) {
         printf("\n Veuillez entrer une valeur correcte : \n");
         printf("1 pour démarrer une nouvelle partie \n");
         printf("2 pour reprendre une ancienne partie \n");
