@@ -1,46 +1,27 @@
-void deplacement_attaquant(int** carte, int i, int j) {
-				
-		if(carte[i][j+1]==8 || carte[i][j+1]==9 || carte[i][j+1]==10) {
-			carte[i][j]=carte[i][j+1];
-			carte[i][j+1]=6;
-			deplacement_attaquant(carte,i,j+1);
-		}	
-		else if(carte[i][j-1]==8 || carte[i][j-1]==9 || carte[i][j-1]==10) {
-			carte[i][j]=carte[i][j-1];
-			carte[i][j-1]=6;
-			deplacement_attaquant(carte,i,j-1);
-		}	
-		else if(i<1) {//deuxieme condition d'arrêt	
-		}
-		else if(carte[i-1][j]==8 || carte[i-1][j]==9 || carte[i-1][j]==10){
-			carte[i][j]=carte[i-1][j];
-			carte[i-1][j]=6;
-			deplacement_attaquant(carte,i-1,j);
-		}
-		else{
-			printf("erreur : deplacement attaquant");
-		}
-}
+void deplacement_attaquant(Case** carte, EnnemiActif* ennemis, int nbEnnemis, int taillecarte){
+    for (int i=0; i<nbEnnemis; i++){
+        int x=ennemis[i].x;
+        int y=ennemis[i].y;
 
-/*	while(taillecarte>0) {
-		if(carte[taillecarte-2][j]==13 || carte[taillecarte-2][j]==14 || carte[taillecarte-2][j]==15) {				
-			carte[taillecarte-1][j]=carte[taillecarte-2][j];		
-	}
-			
-			else if(carte[taillecarte-2][j-1]==13 || carte[taillecarte-2][j-1]==14 || carte[taillecarte-2][j-1]==15) {
-				carte[taillecarte-1][j-1]=carte[taillecarte-2][j];
-			j--;	
-			}
-			
-			else if(carte[taillecarte-2][j+1]==13 || carte[taillecarte-2][j+1]==14 || carte[taillecarte-2][j+1]==15) {
-			
-				carte[taillecarte-1][j+1]=carte[taillecarte-2][j];
-			j++;	
-			}
-			
-			
-			
-		
-		
-		taillecarte--;
-		}*/
+        // Sauvegarde le type pour pouvoir déplacer
+        int type_attaquant=carte[x][y].type;
+
+        // Déplacement bas > droite > gauche
+        if (x+1<taillecarte && (carte[x+1][y].type==6 || carte[x+1][y].type==7)){
+            carte[x+1][y].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].x++;
+        }
+        else if (y+1<taillecarte && (carte[x][y+1].type==6 || carte[x][y+1].type==7)){
+            carte[x][y+1].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].y++;
+        }
+        else if (y-1>=0 && (carte[x][y-1].type==6 || carte[x][y-1].type==7)){
+            carte[x][y-1].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].y--;
+        }
+        // Sinon : ne bouge pas
+    }
+}
