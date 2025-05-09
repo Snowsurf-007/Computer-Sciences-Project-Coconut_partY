@@ -43,6 +43,22 @@ Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
         return a;
 }
 
+void defaite(int* score) {
+    printf("\n \t== Vous avez perdu ! ==\n");
+    printf("\n \tScore=%d\n", *score);
+    sleep(2);
+    printf("\nRetour au menu principal...\n");
+    sleep(2);
+}
+
+void victoire(int* score) {
+    printf("\n \t== Vous avez gagné ! ==\n");
+    printf("\n \tScore=%d\n", *score);
+    sleep(2);
+    printf("\nRetour au menu principal...\n");
+    sleep(2);
+}
+
 void placement_de_defenseur(int carte[][], int taillecarte, int monnaie, Defenseur liste_defenseur[], int nb_defenseur){
         int placer = -1; //quand le joueur decidera s'il veut placer un défenseur
         int choix_defenseur = 0;
@@ -248,52 +264,65 @@ void amelioration(int carte[][], int taillecarte, int monnaie, Defenseur liste_d
 }
 
 
+void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis, int* compteur){
+	int attaquant=rand()%3;
+	Attaquant nouv_ennemi;
 
-int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int nb_attaquant){
-  //avancee_vague représente ou on en est dans une vague tandis que numero vague est pour savoir a quelle vague on en est cela donnera donc vague[numero_vague][avancee_vague] pour generer un ennemi
-  
-  if(rand()%4) == 0){ //une chance sur 4 qu'un ennemi apparaisse
-        nb_attaquant+=1;
-        Attaquant nouv_ennemi;
-        int difficulte = rand() % 6;
-        if(difficulte == 0 || difficulte == 1 || difficulte == 2){
-                constructeur_SkieurFrenetique(nouv_ennemi);
-        }
-        else if(difficulte == 3 || difficulte == 4){
-                constructeur_SnowboarderAcrobate(nouv_ennemi);
-        }
-        else if(difficulte == 5){
-                constructeur_LugisteBarjo(nouv_ennemi);
-        }
-        liste_attaquant[nb_attaquant]=nouv_ennemi;
-        }
-        return nb_attaquant;
+	if(attaquant==0){
+		nouv_ennemi=constructeur_SkieurFrenetique(nouv_ennemi);
+		carte[0][debut].type=8;
+	}
+	else if(attaquant==1){
+		nouv_ennemi=constructeur_SnowboarderAcrobate(nouv_ennemi);
+		carte[0][debut].type=9;
+	}
+	else if(attaquant==2){
+		nouv_ennemi=constructeur_LugisteBarjo(nouv_ennemi);
+		carte[0][debut].type=10;
+	}
+	// Ajouter l'ennemi au tableau dynamique
+    	EnnemiActif* temp=(EnnemiActif*)realloc(*ennemis,(*nbEnnemis+1)*sizeof(EnnemiActif));
+   	if (temp==NULL){
+        	printf("Erreur d'allocation mémoire.\n");
+        	free(*ennemis);
+        	exit(1);
+    	}
+    	*ennemis=temp;
+    	(*ennemis)[*nbEnnemis].attaquant=nouv_ennemi;
+    	(*ennemis)[*nbEnnemis].x=0;
+    	(*ennemis)[*nbEnnemis].y=debut;
+    	(*nbEnnemis)++;
+    	
+    	(*compteur)++;
 }
 
 
+void deplacement_attaquant(Case** carte, EnnemiActif* ennemis, int nbEnnemis, int taillecarte){
+    for (int i=0; i<nbEnnemis; i++){
+        int x=ennemis[i].x;
+        int y=ennemis[i].y;
 
-void deplacement_attaquant(int** carte, int i, int j) {
-				
-		if(carte[i][j+1]==8 || carte[i][j+1]==9 || carte[i][j+1]==10) {
-			carte[i][j]=carte[i][j+1];
-			carte[i][j+1]=6;
-			deplacement_attaquant(carte,i,j+1);
-		}	
-		else if(carte[i][j-1]==8 || carte[i][j-1]==9 || carte[i][j-1]==10) {
-			carte[i][j]=carte[i][j-1];
-			carte[i][j-1]=6;
-			deplacement_attaquant(carte,i,j-1);
-		}	
-		else if(i<1) {//deuxieme condition d'arrêt	
-		}
-		else if(carte[i-1][j]==8 || carte[i-1][j]==9 || carte[i-1][j]==10){
-			carte[i][j]=carte[i-1][j];
-			carte[i-1][j]=6;
-			deplacement_attaquant(carte,i-1,j);
-		}
-		else{
-			printf("erreur : deplacement attaquant");
-		}
+        // Sauvegarde le type pour pouvoir déplacer
+        int type_attaquant=carte[x][y].type;
+
+        // Déplacement bas > droite > gauche
+        if (x+1<taillecarte && (carte[x+1][y].type==6 || carte[x+1][y].type==7)){
+            carte[x+1][y].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].x++;
+        }
+        else if (y+1<taillecarte && (carte[x][y+1].type==6 || carte[x][y+1].type==7)){
+            carte[x][y+1].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].y++;
+        }
+        else if (y-1>=0 && (carte[x][y-1].type==6 || carte[x][y-1].type==7)){
+            carte[x][y-1].type=type_attaquant;
+            carte[x][y].type=6;
+            ennemis[i].y--;
+        }
+        // Sinon : ne bouge pas
+    }
 }
 
 /*	while(taillecarte>0) {
