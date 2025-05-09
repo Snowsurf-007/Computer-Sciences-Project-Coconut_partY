@@ -1,19 +1,32 @@
-int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int vagues[][], int numero_vague){
-  //avancee_vague représente ou on en est dans une vague tandis que numero vague est pour savoir a quelle vague on en est cela donnera donc vague[numero_vague][avancee_vague] pour generer un ennemi
-  
-  if(vague[numero_vague][avancee_vague]!=0){
-      nb_attaquant+=1;
-      Attaquant nouv_ennemi;
-      if(vague[numero_vague][avancee_vague]==1){
-          constructeur_SkieurFrenetique(nouv_ennemi);
-      }
-      else if(vague[numero_vague][avancee_vague]==2){
-          constructeur_SnowboarderAcrobate(nouv_ennemi);
-      }
-      else if(vague[numero_vague][avancee_vague]==3){
-          constructeur_LugisteBarjo(nouv_ennemi);
-      }
-      liste_attaquant[nb_attaquant]=nouv_ennemi;
-  }
-  return nb_attaquant;
+
+void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis, int* compteur){
+	int attaquant=rand()%3;
+	Attaquant nouv_ennemi;
+
+	if(attaquant==0){
+		nouv_ennemi=constructeur_SkieurFrenetique(nouv_ennemi);
+		carte[0][debut].type=8;
+	}
+	else if(attaquant==1){
+		nouv_ennemi=constructeur_SnowboarderAcrobate(nouv_ennemi);
+		carte[0][debut].type=9;
+	}
+	else if(attaquant==2){
+		nouv_ennemi=constructeur_LugisteBarjo(nouv_ennemi);
+		carte[0][debut].type=10;
+	}
+	// Ajouter l'ennemi au tableau dynamique
+    	EnnemiActif* temp=(EnnemiActif*)realloc(*ennemis,(*nbEnnemis+1)*sizeof(EnnemiActif));
+   	if (temp==NULL){
+        	printf("Erreur d'allocation mémoire.\n");
+        	free(*ennemis);
+        	exit(1);
+    	}
+    	*ennemis=temp;
+    	(*ennemis)[*nbEnnemis].attaquant=nouv_ennemi;
+    	(*ennemis)[*nbEnnemis].x=0;
+    	(*ennemis)[*nbEnnemis].y=debut;
+    	(*nbEnnemis)++;
+    	
+    	(*compteur)++;
 }
