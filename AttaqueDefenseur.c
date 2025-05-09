@@ -93,7 +93,6 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int nbDefenseurs, 
                         printf("Score actuel : %d\n", *score);
                     }
                 } else {
-                    printf("%s en (%d, %d) esquive l'attaque de %s en (%d, %d) !\n",
                            ennemi.attaquant.emoji, ennemi.x, ennemi.y, def.emoji, def.coordx, def.coordy);
                 }
             }
