@@ -1,4 +1,4 @@
-void amelioration(Case carte[], int taillecarte){
+void amelioration(Case carte[], int taillecarte, int monnaie){
   
 //choix de l'amélioration d'un défenseur
       
