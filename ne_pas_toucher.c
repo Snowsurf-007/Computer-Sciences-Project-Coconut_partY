@@ -384,7 +384,7 @@ int menuDemarrage(){
     printf("Votre choix : ");
     scanf("%d", &choix_menu);
 
-    while (choix_menu < 1 || choix_menu > 2) {
+    while (choix_menu < 1 || choix_menu > 3) {
         printf("\n Veuillez entrer une valeur correcte : \n");
         printf("1 pour démarrer une nouvelle partie \n");
         printf("2 pour reprendre une ancienne partie \n");
@@ -398,7 +398,7 @@ int menuDemarrage(){
 int main() {
     int jeu_en_cours=1; // Variable pour contrôler la boucle principale
 
-    while (jeu_en_cours){
+    while (jeu_en_cours==1){
         int choix_menu=menuDemarrage(); // Affiche le menu principal et récupère le choix
 
         switch (choix_menu){
@@ -407,9 +407,10 @@ int main() {
                 break;
             case 2:
             	//reprendre la partie
+            	break;
             case 3:
                 printf("A plus 👋😊\n");
-                jeu_en_cours = 0; // Quitte la boucle principale
+                jeu_en_cours=0; // Quitte la boucle principale
                 break;
             default:
                 printf("Choix invalide. Veuillez réessayer.\n");
