@@ -429,41 +429,31 @@ void menuDemarrage() {
 	}
 }
 
-int main (){
-        menuDemarrage();
-
-	/*	proposition du menu principal pour éviter les appels récursifs de fonctions 
-	
-		int choix_menu = 0; // Variable pour stocker le choix de l'utilisateur
-		int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
-	
-		while (jeu_en_cours) {
-			printf("\n \t=== MENU PRINCIPAL ===\n");
-			printf("\n \t Nouvelle Partie (1) \t \n");
-			printf("\n \t Quitter (2) \t \n\n");
-			printf("Votre choix : ");
-			scanf("%d", &choix_menu);
-	
-			switch (choix_menu) {
-				case 1:
-					lancerpartie(); // Lance une nouvelle partie
-					break;
-				case 2:
-					printf("A plus 👋😊\n");
-					jeu_en_cours = 0; // Quitte la boucle principale
-					break;
-				default:
-					printf("Choix invalide. Veuillez réessayer.\n");
-			}
-		} */
 
 
 
+int main() {
+    int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
 
+    while (jeu_en_cours) {
+        int choix_menu = menuDemarrage(); // Affiche le menu principal et récupère le choix
 
+        switch (choix_menu) {
+            case 1:
+                lancerpartie(); // Lance une nouvelle partie
+                break;
+            case 2:
+                printf("A plus 👋😊\n");
+                jeu_en_cours = 0; // Quitte la boucle principale
+                break;
+            default:
+                printf("Choix invalide. Veuillez réessayer.\n");
+        }
+    }
 
-        return 0;
+    return 0;
 }
+
 
 /* fonctions modifiées en consequence : 
 
@@ -557,31 +547,6 @@ fin_partie:
         free(carte[i]);
     }
     free(carte);
-}
-
-
-
-
-int main() {
-    int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
-
-    while (jeu_en_cours) {
-        int choix_menu = menuDemarrage(); // Affiche le menu principal et récupère le choix
-
-        switch (choix_menu) {
-            case 1:
-                lancerpartie(); // Lance une nouvelle partie
-                break;
-            case 2:
-                printf("A plus 👋😊\n");
-                jeu_en_cours = 0; // Quitte la boucle principale
-                break;
-            default:
-                printf("Choix invalide. Veuillez réessayer.\n");
-        }
-    }
-
-    return 0;
 }
 
 
