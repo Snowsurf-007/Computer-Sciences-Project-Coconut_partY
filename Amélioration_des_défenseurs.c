@@ -1,4 +1,4 @@
-void amelioration(Case carte[]){
+void amelioration(Case carte[], int taillecarte){
   
 //choix de l'amélioration d'un défenseur
       
@@ -16,7 +16,7 @@ void amelioration(Case carte[]){
                 printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                 scanf("%d", &coord_x);
           
-                while(coord_x > TAILLECARTE || coord_x < 0){
+                while(coord_x > taillecarte || coord_x < 0){
                         printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                         printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                         scanf("%d", &coord_x);
@@ -24,17 +24,17 @@ void amelioration(Case carte[]){
                 printf("Veuillez maintenant choisir la coordonnée y.\n");
                 scanf("%d", &coord_y);
           
-                while(coord_y > TAILLECARTE || coord_y < 0){
+                while(coord_y > taillecarte || coord_y < 0){
                         printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                         printf("Veuillez maintenant choisir la coordonnées y.\n");
                         scanf("%d", &coord_y);
                 }
-                while(carte[x][y].vide == 0){ //tant que la case n'est pas occupée par un défenseur
+                while(carte[coord_x][coord_y].type != 11 || carte[coord_x][coord_y].type != 12 || carte[coord_x][coord_y].type != 13){ //tant que la case n'est pas occupée par un défenseur
                         printf("Il n'y a pas de défenseur a améliorer sur cette case veuillez en choisir une autre.\n");
                         printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                         scanf("%d", &coord_x);
                   
-                        while(coord_x > TAILLECARTE || coord_x < 0){
+                        while(coord_x > taillecarte || coord_x < 0){
                                 printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                 printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                                 scanf("%d", &coord_x);
@@ -42,7 +42,7 @@ void amelioration(Case carte[]){
                         printf("Veuillez maintenant choisir la coordonnée y.\n");
                         scanf("%d", &coord_y);
                   
-                        while(coord_y > TAILLECARTE || coord_y < 0){
+                        while(coord_y > taillecarte || coord_y < 0){
                                 printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                 printf("Veuillez maintenant choisir la coordonnées y.\n");
                                 scanf("%d", &coord_y);
@@ -64,30 +64,30 @@ void amelioration(Case carte[]){
                         
                         printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                         scanf("%d", &coord_x);
-                        while(coord_x > TAILLECARTE || coord_x < 0){
+                        while(coord_x > taillecarte || coord_x < 0){
                                 printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                 printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                                 scanf("%d", &coord_x);
                         }
                         printf("Veuillez maintenant choisir la coordonnée y.\n");
                         scanf("%d", &coord_y);
-                        while(coord_y > TAILLECARTE || coord_y < 0){
+                        while(coord_y > taillecarte || coord_y < 0){
                                 printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                 printf("Veuillez maintenant choisir la coordonnées y.\n");
                                 scanf("%d", &coord_y);
                         }
-                        while(carte[x][y].vide == 0){ //tant que la case n'est pas occupée par un défenseur
+                        while(carte[coord_x][coord_y].type != 11 || carte[coord_x][coord_y].type != 12 || carte[coord_x][coord_y].type != 13){ //tant que la case n'est pas occupée par un défenseur
                                 printf("Il n'y a pas de défenseur a améliorer sur cette case veuillez en choisir une autre.\n");
                                 printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                                 scanf("%d", &coord_x);
-                                while(coord_x > TAILLECARTE || coord_x < 0){
+                                while(coord_x > taillecarte || coord_x < 0){
                                         printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                         printf("Veuillez insérer la coordonnée x du défenseur a améliorer\n");
                                         scanf("%d", &coord_x);
                                 }
                                 printf("Veuillez maintenant choisir la coordonnée y.\n");
                                 scanf("%d", &coord_y);
-                                while(coord_y > TAILLECARTE || coord_y < 0){
+                                while(coord_y > taillecarte || coord_y < 0){
                                         printf("La valeur entrée est incorrecte veuillez réessayer.\n");
                                         printf("Veuillez maintenant choisir la coordonnées y.\n");
                                         scanf("%d", &coord_y);
