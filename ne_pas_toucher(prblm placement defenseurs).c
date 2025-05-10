@@ -493,6 +493,7 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 	    printf("\n \tFlocons = %d\n\n", *monnaie);
 		compteur=0;
 		placement_de_defenseur(*carte, *taillecarte, monnaie, *defenseurs, nbDefenseurs);
+		afficher_carte(*carte, *taillecarte);
 		while ((*carte)[*taillecarte-1][colonneCouronne].type==7){
 		    usleep(400000); // Pause
 
