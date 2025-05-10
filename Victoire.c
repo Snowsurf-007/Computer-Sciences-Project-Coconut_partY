@@ -1,4 +1,4 @@
-void victoire(int* score) {
+void victoire(int* score){
     printf("\n \t== Vous avez gagné ! ==\n");
     printf("\n \tScore=%d\n", *score);
     sleep(2);
