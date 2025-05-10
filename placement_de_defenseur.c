@@ -15,7 +15,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* monnaie, Defense
     }
 
     while (placer==1) {
-        printf("Choisissez le défenseur à placer :\n1 - Pingu-Patrouilleur\n2 - Flocon-Perce-Ciel\n3 - Garde Polaire\n");
+        printf("Choisissez le défenseur à placer :\n1 - Pingu-Patrouilleur(100 flocons)\n2 - Flocon-Perce-Ciel(200 flocons)\n3 - Garde Polaire(150 flocons)\n");
         scanf("%d", &choix_defenseur);
 
         while (choix_defenseur<1 || choix_defenseur>=4) {
@@ -32,7 +32,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* monnaie, Defense
 
         while (*monnaie<nouv_def.prix){
             printf("Flocons insuffisants. Souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
-            printf("Choisissez le défenseur à placer :\n1 - Pingu-Patrouilleur\n2 - Flocon-Perce-Ciel\n3 - Garde Polaire\n");
+            printf("Choisissez le défenseur à placer :\n1 - Pingu-Patrouilleur(100 flocons)\n2 - Flocon-Perce-Ciel(200 flocons)\n3 - Garde Polaire(150 flocons)\n");
             scanf("%d", &placer);
 
             while (placer!=0 && placer!=1){
