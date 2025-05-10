@@ -18,12 +18,6 @@
 #define EMOJI_COURONNE "\xF0\x9F\x91\x91"
 
 typedef struct {
-    int type; // 0=neige, 1=pierre, ..., 13=ours
-    int x;    // ligne
-    int y;    // colonne
-} Case;
-
-typedef struct {
     int portee;
     int degats;
     float vitessetir;
@@ -31,6 +25,13 @@ typedef struct {
     int coordx;
     int coordy;
 } Defenseur;
+
+typedef struct {
+    int type; // 0=neige, 1=pierre, ..., 13=ours
+    int x;    // ligne
+    int y;    // colonne
+    Defenseur defenseur;
+} Case;
 
 typedef struct {
     int vie;
@@ -317,12 +318,12 @@ void chargement(const char* nom_fichier, Case*** carte, int* taillecarte, Defens
     fclose(fichier);
 }
 
-void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseur* defenseurs, int nbDefenseurs, EnnemiActif* ennemis, int nbEnnemis, int score, int monnaie, int vague) {
+void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseur* defenseurs, int nbDefenseurs, EnnemiActif* ennemis, int nbEnnemis, int score, int monnaie, int vague){
     // Ouverture du fichier en mode écriture
-    FILE* fichier = fopen(nom_fichier, "w");
+    FILE* fichier=fopen(nom_fichier, "w");
 
     // Vérification du bon déroulement de l'ouverture
-    if (fichier == NULL) {
+    if (fichier==NULL) {
         printf("Erreur : le fichier %s n'a pas pu être ouvert \n", nom_fichier);
         exit(1);
     }
@@ -331,8 +332,8 @@ void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseu
     fprintf(fichier, "%d\n", taillecarte);
 
     // Sauvegarde de la carte
-    for (int i = 0; i < taillecarte; i++) {
-        for (int j = 0; j < taillecarte; j++) {
+    for (int i=0; i<taillecarte; i++) {
+        for (int j=0; j<taillecarte; j++) {
             fprintf(fichier, "%d ", carte[i][j].type);
         }
         fprintf(fichier, "\n");
@@ -358,29 +359,132 @@ void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseu
     fclose(fichier); // Fermeture du fichier
 }
 
+void placement_de_defenseur(Case** carte, int taillecarte, int* monnaie, Defenseur* liste_defenseur, int* nb_defenseur){
+    int placer=-1; //quand le joueur decidera s'il veut placer un défenseur
+    int choix_defenseur=0;
+    int coord_x=0; //choix de la position du defenseur à placer
+    int coord_y=0;
+    Defenseur nouv_def;
+        
+    //Choix du placement d'un défenseur
+    printf("souhaitez-vous placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+    scanf("%d", &placer);
+    
+    while(placer!=0 && placer!=1){
+        printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+        printf("souhaitez-vous placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+        scanf("%d", &placer);
+    }
+
+    while(placer==1){
+        printf("choisissez le défenseur à placer :\n1 pour le Pingu-Patrouilleur\n");
+        printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
+        scanf("%d", &choix_defenseur);
+            
+        while(choix_defenseur<1 || choix_defenseur>3){
+                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+                scanf("%d", &choix_defenseur);
+                printf("choisissez le défenseur à placer :\n1 pour le Pingu-Patrouilleur\n");
+                printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
+                scanf("%d", &choix_defenseur);
+        }
+
+        if(choix_defenseur==1){
+                nouv_def=constructeur_PinguPatrouilleur(nouv_def);
+        }
+        else if(choix_defenseur==2){
+                nouv_def=constructeur_FloconPerceCiel(nouv_def);
+        }
+        else if(choix_defenseur==3){
+                nouv_def=constructeur_GardePolaire(nouv_def);
+        }
+        else{
+                exit(1);
+        }
+
+        while(*monnaie<nouv_def.prix){
+                printf("monnaie insuffisante, souhaitez vous toujours placer un defenseur ?\n");
+                printf("1 pour oui ou 0 pour non\n");
+                scanf("%d", &placer);
+                    
+                while(placer!=0 || placer!=1){
+                        printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
+                        scanf("%d", &placer);
+                }
+                if(placer==0){
+                        break;
+                }
+                printf("choisissez le défenseur à placer :\n1 pour le Pingu-Patrouilleur\n");
+                printf("2 pour le Flocon_Perce-Ciel\n3 pour le garde polaire\n");
+                scanf("%d", &choix_defenseur);
+        }
+
+        printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
+        scanf("%d", &coord_x);
+
+        while(coord_x>taillecarte || coord_x<0){
+                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
+                printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
+                scanf("%d", &coord_x);
+        }
+
+        printf("Veuillez maintenant choisir la coordonnées y.\n");
+        scanf("%d", &coord_y);
+
+        while(coord_y>taillecarte || coord_y<0){
+                printf("La valeur entrée est incorrecte veuillez réessayer.\n");
+                printf("Veuillez maintenant choisir la coordonnées y.\n");
+                scanf("%d", &coord_y);
+        }
+
+        while(carte[coord_x][coord_y].type!=0 || carte[coord_x][coord_y].type!=1 || carte[coord_x][coord_y].type!=2 || carte[coord_x][coord_y].type!=3){ //la case doit etre une case avec de la neige
+                printf("Impossible de mettre un defenseur sur cette case veuillez en choisir une autre.\n");
+                printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
+                scanf("%d", &coord_x);
+
+                while(coord_x>taillecarte || coord_x<0){
+                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
+                        printf("Où souhaitez-vous placer le défenseur, choisissez une coordonnées x.\n");
+                        scanf("%d", &coord_x);
+                }
+                
+                printf("Veuillez maintenant choisir la coordonnées y.\n");
+                scanf("%d", &coord_y);
+
+                while(coord_y>taillecarte || coord_y<0){
+                        printf("La valeur entrée est incorrecte veuillez réessayer.\n");
+                        printf("Veuillez maintenant choisir la coordonnées y.\n");
+                        scanf("%d", &coord_y);
+                }
+        }
+        monnaie-=carte[coord_x][coord_y].defenseur.prix;
+        carte[coord_x][coord_y].type=choix_defenseur+10;
+        monnaie-=nouv_def.prix;
+        liste_defenseur[*nb_defenseur]=nouv_def;
+        nb_defenseur++;
+        }
+}
+
 void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score, int* monnaie, int* vague) {
-    srand(time(NULL));
     int colonneCouronne, colonneDebut;
     int compteur=0;
-
-    if(*taillecarte==0){
-        // Génération de la carte (entre 25 et 40) et du chemin
-        *taillecarte = rand() % 16 + 25;
-        creer_carte(carte, *taillecarte);
-        creer_chemin(*carte, *taillecarte);
-    }
+    
+    *taillecarte=rand()%16+25;
+    creer_carte(carte, *taillecarte);
+    creer_chemin(*carte, *taillecarte);
+    
     printf("\nPour cette partie, la carte est de taille %d x %d\n", *taillecarte, *taillecarte);
     afficher_carte(*carte, *taillecarte);
 
-    for (int i = 0; i < *taillecarte; i++) {
+    for (int i=0; i<*taillecarte; i++) {
         if ((*carte)[0][i].type == 6) {
-            colonneDebut = i;
+            colonneDebut=i;
             break;
         }
     }
-    for (int j = 0; j < *taillecarte; j++) {
-        if ((*carte)[*taillecarte - 1][j].type == 7) {
-            colonneCouronne = j;
+    for (int j=0; j<*taillecarte; j++) {
+        if ((*carte)[*taillecarte-1][j].type==7) {
+            colonneCouronne=j;
             break;
         }
     }
@@ -388,20 +492,25 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
     generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur);
     afficher_carte(*carte, *taillecarte);
 	
-	for(*vague; *vague<16; (*vague)++){
+	for((*vague); (*vague)<16; (*vague)++){
+	    printf("\n \tScore = %d\n", *score);
+	    printf("\n \tFlocons = %d\n\n", *monnaie);
 		compteur=0;
+		placement_de_defenseur(*carte, *taillecarte, monnaie, *defenseurs, nbDefenseurs);
 		while ((*carte)[*taillecarte-1][colonneCouronne].type==7){
-		    usleep(500000); // Pause
+		    usleep(400000); // Pause
 
 		    deplacement_attaquant(*carte, *ennemis, *nbEnnemis, *taillecarte);
 
 		    // Vérifier si un ennemi atteint la couronne
-		    for (int i = 0; i < *nbEnnemis; i++) {
-                if ((*ennemis)[i].x == *taillecarte - 1 && (*ennemis)[i].y == colonneCouronne) {
+		    for (int i=0; i<*nbEnnemis; i++) {
+                if ((*ennemis)[i].x==*taillecarte-1 && (*ennemis)[i].y==colonneCouronne) {
 		            defaite(score);
         			// Libérer mémoire proprement avant de quitter
         			free(*ennemis);
-        			for (int k = 0; k < *taillecarte; k++) free((*carte)[k]);
+        			for (int k=0; k<*taillecarte; k++){
+						free((*carte)[k]);
+					}
         			free(*carte);
         			return;
 		        }
@@ -464,112 +573,8 @@ void victoire(int* score) {
     sleep(2);
 }
 
-void placement_de_defenseur(Case** carte, int taillecarte, int* monnaie, Defenseur* liste_defenseur, int* nb_defenseur) {
-    int placer = -1; // Quand le joueur décide s'il veut placer un défenseur
-    int choix_defenseur = 0;
-    int coord_x = 0; // Choix de la position du défenseur à placer
-    int coord_y = 0;
-
-    // Choix du placement d'un défenseur
-    printf("Souhaitez-vous placer un défenseur ?\n1 pour oui ou 0 pour non\n");
-    scanf("%d", &placer);
-
-    while (placer != 0 && placer != 1) {
-        printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-        scanf("%d", &placer);
-    }
-
-    while (placer == 1) {
-        printf("Choisissez le défenseur à placer :\n 1 pour le Pingu-Patrouilleur\n");
-        printf("2 pour le Flocon_Perce-Ciel\n3 pour le Garde Polaire\n");
-        scanf("%d", &choix_defenseur);
-
-        while (choix_defenseur != 1 && choix_defenseur != 2 && choix_defenseur != 3) {
-            printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-            scanf("%d", &choix_defenseur);
-        }
-
-        Defenseur nouv_def;
-        if (choix_defenseur == 1) {
-            nouv_def = constructeur_PinguPatrouilleur(nouv_def);
-        } else if (choix_defenseur == 2) {
-            nouv_def = constructeur_FloconPerceCiel(nouv_def);
-        } else if (choix_defenseur == 3) {
-            nouv_def = constructeur_GardePolaire(nouv_def);
-        } else {
-            exit(1);
-        }
-
-        while (*monnaie < nouv_def.prix) {
-            printf("Monnaie insuffisante, souhaitez-vous toujours placer un défenseur ?\n");
-            printf("1 pour oui ou 0 pour non\n");
-            scanf("%d", &placer);
-
-            while (placer != 0 && placer != 1) {
-                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-                scanf("%d", &placer);
-            }
-
-            if (placer == 0) {
-                return;
-            }
-
-            printf("Choisissez le défenseur à placer :\n 1 pour le Pingu-Patrouilleur\n");
-            printf("2 pour le Flocon_Perce-Ciel\n3 pour le Garde Polaire\n");
-            scanf("%d", &choix_defenseur);
-        }
-
-        printf("Où souhaitez-vous placer le défenseur ? Choisissez une coordonnée x.\n");
-        scanf("%d", &coord_x);
-        while (coord_x >= taillecarte || coord_x < 0) {
-            printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-            printf("Où souhaitez-vous placer le défenseur ? Choisissez une coordonnée x.\n");
-            scanf("%d", &coord_x);
-        }
-
-        printf("Veuillez maintenant choisir la coordonnée y.\n");
-        scanf("%d", &coord_y);
-        while (coord_y >= taillecarte || coord_y < 0) {
-            printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-            printf("Veuillez maintenant choisir la coordonnée y.\n");
-            scanf("%d", &coord_y);
-        }
-
-        while (carte[coord_x][coord_y].type != 0 && carte[coord_x][coord_y].type != 1 &&
-               carte[coord_x][coord_y].type != 2 && carte[coord_x][coord_y].type != 3) {
-            printf("Impossible de mettre un défenseur sur cette case, veuillez en choisir une autre.\n");
-            printf("Où souhaitez-vous placer le défenseur ? Choisissez une coordonnée x.\n");
-            scanf("%d", &coord_x);
-            while (coord_x >= taillecarte || coord_x < 0) {
-                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-                printf("Où souhaitez-vous placer le défenseur ? Choisissez une coordonnée x.\n");
-                scanf("%d", &coord_x);
-            }
-
-            printf("Veuillez maintenant choisir la coordonnée y.\n");
-            scanf("%d", &coord_y);
-            while (coord_y >= taillecarte || coord_y < 0) {
-                printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-                printf("Veuillez maintenant choisir la coordonnée y.\n");
-                scanf("%d", &coord_y);
-            }
-        }
-
-        *monnaie -= nouv_def.prix;
-        carte[coord_x][coord_y].type = choix_defenseur + 10; // Défenseur placé sur la carte
-        liste_defenseur[*nb_defenseur] = nouv_def;
-        (*nb_defenseur)++;
-
-        printf("Souhaitez-vous placer un autre défenseur ?\n1 pour oui ou 0 pour non\n");
-        scanf("%d", &placer);
-        while (placer != 0 && placer != 1) {
-            printf("La valeur entrée est incorrecte, veuillez réessayer.\n");
-            scanf("%d", &placer);
-        }
-    }
-}
-
 int main() {
+    srand(time(NULL));
     int jeu_en_cours=1; // Variable pour contrôler la boucle principale
     // Initialisation des variables
     Case** carte=NULL; 
