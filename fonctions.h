@@ -23,12 +23,19 @@
 #define TAILLECHAINE 16
 
 // On définit les structures
-typedef struct{
-    int type; // 0=neige, 1=pierre, ..., 13=ours
-    int x;    // ligne
-    int y;    // colonne
-    Defenseur defenseur;
-}Case;
+typedef enum{// Enum pour les types de cases
+    NEIGE=0,
+    PIERRE,
+    SAPIN,
+    DRAPEAU,
+    COURONNE,
+    SKIEUR,
+    SNOWBOARDER,
+    LUGISTE,
+    PINGOUIN,
+    BONHOMMENEIGE,
+    OURS
+} TypeCase;
 
 typedef struct{
         int portee;
@@ -38,6 +45,13 @@ typedef struct{
         int coordx;
         int coordy;
 }Defenseur;
+
+typedef struct{
+    int type; // 0=neige, 1=pierre, ..., 13=ours
+    int x;    // ligne
+    int y;    // colonne
+    Defenseur defenseur;
+}Case;
 
 typedef struct{
         int vie;
