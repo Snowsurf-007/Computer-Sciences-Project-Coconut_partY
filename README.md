@@ -29,7 +29,7 @@ Opération Flocon est un jeu de tower defense se déroulant dans un univers hive
 - Direction du chemin : de haut en bas
 - Taille de la carte : aléatoire entre 25 et 40 (matrice carrée)
 - Fin de partie : 
-        - fin du jeu des qu'un attaquantt touche la couronne
+        - fin du jeu des qu'un attaquant touche la couronne
  
 5.Phases du jeu
 
@@ -44,8 +44,7 @@ Opération Flocon est un jeu de tower defense se déroulant dans un univers hive
 - Sauvegarde/reprise (optionnelle)
 
 6.Compilation & Exécution
-
-```bash
+dans le terminal :
+git clone https://github.com/Snowsurf-007/Computer-Sciences-Project_Operation-Flocon
+cd Computer-Sciences-Project_Operation-Flocon
 make
-./coconut_party
-
