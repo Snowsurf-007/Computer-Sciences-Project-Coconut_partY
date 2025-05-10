@@ -35,7 +35,7 @@ void lancerpartie() {
 	for(vague; vague<16; vague++){
 		compteur=0;
 		while (carte[taillecarte-1][colonneCouronne].type==7){
-		    usleep(500000); // Pause
+		    usleep(400000); // Pause
 
 		    deplacement_attaquant(carte, ennemis, nbEnnemis, taillecarte);
 
