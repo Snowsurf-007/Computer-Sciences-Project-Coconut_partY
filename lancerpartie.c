@@ -23,7 +23,6 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
     }
 
     generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur);
-    afficher_carte(*carte, *taillecarte);
 	
 	for((*vague); (*vague)<16; (*vague)++){
 	    printf("\n \tScore = %d\n", *score);
