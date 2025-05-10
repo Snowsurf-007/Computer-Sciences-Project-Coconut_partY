@@ -8,7 +8,7 @@ void creer_chemin(Case** carte, int taillecarte){
     for (int i=2; i<taillecarte-1; i++) {
         do {
             direction=rand()%3-1;
-        } while (directionprecedente==-direction);
+        }while (directionprecedente==-direction);
 
         directionprecedente=direction;
         int nouvellecolonne=j+direction;
