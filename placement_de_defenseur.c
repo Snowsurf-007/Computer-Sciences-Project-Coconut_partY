@@ -44,7 +44,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* monnaie, Defense
                 return;
             }
 
-            printf("Choisissez un défenseur à placer :\n1 - Pingu-Patrouilleur\n2 - Flocon-Perce-Ciel\n3 - Garde Polaire\n");
+            printf("Choisissez un défenseur à placer :\n1 - Pingu-Patrouilleur(100 flocons)\n2 - Flocon-Perce-Ciel(200 flocons)\n3 - Garde Polaire(150 flocons)\n");
             scanf("%d", &choix_defenseur);
         }
 
