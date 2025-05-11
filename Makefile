@@ -15,7 +15,7 @@ CFLAGS = -Wall -Wextra -std=c11
 
 all: $(EXEC)
 
-$(EXEC): $(OBJS)
+$(EXEC): $(OBJS) fonctions.h
 	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
 
 #nettoyage des fichiers objets
