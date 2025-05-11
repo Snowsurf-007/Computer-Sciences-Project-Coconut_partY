@@ -19,11 +19,12 @@ LDFLAGS = -lm
 all: $(EXEC)
 
 $(EXEC): $(OBJS) biblio.h
-    $(CC) $(CFLAGS) -o $(EXEC) $(OBJS) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS) $(LDFLAGS)
 
 # Nettoyage des fichiers objets
 clean:
-    rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJS) $(EXEC)
 
 # Force la recompilation complète
 rebuild: clean all
+
