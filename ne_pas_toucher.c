@@ -18,6 +18,9 @@
 #define EMOJI_LUGISTE "\xF0\x9F\x9B\xB7"
 #define EMOJI_COURONNE "\xF0\x9F\x91\x91"
 
+#define MAX_LIGNE 10
+#define MAX_COLONNE 10
+
 // Enum pour les types de cases
 typedef enum{
     NEIGE=0,
@@ -53,6 +56,8 @@ typedef struct{
     int vie;
     float esquive;
     int gain;
+    int coordx;
+    int coordy;
 } Attaquant;
 
 typedef struct {
@@ -101,7 +106,7 @@ Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moy
 
 Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
     a.vie=2000;
-    a.esquive=0;
+    a.esquive=0.01;
     a.gain=50;
     return a;
 }
@@ -121,6 +126,61 @@ void chargement(const char* nom_fichier, Case*** carte, int* taillecarte, Defens
 void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseur* defenseurs, int nbDefenseurs, EnnemiActif* ennemis, int nbEnnemis, int score, int flocons, int vague);
 
 // Définitions des fonctions
+
+// Fonction pour calculer la distance euclidienne entre deux unités
+double calculerDistance(int x1, int y1, int x2, int y2) {
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
+// Fonction pour permettre aux défenseurs d'attaquer les attaquants
+void attaquer (Defenseur* defenseur, int nbDefenseurs, Attaquant* attaquants, int nbAttaquants) {
+    for (int i = 0; i < nbDefenseurs; i++) {
+        for (int j = 0; j < nbAttaquants; j++) {
+            if (attaquants[j].vie <= 0) {
+                
+            }
+
+            double distance = calculerDistance(defenseur[i].coordx, defenseur[i].coordy, attaquants[j].coordx, attaquants[j].coordy);
+            if (distance <= defenseur[i].portee) {
+                // L'attaquant est à portée, il subit des dégâts
+                attaquants[j].vie -= defenseur[i].degats;
+
+                if (attaquants[j].vie <= 0) {
+                }
+            }
+        }
+    }
+}
+
+void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int nbDefenseurs, EnnemiActif* ennemis, int nbEnnemis, int* score) {
+    for (int i = 0; i < nbDefenseurs; i++) {
+        Defenseur def = defenseurs[i];
+        for (int j = 0; j < nbEnnemis; j++) {
+            EnnemiActif ennemi = ennemis[j];
+
+            // Vérifie si l'ennemi est encore en vie
+            if (ennemi.attaquant.vie > 0) {
+                // Calcul de la distance entre le défenseur et l'ennemi
+                double distance = sqrt(pow(def.coordx - ennemi.x, 2) + pow(def.coordy - ennemi.y, 2));
+
+                // Si l'ennemi est à portée
+                if (distance <= def.portee) {
+                    // Applique les dégâts au hasard en fonction de l'esquive
+                    if ((rand() % 100) / 100.0 > ennemi.attaquant.esquive) {
+                        ennemis[j].attaquant.vie -= def.degats;
+
+                        // Si l'ennemi est éliminé
+                        if (ennemis[j].attaquant.vie <= 0) {
+                            carte[ennemi.x][ennemi.y].type = 6; // Remet la case à "chemin"
+                            (*score)++; // Incrémente le score
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 void afficher_carte(Case** carte, int taillecarte) {
     printf("    ");
@@ -178,7 +238,7 @@ void afficher_carte(Case** carte, int taillecarte) {
                     printf("%s", EMOJI_OURS);
                     break;
                 default:
-                    exit(5);
+                    exit(1);
             }
         }
         printf("|\n");
@@ -196,7 +256,7 @@ void creer_carte(Case*** carte, int taillecarte) {
         (*carte)[i] = (Case*)malloc(taillecarte * sizeof(Case));
         if ((*carte)[i] == NULL) {
             printf("Erreur d'allocation mémoire\n");
-            exit(1);
+            exit(2);
         }
         for (int j = 0; j < taillecarte; j++) {
             (*carte)[i][j].type = rand() % 6;
@@ -304,7 +364,7 @@ void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEn
    	if (temp==NULL){
         	printf("Erreur d'allocation mémoire.\n");
         	free(*ennemis);
-        	exit(1);
+        	exit(2);
     	}
     	*ennemis=temp;
     	(*ennemis)[*nbEnnemis].attaquant=nouv_ennemi;
@@ -318,7 +378,7 @@ void chargement(const char* nom_fichier, Case*** carte, int* taillecarte, Defens
     FILE* fichier = fopen(nom_fichier, "r");
     if (fichier == NULL) {
         printf("Erreur : le fichier %s n'a pas pu être ouvert \n", nom_fichier);
-        exit(1);
+        exit(3);
     }
 
     fscanf(fichier, "%d", taillecarte);
@@ -360,7 +420,7 @@ void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseu
     // Vérification du bon déroulement de l'ouverture
     if (fichier == NULL) {
         printf("Erreur : le fichier %s n'a pas pu être ouvert \n", nom_fichier);
-        exit(1);
+        exit(3);
     }
 
     // Sauvegarde des dimensions de la carte
@@ -395,111 +455,126 @@ void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseu
 }
 
 void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defenseur* liste_defenseur, int* nb_defenseur) {
-    int placer=-1;
-    int choix_defenseur=0;
-    char coord_x_char;
-    int coord_x_index=0;
-    int coord_y=0;
-    Defenseur nouv_def;
-
-    printf("Souhaitez-vous placer un défenseur ?\n1 pour oui ou 0 pour non\n");
-    scanf("%d", &placer);
-
-    while (placer!=0 && placer!=1) {
-        printf("Valeur incorrecte. Veuillez entrer 1 pour oui ou 0 pour non :\n");
-        scanf("%d", &placer);
-    }
-
-    while (placer==1) {
-        printf("\nChoisissez un défenseur à placer :\n1 - Pingu-Patrouilleur(100 flocons)\n2 - Flocon-Perce-Ciel(200 flocons)\n3 - Garde Polaire(150 flocons)\n");
-        scanf("%d", &choix_defenseur);
-
-        while (choix_defenseur<1 || choix_defenseur>=4) {
-            printf("Valeur incorrecte. Veuillez réessayer :\n");
-            scanf("%d", &choix_defenseur);
+    int placer = -1;
+    
+    do {
+        printf("Souhaitez-vous placer un défenseur ?\n1 pour oui ou 0 pour non\n");
+        if (scanf("%d", &placer) != 1) {
+            printf("Entrée invalide (entier attendu). Fin du programme.\n");
+            exit(4);
         }
 
-        if (choix_defenseur==1) {
-            nouv_def=constructeur_PinguPatrouilleur(nouv_def);
-	}
-        else if (choix_defenseur==2) {
-            nouv_def=constructeur_FloconPerceCiel(nouv_def);
-	}
-        else {
-            nouv_def=constructeur_GardePolaire(nouv_def);
-	}
-
-        while (*flocons<nouv_def.prix){
-            printf("Flocons insuffisants. Souhaitez-vous toujours placer un défenseur ?\n1 pour oui ou 0 pour non\n");
-            printf("\nChoisissez un défenseur à placer :\n1 - Pingu-Patrouilleur(100 flocons)\n2 - Flocon-Perce-Ciel(200 flocons)\n3 - Garde Polaire(150 flocons)\n");
-            scanf("%d", &placer);
-
-            while (placer!=0 && placer!=1){
-                printf("Valeur incorrecte. Réessayez :\n");
-                scanf("%d", &placer);
+        while (placer != 0 && placer != 1) {
+            printf("Valeur incorrecte. Réessayez :\n");
+            if (scanf("%d", &placer) != 1) {
+                printf("Entrée invalide (entier attendu). Fin du programme.\n");
+                exit(4);
             }
-
-            if (placer==0){
-                return;
-            }
-
-            printf("\nChoisissez un défenseur à placer :\n1 - Pingu-Patrouilleur(100 flocons)\n2 - Flocon-Perce-Ciel(200 flocons)\n3 - Garde Polaire(150 flocons)\n");
-            scanf("%d", &choix_defenseur);
         }
 
-        do{
-            // Lecture de la coordonnée X (lettre)
-            do{
-                printf("\nChoisissez une coordonnée x (lettre a-%c) :\n", 'A'+taillecarte-27);
-                scanf(" %c", &coord_x_char);
+        if (placer == 0) {
+            break;
+        }
 
-                if (coord_x_char>='a' && coord_x_char<='z'){
-                    coord_x_index=coord_x_char-'a';
-                }
-                else if (coord_x_char>='A' && coord_x_char<='Z'){
-                    coord_x_index=coord_x_char-'A'+26;
-                }
-                while((coord_x_char<'a' || coord_x_char>'z') && (coord_x_char<'A' || coord_x_char>'Z')){
-                    printf("Lettre invalide, Réessayez.\n");
-                }
-            }while((coord_x_char<'a' || coord_x_char>'z') && (coord_x_char<'A' || coord_x_char>'Z'));
+        int choix_defenseur = 0;
+        Defenseur nouv_def;
 
-            // Lecture de la coordonnée Y (entier)
-            do{
-                printf("\nChoisissez une coordonnée y (entre 0 et %d) :\n", taillecarte);
-                scanf("%d", &coord_y);
-                coord_y=coord_y-1;//index de tableau (0 à taille-1 au lieu de 1 à taille)
-                if (coord_y<0 || coord_y>=taillecarte){
-                    printf("Coordonnée y invalide, Réessayez.\n");
-                }
-            }while(coord_y<0 || coord_y>=taillecarte);
+        // Boucle jusqu'à ce que le joueur choisisse un défenseur qu'il peut se payer
+        do {
+            printf("\nChoisissez un défenseur à placer :\n");
+            printf("1 - Pingu-Patrouilleur (100 flocons)\n");
+            printf("2 - Flocon-Perce-Ciel (200 flocons)\n");
+            printf("3 - Garde Polaire (150 flocons)\n");
 
-            // Vérification case valide pour un défenseur
-            
-            if (carte[coord_y][coord_x_index].type!=0 && carte[coord_y][coord_x_index].type!=1 && carte[coord_y][coord_x_index].type!=2 && carte[coord_y][coord_x_index].type!=3){
-                printf("\nCette case ne contient pas de neige. Choisissez une autre case.\n");
+            if (scanf("%d", &choix_defenseur) != 1) {
+                printf("Entrée invalide. Fin du programme.\n");
+                exit(4);
             }
-        }while(carte[coord_y][coord_x_index].type!=0 && carte[coord_y][coord_x_index].type!=1 && carte[coord_y][coord_x_index].type!=2 && carte[coord_y][coord_x_index].type!=3);
-        
+
+            while (choix_defenseur < 1 || choix_defenseur > 3) {
+                printf("Choix invalide. Réessayez :\n");
+                if (scanf("%d", &choix_defenseur) != 1) {
+                    printf("Entrée invalide. Fin du programme.\n");
+                    exit(4);
+                }
+            }
+
+            // Crée le défenseur selon le choix
+            if (choix_defenseur == 1) {
+                nouv_def = constructeur_PinguPatrouilleur(nouv_def);
+            } 
+            else if (choix_defenseur == 2) {
+                nouv_def = constructeur_FloconPerceCiel(nouv_def);
+            } 
+            else {
+                nouv_def = constructeur_GardePolaire(nouv_def);
+            }
+
+            if (*flocons < nouv_def.prix) {
+                printf("Vous n'avez pas assez de flocons (%d requis, %d disponibles).\n", nouv_def.prix, *flocons);
+                printf("Souhaitez-vous choisir un autre défenseur ?\n1 pour oui ou 0 pour non\n");
+                if (scanf("%d", &placer) != 1 || (placer != 0 && placer != 1)) {
+                    printf("Entrée invalide. Fin du programme.\n");
+                    exit(4);
+                }
+                if (placer == 0) {
+                    return;
+                }
+            }
+
+        } while (*flocons < nouv_def.prix);
+
+        // Lecture coordonnées de placement
+        int coord_x_index = 0, coord_y = 0;
+        char coord_x_char;
+        do {
+            printf("\nChoisissez une coordonnée x (lettre a-%c) :\n", 'A' + taillecarte - 27);
+            while ((getchar()) != '\n'); // Vider le buffer
+            if (scanf("%c", &coord_x_char) != 1) {
+                printf("Entrée invalide. Fin du programme.\n");
+                exit(4);
+            }
+
+            if (coord_x_char >= 'a' && coord_x_char <= 'z') {
+                coord_x_index = coord_x_char - 'a';
+            }
+            else if (coord_x_char >= 'A' && coord_x_char <= 'Z') {
+                coord_x_index = coord_x_char - 'A';
+            }
+            else {
+                coord_x_index = -1;
+            }
+
+        } while (coord_x_index < 0 || coord_x_index >= taillecarte);
+
+        do {
+            printf("Choisissez une coordonnée y (entre 1 et %d) :\n", taillecarte);
+            if (scanf("%d", &coord_y) != 1) {
+                printf("Entrée invalide. Fin du programme.\n");
+                exit(4);
+            }
+            coord_y -= 1;
+        } while (coord_y < 0 || coord_y >= taillecarte);
+
+        if (carte[coord_y][coord_x_index].type != 0 && carte[coord_y][coord_x_index].type != 1 && carte[coord_y][coord_x_index].type != 2 && carte[coord_y][coord_x_index].type != 3) {
+            printf("Cette case n'est pas de la neige. Recommencez.\n");
+            continue;
+        }
+
         // Placement du défenseur
-        carte[coord_y][coord_x_index].type=choix_defenseur+10;
-        carte[coord_y][coord_x_index].defenseur=nouv_def;
-        *flocons-=nouv_def.prix;
-        liste_defenseur[*nb_defenseur]=nouv_def;
+        carte[coord_y][coord_x_index].type = choix_defenseur + 10;
+        carte[coord_y][coord_x_index].defenseur = nouv_def;
+        *flocons -= nouv_def.prix;
+        liste_defenseur[*nb_defenseur] = nouv_def;
         (*nb_defenseur)++;
         
-        // Nouvelle demande de placement
-        printf("\nIl vous reste %d flocons\n",* flocons);
-        printf("Souhaitez-vous placer un autre défenseur ?\n1 pour oui ou 0 pour non\n");
-        scanf("%d", &placer);
-      
+        afficher_carte(carte, taillecarte);
+        
+        printf("\nDéfenseur placé. Il vous reste %d flocons.\n", *flocons);
 
-        while (placer!=0 && placer!=1) {
-            printf("Valeur incorrecte. Réessayez :\n");
-            scanf("%d", &placer);
-        }
-    }
+    } while (placer == 1);
 }
+
 
 void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score, int* flocons, int* vague) {
     
@@ -528,13 +603,10 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
             break;
         }
     }
-
-    generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
 	
 	for(*vague; *vague<11; (*vague)++){
 		compteur=0;
 		placement_de_defenseur(*carte, *taillecarte, flocons, *defenseurs, nbDefenseurs);
-		afficher_carte(*carte, *taillecarte);
 		while ((*carte)[*taillecarte-1][colonneCouronne].type==7){
 		    usleep(400000); // Pause
 			
@@ -564,7 +636,10 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 		sleep(2);
 		do{
 		    printf("Souhaitez-vous sauvegarder la partie ? (o/n)\n");
-                    scanf(" %c", &choix);
+                    if (scanf("%c", &choix) != 1) {
+                        printf("Entrée invalide (lettre attendue). Fin du programme.\n");
+                        exit(4);
+                    }
                     if (choix == 'o') {
                         sauvegarde("sauvegarde.txt", *carte, *taillecarte, *defenseurs, *nbDefenseurs, *ennemis, *nbEnnemis, *score, *flocons, *vague);
                         printf("Partie sauvegardée !\n");
@@ -578,6 +653,7 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
         free((*carte)[i]);
     }
     free(*carte);
+    *carte = NULL;
 }
 
 int menuDemarrage(){
@@ -590,7 +666,10 @@ int menuDemarrage(){
     printf("\n \t Reprendre une partie (2) \t \n");
     printf("\n \t Quitter (3) \t \n\n");
     printf("Votre choix : ");
-    scanf("%d", &choix_menu);
+    if (scanf("%d", &choix_menu) != 1) {
+        printf("Entrée invalide (entier attendu). Fin du programme.\n");
+        exit(4);
+    }
 
     while (choix_menu < 1 || choix_menu > 3) {
         printf("\n Veuillez entrer une valeur correcte : \n");
@@ -598,7 +677,10 @@ int menuDemarrage(){
         printf("2 pour reprendre une ancienne partie \n");
         printf("3 pour quitter le jeu \n");
         printf("Votre choix : ");
-        scanf("%d", &choix_menu);
+        if (scanf("%d", &choix_menu) != 1) {
+                printf("Entrée invalide (entier attendu). Fin du programme.\n");
+                exit(4);
+            }
     }
     return choix_menu; // Retourne le choix de l'utilisateur
 }
@@ -634,7 +716,7 @@ int main() {
     Defenseur* defenseurs=(Defenseur*)malloc(100 * sizeof(Defenseur)); // Pre-allocation d'espace pour 100 defenseurs
     if (defenseurs == NULL) {
         printf("Erreur d'allocation mémoire pour les défenseurs\n");
-        exit(1);
+        exit(2);
     }
 
     while (jeu_en_cours==1){
