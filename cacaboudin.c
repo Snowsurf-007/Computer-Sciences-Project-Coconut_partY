@@ -746,10 +746,12 @@ int main() {
         switch (choix_menu){
             case 1:
                 lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague); // Lance une nouvelle partie
+		system("make");    
                 break;
             case 2:
                 chargement("sauvegarde.txt", &carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague);
                 lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague); // Reprend la partie chargée
+		system("make");    
             break;
             case 3:
                 printf("A plus 👋😊\n");
