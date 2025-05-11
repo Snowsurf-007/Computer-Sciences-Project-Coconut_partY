@@ -17,6 +17,7 @@
 #define EMOJI_SNOWBOARDER "\xF0\x9F\x8F\x82"
 #define EMOJI_LUGISTE "\xF0\x9F\x9B\xB7"
 #define EMOJI_COURONNE "\xF0\x9F\x91\x91"
+#define EMOJI_FLOCON "\xE2\x9D\x84\xEF\xB8\x8F"
 
 #define MAX_LIGNE 10
 #define MAX_COLONNE 10
@@ -68,7 +69,7 @@ typedef struct {
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
     a.portee=5;
-    a.degats=30;
+    a.degats=50;
     a.vitessetir=0.5;
     a.prix=100;
     return a;
@@ -84,7 +85,7 @@ Defenseur constructeur_FloconPerceCiel(Defenseur a){
 
 Defenseur constructeur_GardePolaire(Defenseur a){
     a.portee=2;
-    a.degats=70;
+    a.degats=100;
     a.vitessetir=1;
     a.prix=150;
     return a;
@@ -107,7 +108,7 @@ Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moy
 Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
     a.vie=2000;
     a.esquive=0.01;
-    a.gain=50;
+    a.gain=40;
     return a;
 }
 
@@ -486,9 +487,9 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
         // Boucle jusqu'à ce que le joueur choisisse un défenseur qu'il peut se payer
         do {
             printf("\n\t Choisissez un défenseur à placer :\n");
-            printf("\t 1 - Pingu-Patrouilleur (100 flocons)\n");
-            printf("\t 2 - Flocon-Perce-Ciel (200 flocons)\n");
-            printf("\t 3 - Garde Polaire (150 flocons)\n");
+            printf("\t 1 - Pingu-Patrouilleur (100 %s )\n", EMOJI_FLOCON);
+            printf("\t 2 - Flocon-Perce-Ciel (200 %s )\n", EMOJI_FLOCON);
+            printf("\t 3 - Garde Polaire (150 %s )\n", EMOJI_FLOCON);
             printf("\t Votre choix : ");
 
             if (scanf(" %d", &choix_defenseur) != 1) {
@@ -517,7 +518,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
             }
 
             if (*flocons < nouv_def.prix) {
-                printf("\t Vous n'avez pas assez de flocons (%d requis, %d disponibles).\n", nouv_def.prix, *flocons);
+                printf("\t Vous n'avez pas assez de flocons(%s ) (%d requis, %d disponibles).\n",EMOJI_FLOCON, nouv_def.prix, *flocons);
                 printf("\t Souhaitez-vous choisir un autre défenseur ?\n1 pour oui ou 0 pour non\n");
                 printf("\t Votre choix : ");
                 
@@ -581,7 +582,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
         
         afficher_carte(carte, taillecarte);
         
-        printf("\n\t Défenseur placé. Il vous reste %d flocons.\n", *flocons);
+        printf("\n\t Défenseur placé. Il vous reste %d %s .\n", *flocons, EMOJI_FLOCON);
 
     } while (placer == 1);
 }
