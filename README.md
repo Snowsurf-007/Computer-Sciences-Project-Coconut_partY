@@ -50,7 +50,7 @@ La carte est générée **aléatoirement** à chaque partie avec un **chemin uni
 
 ---
 
-## 🛹️ **Phases du jeu**
+## 🕹️ **Phases du jeu**
 
 1. **Menu principal** : Démarrer / Reprendre / Quitter
 2. **Génération de la carte**
