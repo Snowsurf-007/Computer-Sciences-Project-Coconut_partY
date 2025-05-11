@@ -46,7 +46,7 @@ La carte est générée **aléatoirement** à chaque partie avec un **chemin uni
 
 * 📍 **Direction du chemin** : de haut en bas
 * 📏 **Taille de la carte** : aléatoire entre **25x25** et **40x40**
-* 🖚️ **Fin de partie** : le jeu se termine dès qu’un attaquant atteint la couronne
+* 👑 **Fin de partie** : le jeu se termine dès qu’un attaquant atteint la couronne
 
 ---
 
