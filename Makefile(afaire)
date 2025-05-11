@@ -1,9 +1,26 @@
-CC=gcc
-SRC=$(wildcard*.c)
-OBJ=$(SRC:.c=.o)
-all:projet
+//nom de l'executable
+EXEC = operation_flocon
 
-projet:$(OBJ)
-        $(CC).$^-o$@
-%.o:%.c
-        $(CC)-c$<-o$@
+//fichier source
+SRCS = main.c fonction.c interface_utilisateur.c
+
+//fichier objets
+OBJS = $(SRCS:.c=.o)
+
+//le compilateur
+CC=gcc
+
+//option de compilation
+CFLAGS = -Wall -Wextra -std=c11
+
+all: $(EXEC)
+
+$(EXEC): $(OBJS)
+    $(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
+
+//nettoyage des fichiers objets
+clean:
+    rm -f $(OBJS) $(EXEC)
+
+//force la recompilation complete
+rebuild: clean all
