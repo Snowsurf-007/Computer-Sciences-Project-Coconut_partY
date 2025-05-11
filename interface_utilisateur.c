@@ -1,4 +1,4 @@
-#include "interface_utilisateur.h"
+#include "biblio.h"
 
 void afficher_carte(Case** carte, int taillecarte) {
     printf("    ");
