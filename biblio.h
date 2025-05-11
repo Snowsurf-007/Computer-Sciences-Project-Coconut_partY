@@ -77,9 +77,8 @@ Defenseur constructeur_GardePolaire(Defenseur a);
 Attaquant constructeur_SkieurFrenetique(Attaquant a);
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a);
 Attaquant constructeur_LugisteBarjo(Attaquant a);
-double calculerDistance(int x1, int y1, int x2, int y2);
-void attaquer (Defenseur* defenseur, int nbDefenseurs, Attaquant* attaquants, int nbAttaquants);
-void attaquer_defenseurs(Case*** carte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score);
+int calculerDistance(int x1, int y1, int x2, int y2);
+void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs, EnnemiActif* ennemis, int* nbEnnemis, int* score);
 void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defenseur* liste_defenseur, int* nb_defenseur);
 void afficher_carte(Case** carte, int taillecarte);
 void creer_carte(Case*** carte, int taillecarte);
@@ -92,3 +91,4 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 int menuDemarrage();
 void defaite(int* score);
 void victoire(int* score);
+void nettoyer_cache();
