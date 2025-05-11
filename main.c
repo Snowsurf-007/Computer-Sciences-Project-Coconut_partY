@@ -33,7 +33,7 @@ int main() {
                 system("make");
             break;
             case 3:
-                printf("A plus 👋😊\n");
+                printf("\t A plus 👋😊\n");
                 jeu_en_cours=0; // Quitte la boucle principale
                 break;
             default:
