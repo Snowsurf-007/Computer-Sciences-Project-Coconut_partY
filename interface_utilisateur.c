@@ -1,5 +1,3 @@
-#include "biblio.h"
-
 void afficher_carte(Case** carte, int taillecarte) {
     printf("    ");
     for (int i = 0; i < taillecarte; i++) {
@@ -120,12 +118,18 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
             // Crée le défenseur selon le choix
             if (choix_defenseur == 1) {
                 nouv_def = constructeur_PinguPatrouilleur(nouv_def);
+                (*nb_defenseur)++;
+                liste_defenseur[*nb_defenseur-1]=nouv_def;
             } 
             else if (choix_defenseur == 2) {
                 nouv_def = constructeur_FloconPerceCiel(nouv_def);
+                (*nb_defenseur)++;
+                liste_defenseur[*nb_defenseur-1]=nouv_def;
             } 
             else {
                 nouv_def = constructeur_GardePolaire(nouv_def);
+                (*nb_defenseur)++;
+                liste_defenseur[*nb_defenseur-1]=nouv_def;
             }
 
             if (*flocons < nouv_def.prix) {
@@ -155,7 +159,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
                 printf("\t Entrée invalide. Fin du programme.");
                 exit(4);
             }
-
+            
             if (coord_x_char >= 'a' && coord_x_char <= 'z') {
                 coord_x_index = coord_x_char - 'a';
             }
@@ -163,11 +167,12 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
                 coord_x_index = coord_x_char - 'A' + 26;
             }
             else {
-                coord_x_index = -1;
+                //coord_x_index = -1;
             }
-
         } while (coord_x_index < 0 || coord_x_index >= taillecarte);
-
+        
+        liste_defenseur[*nb_defenseur-1].coordx = coord_x_index;
+        
         do {
             printf("\t Choisissez une coordonnée y (entre 1 et %d) :\n", taillecarte);
             printf("\t Votre choix : ");
@@ -178,7 +183,9 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
             }
             coord_y -= 1;
         } while (coord_y < 0 || coord_y >= taillecarte);
-
+        
+        liste_defenseur[*nb_defenseur-1].coordy = coord_y;
+        
         if (carte[coord_y][coord_x_index].type != 0 && carte[coord_y][coord_x_index].type != 1 && carte[coord_y][coord_x_index].type != 2 && carte[coord_y][coord_x_index].type != 3) {
             printf("\t Cette case n'est pas de la neige. Recommencez.\n");
             continue;
@@ -229,11 +236,12 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 	for(; *vague<11; (*vague)++){
 		compteur=0;
 		placement_de_defenseur(*carte, *taillecarte, flocons, *defenseurs, nbDefenseurs);
-		while ((*carte)[*taillecarte-1][colonneCouronne].type==7){
+		generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
+		while ((*carte)[*taillecarte-1][colonneCouronne].type == 7 && *nbEnnemis > 0) {
 		    usleep(400000); // Pause
 			
 		    deplacement_attaquant(*carte, *ennemis, *nbEnnemis, *taillecarte);
-		    //attaquer_defenseurs(carte, defenseurs, nbDefenseurs, ennemis, nbEnnemis, score);
+		    attaquer_defenseurs(*carte, *defenseurs, nbDefenseurs, *ennemis, nbEnnemis, score);
 
 		    // Vérifier si un ennemi atteint la couronne
 		    for (int i = 0; i < *nbEnnemis; i++) {
@@ -256,7 +264,7 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 		    if ((*carte)[0][colonneDebut].type == 6 && compteur<=8){
 		        generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
 		    }
-		    system("clear");
+		    //system("clear");
 		    afficher_carte(*carte, *taillecarte);
 		}
 		printf("\n \tScore=%d\n", *score);
@@ -272,8 +280,10 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
                     if (choix == 'o') {
                         sauvegarde("sauvegarde.txt", *carte, *taillecarte, *defenseurs, *nbDefenseurs, *ennemis, *nbEnnemis, *score, *flocons, *vague);
                         printf("\t Partie sauvegardée !\n");
+                        sleep(2);
+                        return;
                     }
-                }while(choix != 'o' && choix != 'n');
+                } while (choix != 'o' && choix != 'n');
 	}
 	victoire(score);
     // Libération de la mémoire
@@ -331,3 +341,4 @@ void victoire(int* score) {
     printf("\n \tRetour au menu principal...\n");
     sleep(2);
 }
+
