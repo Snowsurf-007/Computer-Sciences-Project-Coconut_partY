@@ -1,4 +1,4 @@
-#include "fonctions.h"
+#include "biblio.h"
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
     a.portee=5;
