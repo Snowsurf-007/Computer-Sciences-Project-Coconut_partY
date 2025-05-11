@@ -1,4 +1,5 @@
 #include "fonctions.h"
+
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
     a.portee=5;
     a.degats=50;
