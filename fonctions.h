@@ -6,24 +6,27 @@
 #include <unistd.h>
 #include <math.h>
 
-// On définit les emojis utilisés pour la carte
-#define EMOJI_NEIGE           "\xE2\x97\xBB\xEF\xB8\x8F"
-#define EMOJI_PIERRE          "\xF0\x9F\xAA\xA8"
-#define EMOJI_DRAPEAU         "\xF0\x9F\x9A\xA9"
-#define EMOJI_SAPIN           "\xF0\x9F\x8C\xB2"
-#define EMOJI_PINGOUIN        "\xF0\x9F\x90\xA7"
-#define EMOJI_BONHOMMENEIGE   "\xE2\x9B\x84"
-#define EMOJI_OURS            "\xF0\x9F\x90\xBB"
-#define EMOJI_SKIEUR          "\xE2\x9B\xB7\xEF\xB8\x8F"
-#define EMOJI_SNOWBOARDER     "\xF0\x9F\x8F\x82"
-#define EMOJI_LUGISTE         "\xF0\x9F\x9B\xB7"
-#define EMOJI_COURONNE        "\xF0\x9F\x91\x91"
+// Définitions des constantes et structures
+#define EMOJI_NEIGE "\xE2\x97\xBB\xEF\xB8\x8F"
+#define EMOJI_PIERRE "\xF0\x9F\xAA\xA8"
+#define EMOJI_DRAPEAU "\xF0\x9F\x9A\xA9"
+#define EMOJI_SAPIN "\xF0\x9F\x8C\xB2"
+#define EMOJI_PINGOUIN "\xF0\x9F\x90\xA7"
+#define EMOJI_BONHOMMENEIGE "\xE2\x9B\x84"
+#define EMOJI_OURS "\xF0\x9F\x90\xBB"
+#define EMOJI_SKIEUR "\xE2\x9B\xB7\xEF\xB8\x8F"
+#define EMOJI_SNOWBOARDER "\xF0\x9F\x8F\x82"
+#define EMOJI_LUGISTE "\xF0\x9F\x9B\xB7"
+#define EMOJI_COURONNE "\xF0\x9F\x91\x91"
+#define EMOJI_FLOCON "\xE2\x9D\x84\xEF\xB8\x8F"
 
 // On définit les constantes
+#define MAX_LIGNE 10
+#define MAX_COLONNE 10
 #define TAILLECHAINE 16
 
 // On définit les structures
-typedef enum{// Enum pour les types de cases
+typedef enum{ // Enum pour les types de cases
     NEIGE=0,
     PIERRE,
     SAPIN,
@@ -38,50 +41,54 @@ typedef enum{// Enum pour les types de cases
 } TypeCase;
 
 typedef struct{
-        int portee;
-        int degats;
-        float vitessetir;
-        int prix;
-        int coordx;
-        int coordy;
-        int niveau;
-}Defenseur;
+    int portee;
+    int degats;
+    float vitessetir;
+    int prix;
+    int coordx;
+    int coordy;
+} Defenseur;
 
 typedef struct{
-    int type; // 0=neige, 1=pierre, ..., 13=ours
+    TypeCase type;
     int x;    // ligne
     int y;    // colonne
     Defenseur defenseur;
-}Case;
+} Case;
 
 typedef struct{
-        int vie;
-        float esquive;
-        int gain;
-}Attaquant;
+    int vie;
+    float esquive;
+    int gain;
+    int coordx;
+    int coordy;
+} Attaquant;
 
 typedef struct {
     Attaquant attaquant;
     int x;
     int y;
-}EnnemiActif;
+} EnnemiActif;
 
-// On définit les fonctions
+// Prototypes des fonctions
 Defenseur constructeur_PinguPatrouilleur(Defenseur a);
 Defenseur constructeur_FloconPerceCiel(Defenseur a);
 Defenseur constructeur_GardePolaire(Defenseur a);
 Attaquant constructeur_SkieurFrenetique(Attaquant a);
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a);
 Attaquant constructeur_LugisteBarjo(Attaquant a);
-void deplacement_attaquant(Case** carte, EnnemiActif*ennemis, int nbEnnemis, int taillecarte);
-int** chargement(const char* nom_fichier, int* ligne, int* colonne);
-void amelioration(Case** carte, int taillecarte, int monnaie);
-void afficher_carte(Case **carte, int taillecarte);
-void creer_carte(Case **carte, int taillecarte);
-void creer_chemin(Case **carte, int taillecarte);
-void defaite();
-void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis, int* compteur);
-//void generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int vagues[][], int numero_vague);
-void lancerpartie ();
-void placement_de_defenseur(Case** carte, int taillecarte, int monnaie);
-void sauvegarde(const char* nom_fichier, int** tab, int ligne, int colonne);
+double calculerDistance(int x1, int y1, int x2, int y2);
+void attaquer (Defenseur* defenseur, int nbDefenseurs, Attaquant* attaquants, int nbAttaquants);
+void attaquer_defenseurs(Case*** carte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score);
+void afficher_carte(Case** carte, int taillecarte);
+void creer_carte(Case*** carte, int taillecarte);
+void creer_chemin(Case** carte, int taillecarte);
+void deplacement_attaquant(Case** carte, EnnemiActif* ennemis, int nbEnnemis, int taillecarte);
+void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis, int* compteur, int* vague);
+void chargement(const char* nom_fichier, Case*** carte, int* taillecarte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score, int* flocons, int* vague);
+void sauvegarde(const char* nom_fichier, Case** carte, int taillecarte, Defenseur* defenseurs, int nbDefenseurs, EnnemiActif* ennemis, int nbEnnemis, int score, int flocons, int vague);
+void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defenseur* liste_defenseur, int* nb_defenseur);
+void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score, int* flocons, int* vague);
+int menuDemarrage();
+void defaite(int* score);
+void victoire(int* score);
