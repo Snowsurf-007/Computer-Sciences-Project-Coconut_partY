@@ -1,4 +1,4 @@
-#include "main.h"
+#include "biblio.h"
 
 int main() {
     system("clear");
