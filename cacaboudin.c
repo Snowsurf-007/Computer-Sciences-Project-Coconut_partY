@@ -262,9 +262,9 @@ void creer_carte(Case*** carte, int taillecarte) {
         }
         for (int j = 0; j < taillecarte; j++) {
             (*carte)[i][j].type = rand() % 6;
-		if (((*carte)[i][j].type == 0) || ((*carte)[i][j].type == 1) || ((*carte)[i][j].type == 2)){
-			(*carte)[i][j].type = 3;
-		}
+	    if (((*carte)[i][j].type == 0) || ((*carte)[i][j].type == 1) || ((*carte)[i][j].type == 2)){
+	        (*carte)[i][j].type = 3;
+	    }
         }
     }
 }
@@ -549,7 +549,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
                 coord_x_index = coord_x_char - 'a';
             }
             else if (coord_x_char >= 'A' && coord_x_char <= 'Z') {
-                coord_x_index = coord_x_char - 'A';
+                coord_x_index = coord_x_char - 'A' + 26;
             }
             else {
                 coord_x_index = -1;
@@ -615,7 +615,7 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
         }
     }
 	
-	for(*vague; *vague<11; (*vague)++){
+	for(; *vague<11; (*vague)++){
 		compteur=0;
 		placement_de_defenseur(*carte, *taillecarte, flocons, *defenseurs, nbDefenseurs);
 		while ((*carte)[*taillecarte-1][colonneCouronne].type==7){
