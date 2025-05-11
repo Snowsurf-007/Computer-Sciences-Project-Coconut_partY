@@ -28,16 +28,16 @@
 // On définit les structures
 typedef enum{ // Enum pour les types de cases
     NEIGE=0,
-    PIERRE,
-    SAPIN,
-    DRAPEAU,
-    COURONNE,
-    SKIEUR,
-    SNOWBOARDER,
-    LUGISTE,
-    PINGOUIN,
-    BONHOMMENEIGE,
-    OURS
+    PIERRE=4,
+    SAPIN=5,
+    DRAPEAU=6,
+    COURONNE=7,
+    SKIEUR=8,
+    SNOWBOARDER=9,
+    LUGISTE=10,
+    PINGOUIN=11,
+    BONHOMMENEIGE=12,
+    OURS=13
 } TypeCase;
 
 typedef struct{
