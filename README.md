@@ -1,51 +1,81 @@
-== Operation Flocon ==
+# ❄️ **Opération Flocon** ❄️
 
-1.Description du projet
+*Un tower defense givré en plein cœur des montagnes !*
 
-Opération Flocon est un jeu de tower defense se déroulant dans un univers hivernal. Le joueur doit défendre une couronne centrale contre des vagues d’ennemis composées de skieurs frénétiques, snowboarders acrobates et lugistes barjos. 
-        Pour se défendre, il peut compter sur des pingu-patrouilleurs, des flocons perce-ciel et des garde polaires positionnés stratégiquement sur la carte.
-        La carte de jeu est générée aléatoirement à chaque partie, avec un chemin unique menant à la couronne, que les ennemis empruntent automatiquement. Le joueur peut placer ses défenseurs autour de celui-ci, en tenant compte des contraintes de positionnement.
-        L’objectif principal est de repousser les vagues successives d’ennemis en optimisant la position et le type des défenseurs, tout en gérant les ressources disponibles.
+---
 
+## 🎯 **Description du Projet**
 
-2.Auteurs
+**Opération Flocon** est un jeu de **tower defense** prenant place dans un univers hivernal. Le joueur doit défendre une **couronne centrale** contre des vagues d’ennemis déjantés :
 
-- Maxime MONTEIL
-- Raphaël DUFOUR
-- Lucien LEHEUDRE--EPSTEIN
+* 🍿 Skieurs frénétiques
+* 🎾 Snowboarders acrobates
+* 🛷 Lugistes complètement barjos
 
-3.Fonctionnalités principales
+Pour se défendre, le joueur dispose de :
 
-- Génération de carte 2D
-- Placement des défenseurs par l'utilisateur
-- Déplacement des attaquants sur le chemin automatiquement
-- Attaque automatique des defenseurs (en fonction de la portée de ceux-ci)
-- Système de score (1 par ennemi tué)
-- Sauvegarde et reprise de parties chargés
-- Affichage avec des emojis en terminal (UTF-8)
+* 🐧 **Pingu-patrouilleurs**
+* 🌨️ **Flocons perce-ciel**
+* 🐻‍❄️ **Gardes polaires**
 
-4.Nos Variantes
+La carte est générée **aléatoirement** à chaque partie avec un **chemin unique** menant à la couronne. Le joueur place ses défenseurs autour de ce chemin et doit gérer au mieux ses ressources pour survivre aux vagues successives.
 
-- Direction du chemin : de haut en bas
-- Taille de la carte : aléatoire entre 25 et 40 (matrice carrée)
-- Fin de partie : 
-        - fin du jeu des qu'un attaquant touche la couronne
- 
-5.Phases du jeu
+---
 
-- Menu principal : démarrer / reprendre / quitter
-- Génération de la carte
-- Placement des singes
-- Vagues d'attaque
-   - Déplacement des attaquants
-   - Phase de tir des defenseurs (distance euclidienne et possibilité d'esquive des defenseurs)
-   - Affichage du jeu (toutes les 0.5 secondes)
-- Fin de jeu : victoire/défaite selon la variante
-- Sauvegarde/reprise (optionnelle)
+## 👥 **Auteurs**
 
-6.Compilation & Exécution
+* Maxime **MONTEIL**
+* Raphaël **DUFOUR**
+* Lucien **LEHEUDRE-EPSTEIN**
 
-dans le terminal :
-- git clone https://github.com/Snowsurf-007/Operation-Flocon
-- cd Operation-Flocon
-- make
+---
+
+## 🚀 **Fonctionnalités principales**
+
+* 🗘️ **Génération aléatoire** de cartes 2D
+* 🛡️ **Placement stratégique** des défenseurs par l'utilisateur
+* 🏃‍♂️ **Déplacement automatique** des ennemis le long du chemin
+* 🎯 **Attaques automatiques** des défenseurs (avec portée et précision)
+* 🏆 **Système de score** (+1 point par ennemi éliminé)
+* 📀 **Sauvegarde et reprise** des parties
+* 🎨 **Affichage** en terminal avec **emojis** (UTF-8)
+
+---
+
+## 🌟 **Nos variantes**
+
+* 📍 **Direction du chemin** : de haut en bas
+* 📏 **Taille de la carte** : aléatoire entre **25x25** et **40x40**
+* 🖚️ **Fin de partie** : le jeu se termine dès qu’un attaquant atteint la couronne
+
+---
+
+## 🛹️ **Phases du jeu**
+
+1. **Menu principal** : Démarrer / Reprendre / Quitter
+2. **Génération de la carte**
+3. **Placement** des défenseurs
+4. **Début des vagues** ennemies
+5. **Déplacement** des attaquants
+6. **Phase de tir** des défenseurs (calcul de portée et esquives)
+7. **Affichage** mis à jour toutes les **0.5 secondes**
+8. **Fin de partie** : Victoire ou Défaite
+9. (Optionnel) **Sauvegarde** ou **reprise** de la partie
+
+---
+
+## 🛠️ **Compilation & Exécution**
+
+Ouvrez votre terminal et entrez les commandes suivantes :
+
+```bash
+git clone https://github.com/Snowsurf-007/Operation-Flocon
+cd Operation-Flocon
+make
+```
+
+Et c’est parti pour défendre la couronne ! 👑❄️
+
+---
+
+## 🏔️ **Bonne chance, et que le froid soit avec vous !**
