@@ -44,6 +44,7 @@ typedef struct{
         int prix;
         int coordx;
         int coordy;
+        int niveau;
 }Defenseur;
 
 typedef struct{
@@ -75,9 +76,9 @@ Attaquant constructeur_LugisteBarjo(Attaquant a);
 void deplacement_attaquant(Case** carte, EnnemiActif*ennemis, int nbEnnemis, int taillecarte);
 int** chargement(const char* nom_fichier, int* ligne, int* colonne);
 void amelioration(Case** carte, int taillecarte, int monnaie);
-void afficher_carte(int **carte, int taillecarte);
-void creer_carte(int **carte, int taillecarte);
-void creer_chemin(int **carte, int taillecarte);
+void afficher_carte(Case **carte, int taillecarte);
+void creer_carte(Case **carte, int taillecarte);
+void creer_chemin(Case **carte, int taillecarte);
 void defaite();
 void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis, int* compteur);
 //void generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int vagues[][], int numero_vague);
