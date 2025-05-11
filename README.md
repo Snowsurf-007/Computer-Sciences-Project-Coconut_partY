@@ -47,5 +47,5 @@ Opération Flocon est un jeu de tower defense se déroulant dans un univers hive
 
 dans le terminal :
 - git clone https://github.com/Snowsurf-007/Operation-Flocon
-- cd 
+- cd Operation-Flocon
 - make
