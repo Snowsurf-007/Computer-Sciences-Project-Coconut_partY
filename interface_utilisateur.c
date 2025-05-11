@@ -1,5 +1,292 @@
 #include "interface_utilisateur.h"
 
+void afficher_carte(Case** carte, int taillecarte) {
+    printf("    ");
+    for (int i = 0; i < taillecarte; i++) {
+        if (i < 26) {
+            printf("%c ", 'a' + i);
+        } else {
+            printf("%c ", 'A' + (i - 26));
+        }
+    }
+    printf("\n    ");
+    for (int i = 0; i < taillecarte; i++) {
+        printf("__");
+    }
+    printf("\n");
+
+    for (int i = 0; i < taillecarte; i++) {
+        printf("%02d |", i + 1);
+        for (int j = 0; j < taillecarte; j++) {
+            switch (carte[i][j].type) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    printf("%s ", EMOJI_NEIGE);
+                    break;
+                case 4:
+                    printf("%s", EMOJI_PIERRE);
+                    break;
+                case 5:
+                    printf("%s", EMOJI_SAPIN);
+                    break;
+                case 6:
+                    printf("%s", EMOJI_DRAPEAU);
+                    break;
+                case 7:
+                    printf("%s", EMOJI_COURONNE);
+                    break;
+                case 8:
+                    printf("%s ", EMOJI_SKIEUR);
+                    break;
+                case 9:
+                    printf("%s", EMOJI_SNOWBOARDER);
+                    break;
+                case 10:
+                    printf("%s", EMOJI_LUGISTE);
+                    break;
+                case 11:
+                    printf("%s", EMOJI_PINGOUIN);
+                    break;
+                case 12:
+                    printf("%s", EMOJI_BONHOMMENEIGE);
+                    break;
+                case 13:
+                    printf("%s", EMOJI_OURS);
+                    break;
+                default:
+                    exit(1);
+            }
+        }
+        printf("|\n");
+    }
+    printf("    ");
+    for (int i = 0; i < taillecarte; i++) {
+        printf("‾‾");
+    }
+    printf("\n");
+}
+
+void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defenseur* liste_defenseur, int* nb_defenseur) {
+    int placer = -1;
+    
+    do {
+        printf("\t Souhaitez-vous placer un défenseur ?\n\t 1 pour oui ou 0 pour non\n");
+        printf("\t Votre choix : ");
+        if (scanf(" %d", &placer) != 1) {
+            printf("\t Entrée invalide (entier attendu). Fin du programme.\n");
+            exit(4);
+        }
+
+        while (placer != 0 && placer != 1) {
+            printf("\tValeur incorrecte. Réessayez :\n");
+            printf("\t Votre choix : ");
+            if (scanf(" %d", &placer) != 1) {
+                printf("\tEntrée invalide (entier attendu). Fin du programme.\n");
+                exit(4);
+            }
+        }
+
+        if (placer == 0) {
+            break;
+        }
+
+        int choix_defenseur = 0;
+        Defenseur nouv_def;
+
+        // Boucle jusqu'à ce que le joueur choisisse un défenseur qu'il peut se payer
+        do {
+            printf("\n\t Choisissez un défenseur à placer :\n");
+            printf("\t 1 - Pingu-Patrouilleur (100 %s )\n", EMOJI_FLOCON);
+            printf("\t 2 - Flocon-Perce-Ciel (200 %s )\n", EMOJI_FLOCON);
+            printf("\t 3 - Garde Polaire (150 %s )\n", EMOJI_FLOCON);
+            printf("\t Votre choix : ");
+
+            if (scanf(" %d", &choix_defenseur) != 1) {
+                printf("\t Entrée invalide. Fin du programme.\n");
+                exit(4);
+            }
+
+            while (choix_defenseur < 1 || choix_defenseur > 3) {
+                printf("\t Choix invalide. Réessayez :\n");
+                printf("\t Votre choix : ");
+                if (scanf(" %d", &choix_defenseur) != 1) {
+                    printf("\t Entrée invalide. Fin du programme.\n");
+                    exit(4);
+                }
+            }
+
+            // Crée le défenseur selon le choix
+            if (choix_defenseur == 1) {
+                nouv_def = constructeur_PinguPatrouilleur(nouv_def);
+            } 
+            else if (choix_defenseur == 2) {
+                nouv_def = constructeur_FloconPerceCiel(nouv_def);
+            } 
+            else {
+                nouv_def = constructeur_GardePolaire(nouv_def);
+            }
+
+            if (*flocons < nouv_def.prix) {
+                printf("\t Vous n'avez pas assez de flocons(%s ) (%d requis, %d disponibles).\n",EMOJI_FLOCON, nouv_def.prix, *flocons);
+                printf("\t Souhaitez-vous choisir un autre défenseur ?\n1 pour oui ou 0 pour non\n");
+                printf("\t Votre choix : ");
+                
+                if (scanf(" %d", &placer) != 1 || (placer != 0 && placer != 1)) {
+                    printf("\t Entrée invalide. Fin du programme.\n");
+                    exit(4);
+                }
+                if (placer == 0) {
+                    return;
+                }
+            }
+
+        } while (*flocons < nouv_def.prix);
+
+        // Lecture coordonnées de placement
+        int coord_x_index = 0, coord_y = 0;
+        char coord_x_char;
+        do {
+            printf("\n\t Choisissez une coordonnée x (lettre a-%c) :\n", 'A' + taillecarte - 27);
+            printf("\t Votre choix : ");
+            
+            if (scanf(" %c", &coord_x_char) != 1) {
+                printf("\t Entrée invalide. Fin du programme.");
+                exit(4);
+            }
+
+            if (coord_x_char >= 'a' && coord_x_char <= 'z') {
+                coord_x_index = coord_x_char - 'a';
+            }
+            else if (coord_x_char >= 'A' && coord_x_char <= 'Z') {
+                coord_x_index = coord_x_char - 'A' + 26;
+            }
+            else {
+                coord_x_index = -1;
+            }
+
+        } while (coord_x_index < 0 || coord_x_index >= taillecarte);
+
+        do {
+            printf("\t Choisissez une coordonnée y (entre 1 et %d) :\n", taillecarte);
+            printf("\t Votre choix : ");
+            
+            if (scanf(" %d", &coord_y) != 1) {
+                printf("\t Entrée invalide. Fin du programme.\n");
+                exit(4);
+            }
+            coord_y -= 1;
+        } while (coord_y < 0 || coord_y >= taillecarte);
+
+        if (carte[coord_y][coord_x_index].type != 0 && carte[coord_y][coord_x_index].type != 1 && carte[coord_y][coord_x_index].type != 2 && carte[coord_y][coord_x_index].type != 3) {
+            printf("\t Cette case n'est pas de la neige. Recommencez.\n");
+            continue;
+        }
+
+        // Placement du défenseur
+        carte[coord_y][coord_x_index].type = choix_defenseur + 10;
+        carte[coord_y][coord_x_index].defenseur = nouv_def;
+        *flocons -= nouv_def.prix;
+        liste_defenseur[*nb_defenseur] = nouv_def;
+        (*nb_defenseur)++;
+        
+        afficher_carte(carte, taillecarte);
+        
+        printf("\n\t Défenseur placé. Il vous reste %d %s .\n", *flocons, EMOJI_FLOCON);
+
+    } while (placer == 1);
+}
+
+void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score, int* flocons, int* vague) {
+    
+    int colonneCouronne, colonneDebut;
+    int compteur=0;
+    char choix;
+
+    if(*taillecarte==0){
+        // Génération de la carte (entre 30 et 45) et du chemin
+        *taillecarte = rand() % 16 + 30;
+        creer_carte(carte, *taillecarte);
+        creer_chemin(*carte, *taillecarte);
+    }
+    printf("\n\t Pour cette partie, la carte est de taille %d x %d\n", *taillecarte, *taillecarte);
+    afficher_carte(*carte, *taillecarte);
+
+    for (int i = 0; i < *taillecarte; i++) {
+        if ((*carte)[0][i].type == 6) {
+            colonneDebut = i;
+            break;
+        }
+    }
+    for (int j = 0; j < *taillecarte; j++) {
+        if ((*carte)[*taillecarte - 1][j].type == 7) {
+            colonneCouronne = j;
+            break;
+        }
+    }
+	
+	for(; *vague<11; (*vague)++){
+		compteur=0;
+		placement_de_defenseur(*carte, *taillecarte, flocons, *defenseurs, nbDefenseurs);
+		while ((*carte)[*taillecarte-1][colonneCouronne].type==7){
+		    usleep(400000); // Pause
+			
+		    deplacement_attaquant(*carte, *ennemis, *nbEnnemis, *taillecarte);
+		    //attaquer_defenseurs(carte, defenseurs, nbDefenseurs, ennemis, nbEnnemis, score);
+
+		    // Vérifier si un ennemi atteint la couronne
+		    for (int i = 0; i < *nbEnnemis; i++) {
+                        if ((*ennemis)[i].x == *taillecarte - 1 && (*ennemis)[i].y == colonneCouronne){
+		            defaite(score);
+        		    // Libérer mémoire proprement avant de quitter
+        		    free(*ennemis);
+        		    *ennemis = NULL;
+        		    for (int k = 0; k < *taillecarte; k++){
+        			free((*carte)[k]);
+        			free(*carte);
+        			(*carte)[k] = NULL;
+        			*carte = NULL;
+        			return;
+        		    }
+		        }
+		    }
+
+		    // Génère un nouvel attaquant seulement si la case est vide
+		    if ((*carte)[0][colonneDebut].type == 6 && compteur<=8){
+		        generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
+		    }
+		    system("clear");
+		    afficher_carte(*carte, *taillecarte);
+		}
+		printf("\n \tScore=%d\n", *score);
+		sleep(2);
+		do{
+		    printf("\t Souhaitez-vous sauvegarder la partie ? (o/n)\n");
+		    printf("\t Votre choix : ");
+		    
+                    if (scanf(" %c", &choix) != 1) {
+                        printf("\t Entrée invalide (lettre attendue). Fin du programme.\n");
+                        exit(4);
+                    }
+                    if (choix == 'o') {
+                        sauvegarde("sauvegarde.txt", *carte, *taillecarte, *defenseurs, *nbDefenseurs, *ennemis, *nbEnnemis, *score, *flocons, *vague);
+                        printf("\t Partie sauvegardée !\n");
+                    }
+                }while(choix != 'o' && choix != 'n');
+	}
+	victoire(score);
+    // Libération de la mémoire
+    free(*ennemis);
+    *ennemis = NULL;
+    for (int i = 0; i < *taillecarte; i++) {
+        free((*carte)[i]);
+        (*carte)[i] = NULL;
+    }
+    free(*carte);
+    *carte = NULL;
+}
+
 int menuDemarrage(){
     int choix_menu=0; //Variable pour stocker le choix de l'utilisateur
     
@@ -8,219 +295,39 @@ int menuDemarrage(){
     printf("\n \t=== MENU PRINCIPAL === \n");
     printf("\n \t Nouvelle Partie (1) \t \n");
     printf("\n \t Reprendre une partie (2) \t \n");
-    printf("\n \t Quitter (3) \t \n\n");
-    printf("Votre choix : ");
-    scanf("%d", &choix_menu);
+    printf("\n \t Quitter (3) \t \n");
+    printf("\n \t Votre choix : ");
+    if (scanf(" %d", &choix_menu) != 1) {
+        printf("\t Entrée invalide (entier attendu). Fin du programme.\n");
+        exit(4);
+    }
 
     while (choix_menu < 1 || choix_menu > 3) {
-        printf("\n Veuillez entrer une valeur correcte : \n");
-        printf("1 pour démarrer une nouvelle partie \n");
-        printf("2 pour reprendre une ancienne partie \n");
-        printf("3 pour quitter le jeu \n");
-        printf("Votre choix : ");
-        scanf("%d", &choix_menu);
+        printf("\n \t Veuillez entrer une valeur correcte : \n");
+        printf("\t 1 pour démarrer une nouvelle partie \n");
+        printf("\t 2 pour reprendre une ancienne partie \n");
+        printf("\t 3 pour quitter le jeu \n");
+        printf("\t Votre choix : ");
+        if (scanf(" %d", &choix_menu) != 1) {
+                printf("\t Entrée invalide (entier attendu). Fin du programme.\n");
+                exit(4);
+            }
     }
     return choix_menu; // Retourne le choix de l'utilisateur
 }
 
-
-void afficher_carte(Case** carte, int taillecarte){
-    
-    // On affiche la carte
-    printf("    ");
-    for (int i=0; i<taillecarte; i++){
-    	if(i<26){
-        	printf("%c ", 'a'+i);// minuscules jusqu'à 26
-    	}
-    	else{
-    		printf("%c ", 'A'+(i-26));// majuscules après
-    	}
-    }
-    printf("\n");
-    printf("    ");
-    for (int i=0; i<taillecarte; i++){
-        printf("__");
-    }
-    printf("\n");
-    
-    for (int i=0; i<taillecarte; i++) {
-    	printf("%02d |", i+1);  // Numéro de ligne
-    	for (int j=0; j<taillecarte; j++) {
-    		switch (carte[i][j].type){
-        		case 0:
-        		case 1:
-        		case 2:
-        		case 3:
-           			printf("%s ", EMOJI_NEIGE);
-            			break;
-        		case 4:
-            			printf("%s", EMOJI_PIERRE);
-            			break;
-        		case 5:
-            			printf("%s", EMOJI_SAPIN);
-           			break;
-        		case 6:
-         			printf("%s", EMOJI_DRAPEAU);
-            			break;
-        		case 7:
-            			printf("%s", EMOJI_COURONNE);
-            			break;
-            		case 8:
-            			printf("%s ", EMOJI_SKIEUR);
-            			break;
-            		case 9:
-            			printf("%s", EMOJI_SNOWBOARDER);
-            			break;
-            		case 10:
-            			printf("%s", EMOJI_LUGISTE);
-            			break;
-			case 11:
-            			printf("%s", EMOJI_PINGOUIN);
-            			break;
-			case 12:
-            			printf("%s", EMOJI_BONHOMMENEIGE);
-            			break;
-			case 13:
-            			printf("%s", EMOJI_OURS);
-            			break;
-        		default:
-            			exit(5);
-    		}
-    	}
-    	printf("|\n");
-    	}
-    	printf("    ");
-    	for (int i=0; i<taillecarte; i++){
-    	    printf("‾‾");
-    	}
-    	printf("\n");
+void defaite(int* score) {
+    printf("\n \t== Vous avez perdu ! ==\n");
+    printf("\n \tScore=%d\n", *score);
+    sleep(2);
+    printf("\n \tRetour au menu principal...\n");
+    sleep(2);
 }
 
-void creer_carte(Case** carte, int taillecarte) {
-    for (int i=0; i<taillecarte; i++){
-        carte[i]=(Case*)malloc(taillecarte*sizeof(Case));
-        if (carte[i]==NULL) {
-            printf("Erreur d'allocation mémoire\n");
-            exit(1); //Terminer le programme si l'allocation échoue
-        }
-        for (int j=0; j<taillecarte; j++){
-            carte[i][j].type=rand()%6; //Remplir la carte avec des valeurs aléatoires
-        }
-    }
-}
-void creer_chemin(Case** carte, int taillecarte){
-    int j=rand()%(taillecarte-6)+3; //Colonne de départ
-    int direction, directionprecedente;
-    
-    // Premier mouvement, on va tout droit (vers le bas)
-    direction=0;
-    carte[0][j].type=6; // Placement du drapeau sur la premiere case
-    carte[1][j].type=6; // Placement du drapeau sur la deuxieme case
-    
-    directionprecedente=direction;
-
-    // Créer le chemin en suivant la logique aléatoire mais en garantissant le premier et le dernier mouvement vers le bas
-    for (int i=2; i<taillecarte-1; i++) {
-        //Déplacement latéral aléatoire (mais pas l'opposé de la direction precedente) : -1 (gauche), 0 (tout droit), 1 (droite)
-        do{
-        	direction=rand()%3-1;
-        }while (directionprecedente==-direction);
-        
-        directionprecedente=direction;
-
-        //Calcul de la nouvelle position (temporaire pour vérification)
-        int nouvellecolonne=j+direction;
-
-        //Vérification des bornes
-        if (nouvellecolonne<0){
-            nouvellecolonne=0;
-        }
-        if (nouvellecolonne>=taillecarte){
-            nouvellecolonne=taillecarte-1;
-        }
-
-        //Si on change de colonne, on met un drapeau au dessus de la nouvelle case
-        if (direction!=0 && i>0) {
-            carte[i-1][nouvellecolonne].type=6;
-        }
-
-        //Mise à jour de la position j
-        j=nouvellecolonne;
-
-        //On place le drapeau sur la case actuelle
-        carte[i][j].type=6;
-    }
-    //On place la couronne sur la derniere case en allant tout droit (vers le bas)
-	carte[taillecarte-1][j].type=7;
-}
-
-void lancerpartie() {
-    srand(time(NULL));
-    int taillecarte;
-    int colonneCouronne, colonneDebut;
-    int flocons=120;
-    EnnemiActif* ennemis=NULL;
-    int nbEnnemis=0;
-    int compteur=0, vague=0;
-    int score=0; // Initialisation du score
-
-    // Génération de la carte (entre 25 et 40) et du chemin
-    taillecarte = rand() % 16 + 25;
-    Case** carte = (Case**)malloc(taillecarte * sizeof(Case*));
-    creer_carte(carte, taillecarte);
-    creer_chemin(carte, taillecarte);
-    printf("\nPour cette partie, la carte est de taille %d x %d\n", taillecarte, taillecarte);
-    afficher_carte(carte, taillecarte);
-
-    for (int i = 0; i < taillecarte; i++) {
-        if (carte[0][i].type == 6) {
-            colonneDebut = i;
-            break;
-        }
-    }
-    for (int j = 0; j < taillecarte; j++) {
-        if (carte[taillecarte - 1][j].type == 7) {
-            colonneCouronne = j;
-            break;
-        }
-    }
-
-    generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis, &compteur);
-    afficher_carte(carte, taillecarte);
-	
-	for(vague; vague<16; vague++){
-		compteur=0;
-		while (carte[taillecarte-1][colonneCouronne].type==7){
-		    usleep(500000); // Pause
-
-		    deplacement_attaquant(carte, ennemis, nbEnnemis, taillecarte);
-
-		    // Vérifier si un ennemi atteint la couronne
-		    for (int i = 0; i < nbEnnemis; i++) {
-		        if (ennemis[i].x == taillecarte - 1 && ennemis[i].y == colonneCouronne) {
-		            defaite(&score);
-        			// Libérer mémoire proprement avant de quitter
-        			free(ennemis);
-        			for (int k = 0; k < taillecarte; k++) free(carte[k]);
-        			free(carte);
-        			return;
-		        }
-		    }
-
-		    // Génère un nouvel attaquant seulement si la case est vide
-		    if (carte[0][colonneDebut].type == 6 && compteur<=8){
-		        generer_attaquant(carte, colonneDebut, &ennemis, &nbEnnemis, &compteur);
-		    }
-		    afficher_carte(carte, taillecarte);
-		}
-		printf("\n \tScore=%d\n", score);
-		sleep(2);
-	}
-	victoire(&score);
-    // Libération de la mémoire
-    free(ennemis);
-    for (int i = 0; i < taillecarte; i++) {
-        free(carte[i]);
-    }
-    free(carte);
+void victoire(int* score) {
+    printf("\n \t== Vous avez gagné ! ==\n");
+    printf("\n \tScore=%d\n", *score);
+    sleep(2);
+    printf("\n \tRetour au menu principal...\n");
+    sleep(2);
 }
