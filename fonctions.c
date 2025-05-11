@@ -1,7 +1,5 @@
-#include "biblio.h"
-
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
-    a.portee=5;
+    a.portee=8;
     a.degats=50;
     a.vitessetir=0.5;
     a.prix=100;
@@ -9,7 +7,7 @@ Defenseur constructeur_PinguPatrouilleur(Defenseur a){
 }
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
-    a.portee=10;
+    a.portee=15;
     a.degats=300;
     a.vitessetir=2;
     a.prix=200;
@@ -17,7 +15,7 @@ Defenseur constructeur_FloconPerceCiel(Defenseur a){
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a){
-    a.portee=2;
+    a.portee=3;
     a.degats=100;
     a.vitessetir=1;
     a.prix=150;
@@ -45,56 +43,66 @@ Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
     return a;
 }
 
-// Fonction pour calculer la distance euclidienne entre deux unités
-double calculerDistance(int x1, int y1, int x2, int y2) {
-    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+void nettoyer_cache() {
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF); // Nettoyer le buffer
+    // Cela consommera tous les caractères jusqu'à ce qu'une nouvelle ligne ou une fin de fichier (EOF) soit trouvée.
 }
 
-// Fonction pour permettre aux défenseurs d'attaquer les attaquants
-void attaquer (Defenseur* defenseur, int nbDefenseurs, Attaquant* attaquants, int nbAttaquants) {
-    for (int i = 0; i < nbDefenseurs; i++) {
-        for (int j = 0; j < nbAttaquants; j++) {
-            if (attaquants[j].vie <= 0) {
-                
-            }
-
-            double distance = calculerDistance(defenseur[i].coordx, defenseur[i].coordy, attaquants[j].coordx, attaquants[j].coordy);
-            if (distance <= defenseur[i].portee) {
-                // L'attaquant est à portée, il subit des dégâts
-                attaquants[j].vie -= defenseur[i].degats;
-
-                if (attaquants[j].vie <= 0) {
-                    
-                }
-            }
-        }
+// Fonction pour calculer la distance de manhattan entre deux unités
+int calculerDistance(int x1, int y1, int x2, int y2) {
+    int dis = 0;
+    int disx = (x2 - x1);
+    int disy = (y2 - y1);
+    if (disx < 0) {
+        disx = -disx;
     }
+    if (disy < 0) {
+        disy = -disy;
+    }
+    dis = disx + disy;
+    return dis;
 }
 
-void attaquer_defenseurs(Case*** carte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score) {
+void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs, EnnemiActif* ennemis, int* nbEnnemis, int* score) {
     for (int i = 0; i < *nbDefenseurs; i++) {
-        Defenseur def = **(defenseurs + i);
+        Defenseur* def = &defenseurs[i]; // Pointeur vers le défenseur actuel
         for (int j = 0; j < *nbEnnemis; j++) {
-            EnnemiActif ennemi = **(ennemis + j);
+            EnnemiActif* ennemi = &ennemis[j]; // Ennemi actuel
 
-            // Vérifie si l'ennemi est encore en vie
-            if (ennemi.attaquant.vie > 0) {
-                // Calcul de la distance entre le défenseur et l'ennemi
-                double distance = sqrt(pow(def.coordx - ennemi.x, 2) + pow(def.coordy - ennemi.y, 2));
+            if (ennemi->attaquant.vie <= 0) {
+                printf("DEBUG3\n");
+                continue;
+            }
 
-                // Si l'ennemi est à portée
-                if (distance <= def.portee) {
-                    // Applique les dégâts au hasard en fonction de l'esquive
-                    if ((rand() % 100) / 100.0 > ennemi.attaquant.esquive) {
-                        ennemis[j]->attaquant.vie -= def.degats;
+            // Calcul de la distance entre le défenseur et l'ennemi
+            // Calcul de la distance entre le défenseur et l'ennemi
+            float distance = calculerDistance(def->coordx, def->coordy, ennemi->x, ennemi->y);
 
-                        // Si l'ennemi est éliminé
-                        if (ennemis[j]->attaquant.vie <= 0) {
-                            carte[ennemi.x][ennemi.y]->type = 6; // Remet la case à "chemin"
-                            (*score)++; // Incrémente le score
+            // Si l'ennemi est à portée
+            if (distance <= def->portee) {
+                //printf("  Ennemi %d est à portée du défenseur %d.\n", j, i);
+                // Applique les dégâts en fonction de l'esquive
+               
+                if ((rand() % 99 +1) / 100.0 > ennemi->attaquant.esquive) {
+                    
+                    ennemi->attaquant.vie -= def->degats;
+                    printf("  PV après attaque : %d\n", ennemi->attaquant.vie);
+                    // Si l'ennemi est éliminé
+                    if (ennemi->attaquant.vie <= 0) {
+                        int x1 = ennemi->x;
+                        int y1 = ennemi->y;
+                        carte[x1][y1].type = 6; // Remet la case à "chemin"
+                        (*score)++; // Incrémente le score
+
+                        // Supprime l'ennemi de la liste
+                        for (int k = j; k < *nbEnnemis - 1; k++) {
+                            ennemis[k] = ennemis[k + 1];
                         }
+                        (*nbEnnemis)--; // Réduit le nombre d'ennemis
+                        j--; // Réajuste l'indice pour ne pas sauter un ennemi
                     }
-                }
+                } 
             }
         }
     }
