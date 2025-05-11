@@ -34,3 +34,5 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int nbDefenseurs, 
         }
     }
 }
+
+//attaquer_defenseurs(*carte, *defenseurs, *nbDefenseurs, *ennemis, *nbEnnemis, &score); à mettre dans la boucle de lancer partie juste après déplacement attaquant 
