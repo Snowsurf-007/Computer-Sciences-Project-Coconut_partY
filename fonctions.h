@@ -74,15 +74,13 @@ Attaquant constructeur_SnowboarderAcrobate(Attaquant a);
 Attaquant constructeur_LugisteBarjo(Attaquant a);
 void deplacement_attaquant(Case** carte, EnnemiActif*ennemis, int nbEnnemis, int taillecarte);
 int** chargement(const char* nom_fichier, int* ligne, int* colonne);
-void amelioration(Case carte[]);
+void amelioration(Case** carte, int taillecarte, int monnaie);
 void afficher_carte(int **carte, int taillecarte);
 void creer_carte(int **carte, int taillecarte);
 void creer_chemin(int **carte, int taillecarte);
 void defaite();
-int generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int vagues[][], int numero_vague);
-oid lancerpartie ();
-void menuDemarrage();
-void placement_de_defenseur(int carte[][], int taillecarte);
+void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEnnemis, int* compteur);
+//void generer_attaquant(Case carte[], Attaquant liste_attaquant[], int avancee_vague, int vagues[][], int numero_vague);
+void lancerpartie ();
+void placement_de_defenseur(Case** carte, int taillecarte, int monnaie);
 void sauvegarde(const char* nom_fichier, int** tab, int ligne, int colonne);
-
-#endif

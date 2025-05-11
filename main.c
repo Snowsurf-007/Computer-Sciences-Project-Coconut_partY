@@ -1,3 +1,5 @@
+#include "main.h"
+
 int main() {
     srand(time(NULL));
     int jeu_en_cours=1; // Variable pour contrôler la boucle principale
@@ -21,7 +23,8 @@ int main() {
                 lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague); // Lance une nouvelle partie
                 break;
             case 2:
-                chargement("sauvegarde.txt", &carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague);
+                //TODO fix chargement
+                //chargement("sauvegarde.txt", &carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague);
                 lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague); // Reprend la partie chargée
             break;
             case 3:

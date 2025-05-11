@@ -1,26 +1,26 @@
-//nom de l'executable
+#nom de l'executable
 EXEC = operation_flocon
 
-//fichier source
-SRCS = main.c fonction.c interface_utilisateur.c
+#fichier source
+SRCS = main.c fonctions.c interface_utilisateur.c
 
-//fichier objets
+#fichier objets
 OBJS = $(SRCS:.c=.o)
 
-//le compilateur
+#le compilateur
 CC=gcc
 
-//option de compilation
+#option de compilation
 CFLAGS = -Wall -Wextra -std=c11
 
 all: $(EXEC)
 
 $(EXEC): $(OBJS)
-    $(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
+	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
 
-//nettoyage des fichiers objets
+#nettoyage des fichiers objets
 clean:
-    rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJS) $(EXEC)
 
-//force la recompilation complete
+#force la recompilation complete
 rebuild: clean all
