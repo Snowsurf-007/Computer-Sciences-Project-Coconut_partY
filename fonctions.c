@@ -228,7 +228,7 @@ void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEn
 void chargement(const char* nom_fichier, Case*** carte, int* taillecarte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score, int* flocons, int* vague) {
     FILE* fichier = fopen(nom_fichier, "r");
     if (fichier == NULL) {
-        printf("\t Erreur : le fichier %s n'a pas pu être ouvert \n", nom_fichier);
+        printf("\t Erreur : le fichier %s n'existe pas \n", nom_fichier);    
         exit(3);
     }
 
