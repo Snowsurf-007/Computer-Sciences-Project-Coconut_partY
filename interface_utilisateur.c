@@ -1,3 +1,5 @@
+#include "biblio.h"
+
 void afficher_carte(Case** carte, int taillecarte) {
     printf("    ");
     for (int i = 0; i < taillecarte; i++) {
