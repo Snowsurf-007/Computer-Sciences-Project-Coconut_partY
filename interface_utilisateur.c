@@ -169,9 +169,11 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
                 coord_x_index = coord_x_char - 'A' + 26;
             }
             else {
-                //coord_x_index = -1;
+                coord_x_index = -1;
             }
         } while (coord_x_index < 0 || coord_x_index >= taillecarte);
+        
+        nouv_def.coordx = coord_x_index;
         
         liste_defenseur[*nb_defenseur-1].coordx = coord_x_index;
         
@@ -185,6 +187,8 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
             }
             coord_y -= 1;
         } while (coord_y < 0 || coord_y >= taillecarte);
+        
+        nouv_def.coordy = coord_y;
         
         liste_defenseur[*nb_defenseur-1].coordy = coord_y;
         
