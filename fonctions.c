@@ -23,19 +23,19 @@ Defenseur constructeur_GardePolaire(Defenseur a) {
 }
 
 Attaquant constructeur_SkieurFrenetique(Attaquant a) { // Attaquant rapide et faible
-    a.vie=300;
+    a.vie=400;
     a.gain=20;
     return a;
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a) { // Attaquant vitesse moyenne, vie moyenne
-    a.vie=600;
+    a.vie=800;
     a.gain=30;
     return a;
 }
 
 Attaquant constructeur_LugisteBarjo(Attaquant a) { // Attaquant lent et résistant
-    a.vie=2000;
+    a.vie=1600;
     a.gain=50;
     return a;
 }
@@ -55,16 +55,16 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs,
 
     for (int i = 0; i < *nbDefenseurs; i++) {
        	Defenseur def = defenseurs[i]; // Pointeur vers le défenseur actuel
+       	
         for (int j = 0; j < *nbEnnemis; j++) {
             EnnemiActif* ennemi = &ennemis[j]; // Ennemi actuel
-
             if (ennemi->attaquant.vie <= 0) {
                 continue;
             }
 
             // Calcul de la distance entre le défenseur et l'ennemi
             int distance = calculerDistance(def.coordx, def.coordy, ennemi->x, ennemi->y);
-		
+	    
             // Si l'ennemi est à portée
             if (distance <= def.portee) {
                     
@@ -75,7 +75,7 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs,
                     int x1 = ennemi->x;
                     int y1 = ennemi->y;
                     
-                    carte[x1][y1].type = 6; // Remet la case à "chemin"
+                    carte[y1][x1].type = 6; // Remet la case à "chemin"
                     (*score)++; // Incrémente le score
 
                     // Supprime l'ennemi de la liste
@@ -84,7 +84,7 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs,
                     }
                     
                     (*nbEnnemis)--; // Réduit le nombre d'ennemis
-                    j--; // Réajuste l'indice pour ne pas sauter un ennemi
+                    //j--; // Réajuste l'indice pour ne pas sauter un ennemi
                 }
             } 
         }
@@ -152,23 +152,23 @@ void deplacement_attaquant(Case** carte, EnnemiActif* ennemis, int nbEnnemis, in
         int y = ennemis[i].y;
 
         // Sauvegarde le type pour pouvoir déplacer
-        int type_attaquant = carte[x][y].type;
+        int type_attaquant = carte[y][x].type;
 
         // Déplacement bas > droite > gauche
-        if (x+1 < taillecarte && (carte[x+1][y].type == 6 || carte[x+1][y].type == 7)){
-            carte[x+1][y].type = type_attaquant;
-            carte[x][y].type = 6;
-            ennemis[i].x++;
-        }
-        else if (y+1 < taillecarte && (carte[x][y+1].type == 6 || carte[x][y+1].type == 7)){
-            carte[x][y+1].type = type_attaquant;
-            carte[x][y].type = 6;
+        if (y+1 < taillecarte && (carte[y+1][x].type == 6 || carte[y+1][x].type == 7)){
+            carte[y+1][x].type = type_attaquant;
+            carte[y][x].type = 6;
             ennemis[i].y++;
         }
-        else if (y-1>=0 && (carte[x][y-1].type==6 || carte[x][y-1].type==7)){
-            carte[x][y-1].type=type_attaquant;
-            carte[x][y].type=6;
-            ennemis[i].y--;
+        else if (x+1 < taillecarte && (carte[y][x+1].type == 6 || carte[y][x+1].type == 7)){
+            carte[y][x+1].type = type_attaquant;
+            carte[y][x].type = 6;
+            ennemis[i].x++;
+        }
+        else if (x-1>=0 && (carte[y][x-1].type==6 || carte[y][x-1].type==7)){
+            carte[y][x-1].type=type_attaquant;
+            carte[y][x].type=6;
+            ennemis[i].x--;
         }
     }
 }
@@ -212,8 +212,8 @@ void generer_attaquant(Case** carte, int debut, EnnemiActif** ennemis, int* nbEn
     EnnemiActif* nouveau = &pool[*nbEnnemis];
 
     nouveau->attaquant = nouv_ennemi;
-    nouveau->x = 0;
-    nouveau->y = debut;
+    nouveau->x = debut;
+    nouveau->y = 0;
 
     ennemis[*nbEnnemis] = nouveau;
 
