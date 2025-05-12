@@ -1,7 +1,7 @@
 #include "biblio.h"
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
-    a.portee=8;
+    a.portee=10;
     a.degats=50;
     a.prix=100;
     return a;
@@ -9,13 +9,13 @@ Defenseur constructeur_PinguPatrouilleur(Defenseur a){
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
     a.portee=15;
-    a.degats=300;
+    a.degats=30;
     a.prix=200;
     return a;
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a){
-    a.portee=3;
+    a.portee=6;
     a.degats=100;
     a.prix=150;
     return a;
