@@ -211,8 +211,6 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
         carte[coord_y][coord_x_index].type = choix_defenseur + 10;
         carte[coord_y][coord_x_index].defenseur = nouv_def;
         *flocons -= nouv_def.prix;
-        liste_defenseur[*nb_defenseur] = nouv_def;
-        (*nb_defenseur)++;
         
         afficher_carte(carte, taillecarte);
         
