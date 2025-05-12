@@ -20,8 +20,14 @@ void afficher_carte(Case** carte, int taillecarte) {
         for (int j = 0; j < taillecarte; j++) {
             switch (carte[i][j].type) {
                 case 0:
+		    printf("%s ", EMOJI_NEIGE);
+                    break;
                 case 1:
+		    printf("%s ", EMOJI_NEIGE);
+                    break;
                 case 2:
+		    printf("%s ", EMOJI_NEIGE);
+                    break;
                 case 3:
                     printf("%s ", EMOJI_NEIGE);
                     break;
