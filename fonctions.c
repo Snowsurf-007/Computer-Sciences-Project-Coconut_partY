@@ -22,13 +22,13 @@ Defenseur constructeur_GardePolaire(Defenseur a){
 }
 
 Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
-    a.vie=250;
+    a.vie=400;
     a.esquive=0.15;
     return a;
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
-    a.vie=500;
+    a.vie=800;
     a.esquive=0.30;
     return a;
 }
