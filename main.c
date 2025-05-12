@@ -1,3 +1,5 @@
+#include "biblio.h"
+
 int main() {
     system("clear");
     int jeu_en_cours=1; // Variable pour contrôler la boucle principale
