@@ -1,33 +1,34 @@
 #include "biblio.h"
 
+//Affichage de la carte
 void afficher_carte(Case** carte, int taillecarte) {
     printf("    ");
-    for (int i = 0; i < taillecarte; i++) {
+    for (int i = 0; i < taillecarte; i++) { //graduation en lettre de l'axe x
+        
         if (i < 26) {
             printf("%c ", 'a' + i);
-        } else {
+        } 
+        else {
             printf("%c ", 'A' + (i - 26));
         }
     }
     printf("\n    ");
+    
     for (int i = 0; i < taillecarte; i++) {
         printf("__");
     }
+    
     printf("\n");
 
     for (int i = 0; i < taillecarte; i++) {
-        printf("%02d |", i + 1);
+        printf("%02d |", i + 1); //graduation en nombre de l'axe y
+        
         for (int j = 0; j < taillecarte; j++) {
+        
             switch (carte[i][j].type) {
                 case 0:
-		    printf("%s ", EMOJI_NEIGE);
-                    break;
                 case 1:
-		    printf("%s ", EMOJI_NEIGE);
-                    break;
                 case 2:
-		    printf("%s ", EMOJI_NEIGE);
-                    break;
                 case 3:
                     printf("%s ", EMOJI_NEIGE);
                     break;
@@ -68,12 +69,15 @@ void afficher_carte(Case** carte, int taillecarte) {
         printf("|\n");
     }
     printf("    ");
+    
     for (int i = 0; i < taillecarte; i++) {
         printf("‾‾");
     }
+    
     printf("\n");
 }
 
+//Placement des defenseurs
 void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defenseur* liste_defenseur, int* nb_defenseur) {
     int placer = -1;
     
@@ -142,7 +146,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
 
             if (*flocons < nouv_def.prix) {
                 printf("\t Vous n'avez pas assez de flocons(%s ) (%d requis, %d disponibles).\n",EMOJI_FLOCON, nouv_def.prix, *flocons);
-                printf("\t Souhaitez-vous choisir un autre défenseur ?\n1 pour oui ou 0 pour non\n");
+                printf("\t Souhaitez-vous choisir un autre défenseur ?\n \t1 pour oui ou 0 pour non\n");
                 printf("\t Votre choix : ");
                 
                 if (scanf(" %d", &placer) != 1 || (placer != 0 && placer != 1)) {
@@ -199,7 +203,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
         liste_defenseur[*nb_defenseur-1].coordy = coord_y;
         
         if (carte[coord_y][coord_x_index].type != 0 && carte[coord_y][coord_x_index].type != 1 && carte[coord_y][coord_x_index].type != 2 && carte[coord_y][coord_x_index].type != 3) {
-            printf("\t Cette case n'est pas de la neige. Recommencez.\n");
+            printf("\t Cette case n'est pas de la neige. Recommencez.\n\n");
             continue;
         }
 
@@ -217,19 +221,20 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
     } while (placer == 1);
 }
 
+//Fonction de partie
 void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* nbDefenseurs, EnnemiActif** ennemis, int* nbEnnemis, int* score, int* flocons, int* vague) {
     
     int colonneCouronne, colonneDebut;
-    int compteur=0;
+    int compteur = 0;
     char choix;
 
-    if(*taillecarte==0){
+    if(*taillecarte == 0) {
         // Génération de la carte (entre 30 et 45) et du chemin
         *taillecarte = rand() % 16 + 30;
         creer_carte(carte, *taillecarte);
         creer_chemin(*carte, *taillecarte);
     }
-    printf("\n\t Pour cette partie, la carte est de taille %d x %d\n", *taillecarte, *taillecarte);
+    printf("\n\t Pour cette partie, la carte est de taille %d x %d\n\n", *taillecarte, *taillecarte);
     afficher_carte(*carte, *taillecarte);
 
     for (int i = 0; i < *taillecarte; i++) {
@@ -245,11 +250,12 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
         }
     }
 	
-	for(; *vague<11; (*vague)++){
-		compteur=0;
+	for(; *vague < 11; (*vague)++) { //Boucle des vagues
+		compteur = 0;
 		placement_de_defenseur(*carte, *taillecarte, flocons, *defenseurs, nbDefenseurs);
 		generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
-		while ((*carte)[*taillecarte-1][colonneCouronne].type == 7 && *nbEnnemis > 0) {
+		
+		while ((*carte)[*taillecarte-1][colonneCouronne].type == 7 && *nbEnnemis > 0) {//Boucle d'avancement pas a pas (tours)
 		    usleep(400000); // Pause
 			
 		    deplacement_attaquant(*carte, *ennemis, *nbEnnemis, *taillecarte);
@@ -257,18 +263,10 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 
 		    // Vérifier si un ennemi atteint la couronne
 		    for (int i = 0; i < *nbEnnemis; i++) {
+		    
                         if ((*ennemis)[i].x == *taillecarte - 1 && (*ennemis)[i].y == colonneCouronne){
 		            defaite(score);
-        		    // Libérer mémoire proprement avant de quitter
-        		    free(*ennemis);
-        		    *ennemis = NULL;
-        		    for (int k = 0; k < *taillecarte; k++){
-        			free((*carte)[k]);
-        			free(*carte);
-        			(*carte)[k] = NULL;
-        			*carte = NULL;
-        			return;
-        		    }
+        		    return;
 		        }
 		    }
 
@@ -276,11 +274,14 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 		    if ((*carte)[0][colonneDebut].type == 6 && compteur<=8){
 		        generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
 		    }
+		    
+		    system("clear");
 		    afficher_carte(*carte, *taillecarte);
 		}
-		*flocons += 75;
+		(*flocons) += 50;
 		printf("\n \tScore=%d\n", *score);
 		sleep(2);
+		
 		do{
 		    printf("\t Souhaitez-vous sauvegarder la partie ? (o/n)\n");
 		    printf("\t Votre choix : ");
@@ -289,7 +290,8 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
                         printf("\t Entrée invalide (lettre attendue). Fin du programme.\n");
                         exit(4);
                     }
-                    if (choix == 'o') {
+                    
+                    if (choix == 'o') { //appel a la fct sauvegarde pour relancer le jeu plus tard
                         sauvegarde("sauvegarde.txt", *carte, *taillecarte, *defenseurs, *nbDefenseurs, *ennemis, *nbEnnemis, *score, *flocons, *vague);
                         printf("\t Partie sauvegardée !\n");
                         sleep(2);
@@ -299,16 +301,10 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 	}
 	victoire(score);
     // Libération de la mémoire
-    free(*ennemis);
-    *ennemis = NULL;
-    for (int i = 0; i < *taillecarte; i++) {
-        free((*carte)[i]);
-        (*carte)[i] = NULL;
-    }
-    free(*carte);
-    *carte = NULL;
+    
 }
 
+//Interface utilisateur qui demande a l'utilisateur de faire les choix de partie possible
 int menuDemarrage(){
     int choix_menu=0; //Variable pour stocker le choix de l'utilisateur
     
@@ -338,6 +334,7 @@ int menuDemarrage(){
     return choix_menu; // Retourne le choix de l'utilisateur
 }
 
+//Fonction appelée en cas de défaite
 void defaite(int* score) {
     printf("\n \t== Vous avez perdu ! ==\n");
     printf("\n \tScore=%d\n", *score);
@@ -346,6 +343,7 @@ void defaite(int* score) {
     sleep(2);
 }
 
+//Fonction appelée en cas de victoire
 void victoire(int* score) {
     printf("\n \t== Vous avez gagné ! ==\n");
     printf("\n \tScore=%d\n", *score);
