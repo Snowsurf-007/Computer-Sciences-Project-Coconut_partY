@@ -266,7 +266,7 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 		    if ((*carte)[0][colonneDebut].type == 6 && compteur<=8){
 		        generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
 		    }
-		    //system("clear");
+		    system("clear");
 		    afficher_carte(*carte, *taillecarte);
 		}
 		printf("\n \tScore=%d\n", *score);
@@ -343,4 +343,3 @@ void victoire(int* score) {
     printf("\n \tRetour au menu principal...\n");
     sleep(2);
 }
-
