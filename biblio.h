@@ -23,13 +23,8 @@
 #define EMOJI_COURONNE "\xF0\x9F\x91\x91"
 #define EMOJI_FLOCON "\xE2\x9D\x84\xEF\xB8\x8F"
 
-// On définit les constantes
-#define MAX_LIGNE 10
-#define MAX_COLONNE 10
-#define TAILLECHAINE 16
-
-// On définit les structures
-typedef enum{ // Enum pour les types de cases
+//On définit les structures
+typedef enum { //Enumeration pour les types de cases
     NEIGE=0,
     PIERRE=4,
     SAPIN=5,
@@ -43,25 +38,23 @@ typedef enum{ // Enum pour les types de cases
     OURS=13
 } TypeCase;
 
-typedef struct{
+typedef struct {
     int portee;
     int degats;
-    float vitessetir;
     int prix;
     int coordx;
     int coordy;
 } Defenseur;
 
-typedef struct{
+typedef struct {
     TypeCase type;
-    int x;    // ligne
-    int y;    // colonne
+    int x;
+    int y;
     Defenseur defenseur;
 } Case;
 
-typedef struct{
+typedef struct {
     int vie;
-    float esquive;
     int gain;
     int coordx;
     int coordy;
@@ -94,6 +87,5 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 int menuDemarrage();
 void defaite(int* score);
 void victoire(int* score);
-void nettoyer_cache();
 
 #endif // BIBLIO_H
