@@ -72,6 +72,7 @@ Ouvrez votre terminal et entrez les commandes suivantes :
 git clone https://github.com/Snowsurf-007/Operation-Flocon
 cd Operation-Flocon
 make
+./operation_flocon
 ```
 
 Et c’est parti pour défendre la couronne ! 👑❄️
