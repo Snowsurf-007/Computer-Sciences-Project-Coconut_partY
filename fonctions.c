@@ -1,40 +1,40 @@
 #include "biblio.h"
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
-    a.portee=10;
+    a.portee=7;
     a.degats=50;
     a.prix=100;
     return a;
 }
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
-    a.portee=15;
-    a.degats=30;
+    a.portee=10;
+    a.degats=35;
     a.prix=200;
     return a;
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a){
-    a.portee=6;
-    a.degats=100;
+    a.portee=4;
+    a.degats=80;
     a.prix=150;
     return a;
 }
 
 Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
-    a.vie=400;
+    a.vie=300;
     a.esquive=0.15;
     return a;
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
-    a.vie=800;
+    a.vie=600;
     a.esquive=0.30;
     return a;
 }
 
 Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
-    a.vie=2000;
+    a.vie=1200;
     a.esquive=0.01;
     return a;
 }
@@ -63,6 +63,7 @@ int calculerDistance(int x1, int y1, int x2, int y2) {
 void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs, EnnemiActif* ennemis, int* nbEnnemis, int* score) {
     for (int i = 0; i < *nbDefenseurs; i++) {
         Defenseur* def = &defenseurs[i]; // Pointeur vers le défenseur actuel
+        printf("Defender %d: Type=%d, Range=%d, Coords=(%d, %d)\n", i, carte[def->coordy][def->coordx].type, def->portee, def->coordx, def->coordy); // Debug statement
         for (int j = 0; j < *nbEnnemis; j++) {
             EnnemiActif* ennemi = &ennemis[j]; // Ennemi actuel
 
@@ -74,14 +75,16 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs,
             // Calcul de la distance entre le défenseur et l'ennemi
             // Calcul de la distance entre le défenseur et l'ennemi
             float distance = calculerDistance(def->coordx, def->coordy, ennemi->x, ennemi->y);
+            printf("  Distance to enemy %d: %f\n", j, distance); // Debug statement
 
             // Si l'ennemi est à portée
             if (distance <= def->portee) {
+             	printf("  Enemy %d is in range of defender %d\n", j, i); // Debug statement
                 //printf("  Ennemi %d est à portée du défenseur %d.\n", j, i);
                 // Applique les dégâts en fonction de l'esquive
                
                 if ((rand() % 99 +1) / 100.0 > ennemi->attaquant.esquive) {
-                    
+                    printf("  Enemy %d did not evade\n", j); // Debug statement
                     ennemi->attaquant.vie -= def->degats;
                     // Si l'ennemi est éliminé
                     if (ennemi->attaquant.vie <= 0) {
@@ -97,7 +100,13 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs,
                         (*nbEnnemis)--; // Réduit le nombre d'ennemis
                         j--; // Réajuste l'indice pour ne pas sauter un ennemi
                     }
+                    else {
+                    	printf("  Enemy %d evaded the attack\n", j); // Debug statement
+                    }
                 } 
+                else {
+                	printf("  Enemy %d is out of range of defender %d\n", j, i); // Debug statement
+            	}
             }
         }
     }
