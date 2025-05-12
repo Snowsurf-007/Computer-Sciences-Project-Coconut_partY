@@ -2,47 +2,62 @@
 
 int main() {
     system("clear");
-    int jeu_en_cours=1; // Variable pour contrôler la boucle principale
-    srand(time(NULL));   
     // Initialisation des variables
-    Case** carte=NULL; 
-    int taillecarte=0;
-    int nbDefenseurs=0;
-    EnnemiActif* ennemis = NULL;
-    int nbEnnemis=0;
-    int score=0;
-    int flocons=350;
-    int vague=0;
-    Defenseur* defenseurs=(Defenseur*)malloc(100 * sizeof(Defenseur)); // Pre-allocation d'espace pour 100 defenseurs
+    int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
+    srand(time(NULL));   
+    Case** carte = NULL; 
+    int taillecarte = 0;
+    int* ptrtaillecarte = &taillecarte;
+    int nbDefenseurs = 0;
+    EnnemiActif* ennemis[80];
+    int nbEnnemis = 0;
+    int score = 0;
+    int flocons = 150;
+    int vague = 0;
+    Defenseur* defenseurs = (Defenseur*)malloc(100 * sizeof(Defenseur)); // Pre-allocation d'espace pour 100 defenseurs
     if (defenseurs == NULL) {
         printf("\t Erreur d'allocation mémoire pour les défenseurs\n");
         exit(2);
     }
 
-    while (jeu_en_cours==1){
+    while (jeu_en_cours == 1){
         int choix_menu=menuDemarrage(); // Affiche le menu principal et récupère le choix
 
-        switch (choix_menu){
+        switch (choix_menu) {
             case 1:
-                lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague); // Lance une nouvelle partie
+            	remove("sauvegarde.txt");
+                lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, ennemis, &nbEnnemis, &score, &flocons, &vague); // Lance une nouvelle partie
                 system("make");
                 break;
             case 2:
-                chargement("sauvegarde.txt", &carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague);
-                lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, &ennemis, &nbEnnemis, &score, &flocons, &vague); // Reprend la partie chargée
+                chargement("sauvegarde.txt", &carte, &taillecarte, &defenseurs, &nbDefenseurs, ennemis, &nbEnnemis, &score, &flocons, &vague);
+                lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, ennemis, &nbEnnemis, &score, &flocons, &vague); // Reprend la partie chargée
                 system("make");
-            break;
-            case 3:
-                printf("\t A plus 👋😊\n");
-                jeu_en_cours=0; // Quitte la boucle principale
                 break;
+            case 3:
+                printf("\n\t A plus 👋😊\n\n");
+                jeu_en_cours=0; // Quitte la boucle principale
+                free(defenseurs);
+                defenseurs = NULL;
+                return 0;
             default:
                 printf("\t Choix invalide. Veuillez réessayer.\n");
         }
     }
-    
+    // Libération de la mémoire
     free(defenseurs);
     defenseurs = NULL;
     
+    free(*ennemis);
+    *ennemis = NULL;
+    
+    for (int i = 0; i < *ptrtaillecarte; i++) {
+        free(*(carte + i));
+    }
+    
+    free(*carte);
+    *carte = NULL;
+    
     return 0;
+}
 }
