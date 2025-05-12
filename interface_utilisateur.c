@@ -78,7 +78,7 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
     int placer = -1;
     
     do {
-        printf("\t Souhaitez-vous placer un défenseur ?\n\t 1 pour oui ou 0 pour non\n");
+        printf("\t Souhaitez-vous placer un défenseur ?\n\t Vous avez %d %s\n\t 1 pour oui ou 0 pour non\n", *flocons, EMOJI_FLOCON);
         printf("\t Votre choix : ");
         if (scanf(" %d", &placer) != 1) {
             printf("\t Entrée invalide (entier attendu). Fin du programme.\n");
@@ -127,17 +127,17 @@ void placement_de_defenseur(Case** carte, int taillecarte, int* flocons, Defense
             if (choix_defenseur == 1) {
                 nouv_def = constructeur_PinguPatrouilleur(nouv_def);
                 (*nb_defenseur)++;
-                liste_defenseur[*nb_defenseur-1]=nouv_def;
+                liste_defenseur[*nb_defenseur-1] = nouv_def;
             } 
             else if (choix_defenseur == 2) {
                 nouv_def = constructeur_FloconPerceCiel(nouv_def);
                 (*nb_defenseur)++;
-                liste_defenseur[*nb_defenseur-1]=nouv_def;
+                liste_defenseur[*nb_defenseur-1] = nouv_def;
             } 
             else {
                 nouv_def = constructeur_GardePolaire(nouv_def);
                 (*nb_defenseur)++;
-                liste_defenseur[*nb_defenseur-1]=nouv_def;
+                liste_defenseur[*nb_defenseur-1] = nouv_def;
             }
 
             if (*flocons < nouv_def.prix) {
@@ -276,9 +276,9 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 		    if ((*carte)[0][colonneDebut].type == 6 && compteur<=8){
 		        generer_attaquant(*carte, colonneDebut, ennemis, nbEnnemis, &compteur, vague);
 		    }
-		    system("clear");
 		    afficher_carte(*carte, *taillecarte);
 		}
+		*flocons += 75;
 		printf("\n \tScore=%d\n", *score);
 		sleep(2);
 		do{
