@@ -1,10 +1,8 @@
 #include "biblio.h"
-#include <unistd.h>
 
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
     a.portee=8;
     a.degats=50;
-    a.vitessetir=0.5;
     a.prix=100;
     return a;
 }
@@ -12,7 +10,6 @@ Defenseur constructeur_PinguPatrouilleur(Defenseur a){
 Defenseur constructeur_FloconPerceCiel(Defenseur a){
     a.portee=15;
     a.degats=300;
-    a.vitessetir=2;
     a.prix=200;
     return a;
 }
@@ -20,7 +17,6 @@ Defenseur constructeur_FloconPerceCiel(Defenseur a){
 Defenseur constructeur_GardePolaire(Defenseur a){
     a.portee=3;
     a.degats=100;
-    a.vitessetir=1;
     a.prix=150;
     return a;
 }
@@ -28,21 +24,18 @@ Defenseur constructeur_GardePolaire(Defenseur a){
 Attaquant constructeur_SkieurFrenetique(Attaquant a){ //attaquant rapide et faible, petit taux d'esquive 
     a.vie=250;
     a.esquive=0.15;
-    a.gain=20;
     return a;
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a){ //attaquant vitesse moyenne, vie moyenne mais bonne esquive
     a.vie=500;
     a.esquive=0.30;
-    a.gain=30;
     return a;
 }
 
 Attaquant constructeur_LugisteBarjo(Attaquant a){ //attaquant lent et resistant
     a.vie=2000;
     a.esquive=0.01;
-    a.gain=40;
     return a;
 }
 
@@ -90,7 +83,6 @@ void attaquer_defenseurs(Case** carte, Defenseur* defenseurs, int* nbDefenseurs,
                 if ((rand() % 99 +1) / 100.0 > ennemi->attaquant.esquive) {
                     
                     ennemi->attaquant.vie -= def->degats;
-                    printf("  PV après attaque : %d\n", ennemi->attaquant.vie);
                     // Si l'ennemi est éliminé
                     if (ennemi->attaquant.vie <= 0) {
                         int x1 = ennemi->x;
@@ -252,7 +244,9 @@ void chargement(const char* nom_fichier, Case*** carte, int* taillecarte, Defens
 
     for (int i = 0; i < *taillecarte; i++) {
         for (int j = 0; j < *taillecarte; j++) {
-            fscanf(fichier, "%d", &((*carte)[i][j].type));
+        		int type;
+            fscanf(fichier, "%d", &type);
+            (*carte)[i][j].type = (TypeCase)type;
         }
     }
 
