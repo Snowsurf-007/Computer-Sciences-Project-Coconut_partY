@@ -1,3 +1,6 @@
+#ifndef BIBLIO_H
+#define BIBLIO_H
+
 //inclusion des bibliothèques nécessaires
 #include <stdio.h>
 #include <string.h>
@@ -92,3 +95,5 @@ int menuDemarrage();
 void defaite(int* score);
 void victoire(int* score);
 void nettoyer_cache();
+
+#endif // BIBLIO_H
