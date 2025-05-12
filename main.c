@@ -2,18 +2,18 @@
 
 int main() {
     system("clear");
+    srand(time(NULL)); 
     // Initialisation des variables
     int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
-    srand(time(NULL));   
-    Case** carte = NULL; 
     int taillecarte = 0;
-    int* ptrtaillecarte = &taillecarte;
     int nbDefenseurs = 0;
-    EnnemiActif* ennemis[80];
     int nbEnnemis = 0;
     int score = 0;
     int flocons = 150;
     int vague = 0;
+    int* ptrtaillecarte = &taillecarte;
+    Case** carte = NULL; 
+    EnnemiActif* ennemis[80];
     Defenseur* defenseurs = (Defenseur*)malloc(100 * sizeof(Defenseur)); // Pre-allocation d'espace pour 100 defenseurs
     if (defenseurs == NULL) {
         printf("\t Erreur d'allocation mémoire pour les défenseurs\n");
