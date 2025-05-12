@@ -2,21 +2,21 @@
 
 //Fonctions constructrices
 Defenseur constructeur_PinguPatrouilleur(Defenseur a) {
-    a.portee=3;
+    a.portee=6;
     a.degats=50;
     a.prix=100;
     return a;
 }
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a) {
-    a.portee=6;
+    a.portee=9;
     a.degats=30;
     a.prix=200;
     return a;
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a) {
-    a.portee=1;
+    a.portee=3;
     a.degats=70;
     a.prix=150;
     return a;
