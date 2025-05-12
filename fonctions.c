@@ -1,3 +1,5 @@
+#include "biblio.h"
+
 Defenseur constructeur_PinguPatrouilleur(Defenseur a){
     a.portee=8;
     a.degats=50;
