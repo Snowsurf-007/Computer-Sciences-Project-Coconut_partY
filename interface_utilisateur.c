@@ -262,7 +262,7 @@ void lancerpartie(Case*** carte, int* taillecarte, Defenseur** defenseurs, int* 
 		    // Vérifier si un ennemi atteint la couronne
 		    for (int i = 0; i < *nbEnnemis; i++) {
 		    
-                        if ((*ennemis)[i].x == *taillecarte - 1 && (*ennemis)[i].y == colonneCouronne){
+                        if ((*ennemis)[i].y == *taillecarte - 1){
 		            defaite(score);
         		    return;
 		        }
