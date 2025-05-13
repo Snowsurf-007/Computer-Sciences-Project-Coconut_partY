@@ -55,7 +55,6 @@ typedef struct {
 
 typedef struct {
     int vie;
-    int gain;
     int coordx;
     int coordy;
 } Attaquant;
