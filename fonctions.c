@@ -2,41 +2,38 @@
 
 //Fonctions constructrices
 Defenseur constructeur_PinguPatrouilleur(Defenseur a) {
-    a.portee=6;
-    a.degats=50;
-    a.prix=100;
+    a.portee = 4;
+    a.degats = 60;
+    a.prix = 100;
     return a;
 }
 
 Defenseur constructeur_FloconPerceCiel(Defenseur a) {
-    a.portee=9;
-    a.degats=30;
-    a.prix=200;
+    a.portee = 7;
+    a.degats = 40;
+    a.prix = 200;
     return a;
 }
 
 Defenseur constructeur_GardePolaire(Defenseur a) {
-    a.portee=3;
-    a.degats=70;
-    a.prix=150;
+    a.portee = 1;
+    a.degats = 80;
+    a.prix = 150;
     return a;
 }
 
 Attaquant constructeur_SkieurFrenetique(Attaquant a) { // Attaquant rapide et faible
-    a.vie=400;
-    a.gain=20;
+    a.vie = 400;
     return a;
 }
 
 Attaquant constructeur_SnowboarderAcrobate(Attaquant a) { // Attaquant vitesse moyenne, vie moyenne
-    a.vie=800;
-    a.gain=30;
+    a.vie = 800;
     return a;
 }
 
 Attaquant constructeur_LugisteBarjo(Attaquant a) { // Attaquant lent et résistant
-    a.vie=1600;
-    a.gain=50;
+    a.vie = 1600;
     return a;
 }
 
