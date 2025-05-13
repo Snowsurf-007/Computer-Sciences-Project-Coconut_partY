@@ -1,4 +1,5 @@
 #include "biblio.h"
+#include <unistd.h> //Pour éviter les warnings a la compilation
 
 int main() {
     system("clear");
