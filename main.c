@@ -2,7 +2,8 @@
 
 int main() {
     system("clear");
-    srand(time(NULL)); 
+    srand(time(NULL));
+
     // Initialisation des variables
     int jeu_en_cours = 1; // Variable pour contrôler la boucle principale
     int taillecarte = 0;
@@ -12,7 +13,7 @@ int main() {
     int flocons = 150;
     int vague = 0;
     int* ptrtaillecarte = &taillecarte;
-    Case** carte = NULL; 
+    Case** carte = NULL;
     EnnemiActif* ennemis[80];
     Defenseur* defenseurs = (Defenseur*)malloc(100 * sizeof(Defenseur)); // Pre-allocation d'espace pour 100 defenseurs
     if (defenseurs == NULL) {
@@ -20,12 +21,21 @@ int main() {
         exit(2);
     }
 
-    while (jeu_en_cours == 1){
-        int choix_menu=menuDemarrage(); // Affiche le menu principal et récupère le choix
+    while (jeu_en_cours == 1) {
+        int choix_menu = menuDemarrage(); // Affiche le menu principal et récupère le choix
 
         switch (choix_menu) {
             case 1:
-            	remove("sauvegarde.txt");
+                remove("sauvegarde.txt");
+                // Réinitialiser les variables
+                taillecarte = 0;
+                nbDefenseurs = 0;
+                nbEnnemis = 0;
+                score = 0;
+                flocons = 150;
+                vague = 0;
+                // Libérer la mémoire allouée pour la carte et les ennemis si nécessaire
+                // ...
                 lancerpartie(&carte, &taillecarte, &defenseurs, &nbDefenseurs, ennemis, &nbEnnemis, &score, &flocons, &vague); // Lance une nouvelle partie
                 system("make");
                 break;
@@ -36,7 +46,7 @@ int main() {
                 break;
             case 3:
                 printf("\n\t A plus 👋😊\n\n");
-                jeu_en_cours=0; // Quitte la boucle principale
+                jeu_en_cours = 0; // Quitte la boucle principale
                 free(defenseurs);
                 defenseurs = NULL;
                 return 0;
@@ -47,16 +57,16 @@ int main() {
     // Libération de la mémoire
     free(defenseurs);
     defenseurs = NULL;
-    
+
     free(*ennemis);
     *ennemis = NULL;
-    
+
     for (int i = 0; i < *ptrtaillecarte; i++) {
         free(*(carte + i));
     }
-    
+
     free(*carte);
     *carte = NULL;
-    
+
     return 0;
 }
