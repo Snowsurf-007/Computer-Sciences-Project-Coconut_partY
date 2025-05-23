@@ -69,7 +69,7 @@ La carte est générée **aléatoirement** à chaque partie avec un **chemin uni
 Ouvrez votre terminal et entrez les commandes suivantes :
 
 ```bash
-git clone https://github.com/Snowsurf-007/Operation-Flocon
+git clone https://github.com/Snowsurf-007/Operation-Flocon_VersionEvaluee
 cd Operation-Flocon
 make
 ./operation_flocon
